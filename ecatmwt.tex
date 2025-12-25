@@ -1,0 +1,745 @@
+\input{header}
+\title{Elliptic curves and the Mordell--Weil theorem}
+\subtitle{London Learning Lean}
+\author{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Thursday, 26 May 2022}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}[c]{Overview}
+
+\begin{itemize}
+\item Introduction
+\item Abstract definition
+\item Concrete definition
+\item Implementation
+\item Associativity
+\item The Mordell--Weil theorem
+\item Selmer groups
+\item Future
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Introduction --- informally}
+
+What are elliptic curves?
+
+\bigskip
+
+\begin{itemize}
+\item A curve --- solutions to $ y^2 = x^3 + Ax + B $ for fixed $ A $ and $ B $.
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.4\textwidth]{img/ellipticcurve.png}
+\end{center}
+
+\begin{itemize}
+\item A group --- notion of addition of points!
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Introduction --- applications}
+
+Why do we care?
+
+\bigskip Make or break cryptography.
+\begin{itemize}
+\item Lenstra's integer factorisation algorithm (RSA).
+\item Discrete logarithm problem --- solve $ nQ = P $ given $ P $ and $ Q $ (DH).
+\item Post-quantum cryptography (SIDH).
+\end{itemize}
+
+\bigskip Number theory and algebraic geometry.
+\begin{itemize}
+\item The simplest non-trivial objects in algebraic geometry.
+\begin{itemize}
+\item Abelian variety of dimension one, projective curve of genus one, etc...
+\end{itemize}
+\item Rational elliptic curve associated to $ a^p + b^p = c^p $ is not modular.
+\begin{itemize}
+\item But modularity theorem --- rational elliptic curves are modular!
+\end{itemize}
+\item Distribution of ranks of rational elliptic curves.
+\begin{itemize}
+\item The BSD conjecture --- analytic rank equals algebraic rank?
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Abstract definition --- globally}
+
+An \textbf{elliptic curve $ E $ over a scheme $ S $} is a diagram
+$$
+\begin{tikzcd}[row sep=small]
+E \arrow{d}[swap]{f} \\
+S \arrow[bend right=90]{u}[swap]{0}
+\end{tikzcd}
+$$
+with a few technical conditions. \footnote{$ f $ is smooth, proper, and all its geometric fibres are integral curves of genus one}
+
+\bigskip For a scheme $ T $ over $ S $, define the \textbf{set of $ T $-points} of $ E $ by
+$$ E(T) := \Hom_S(T, E), $$
+which is naturally identified with a \textbf{Picard group} $ \Pic_{E / S}^0(T) $ of $ E $.
+
+\bigskip This defines a contravariant functor $ \Sch_S \to \Ab $ given by $ T \mapsto E(T) $.
+
+\bigskip Good for algebraic geometry, but not very friendly...
+
+\end{frame}
+
+\begin{frame}{Abstract definition --- locally}
+
+Let $ S = \Spec(F) $ and $ T = \Spec(K) $ for a field extension $ K / F $. \footnote{or even a ring extension $ K / F $ whose class group has no $ 12 $-torsion}
+
+\bigskip An \textbf{elliptic curve $ E $ over a field $ F $} is a tuple $ (E, 0) $.
+\begin{itemize}
+\item $ E $ is a nice \footnote{smooth, proper, and geometrically integral} genus one curve over $ F $.
+\item $ 0 $ is an $ F $-point.
+\end{itemize}
+
+\bigskip The Picard group is
+$$ \Pic_{E / F}^0(K) = \dfrac{\{\text{degree zero divisors of} \ E \ \text{over} \ K\}}{\{\text{principal divisors of} \ E \ \text{over} \ K\}}. $$
+This defines a covariant functor $ \Alg_F \to \Ab $ given by $ K \mapsto E(K) $.
+
+\bigskip Group law is free, but still need equations...
+
+\end{frame}
+
+\begin{frame}{Concrete definition -- Weierstrass equations}
+
+The Riemann--Roch theorem gives \textbf{Weierstrass equations}.
+
+\bigskip
+
+\begin{corollary}[of Riemann--Roch]
+An elliptic curve $ E $ over a field $ F $ is a projective plane curve
+$$ Y^2Z + a_1XYZ + a_3YZ^2 = X^3 + a_2X^2Z + a_4XZ^2 + a_6Z^3, \qquad a_i \in F, $$
+with $ \Delta \ne 0 $. \footnote{\tiny $ \Delta := -(a_1^2 + 4a_2)^2(a_1^2a_6 + 4a_2a_6 - a_1a_3a_4 + a_2a_3^2 - a_4^2) - 8(2a_4 + a_1a_3)^3 - 27(a_3^2 + 4a_6)^2 + 9(a_1^2 + 4a_2)(2a_4 + a_1a_3)(a_3^2 + 4a_6) $}
+\end{corollary}
+
+\bigskip If $ \ch(F) \ne 2, 3 $, can reduce this to
+$$ Y^2Z = X^3 + AXZ^2 + BZ^3, \qquad A, B \in F, $$
+with $ \Delta := 4A^3 + 27B^2 \ne 0 $.
+
+\bigskip Note the unique \textbf{point at infinity} when $ Z = 0 $! Call this point $ 0 $.
+
+\end{frame}
+
+\begin{frame}{Concrete definition --- group law}
+
+The \textbf{group law} from $ E(K) \cong \Pic_{E / F}^0(K) $ is reduced to drawing lines.
+
+\bigskip Operations are characterised by
+$$ P + Q + R = 0 \qquad \iff \qquad P, Q, R \ \text{are collinear}. $$
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{img/grouplaw.png}
+\end{center}
+
+Note that $ (x, y) \in E[2] := \ker(E \xrightarrow{\cdot 2} E) $ if and only if $ y = 0 $. \footnote{Assume $ a_1 = a_3 = 0 $.}
+
+\bigskip Many cases... but all completely explicit!
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementation --- the curve}
+
+Three definitions of elliptic curves:
+\begin{enumerate}
+\item Abstract definition over a scheme
+\item Abstract definition over a field
+\item Concrete definition over a field
+\end{enumerate}
+Generality: $ 1. \supset 2. \overset{\text{RR}}{=} 3. $
+\begin{itemize}
+\item $ 1. \ \& \ 2. $ require much algebraic geometry (properness, genus, ...).
+\item $ 2. = 3. $ also requires algebraic geometry (divisors, differentials, ...).
+\item $ 3. $ requires just five coefficients (and $ \Delta \ne 0 $)!
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def disc_aux {R : Type} [comm_ring R] (a₁ a₂ a₃ a₄ a₆ : R) : R :=
+  -(a₁^2 + 4*a₂)^2*(a₁^2*a₆ + 4*a₂*a₆ - a₁*a₃*a₄ + a₂*a₃^2 - a₄^2)
+  - 8*(2*a₄ + a₁*a₃)^3 - 27*(a₃^2 + 4*a₆)^2
+  + 9*(a₁^2 + 4*a₂)*(2*a₄ + a₁*a₃)*(a₃^2 + 4*a₆)
+
+structure EllipticCurve (R : Type) [comm_ring R] :=
+  (a₁ a₂ a₃ a₄ a₆ : R) (disc : units R) (disc_eq : disc.val = disc_aux a₁ a₂ a₃ a₄ a₆)
+\end{lstlisting}
+
+This is the \emph{curve} $ E $ --- what about the \emph{group} $ E(K) $?
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementation --- the group}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : EllipticCurve F) (K : Type) [field K] [algebra F K]
+
+inductive point
+  | zero
+  | some (x y : K) (w : y^2 + E.a₁*x*y + E.a₃*y = x^3 + E.a₂*x^2 + E.a₄*x + E.a₆)
+
+notation E(K) := point E K
+\end{lstlisting}
+
+\begin{itemize}
+\item Identity is trivial!
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+instance : has_zero E(K) := ⟨zero⟩
+\end{lstlisting}
+
+\begin{itemize}
+\item Negation is easy.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def neg : E(K) → E(K)
+  | zero := zero
+  | (some x y w) := some x (-y - E.a₁*x - E.a₃) $
+    begin
+      rw [← w],
+      ring
+    end
+
+instance : has_neg E(K) := ⟨neg⟩
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementation --- the group}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : EllipticCurve F) (K : Type) [field K] [algebra F K]
+
+inductive point
+  | zero
+  | some (x y : K) (w : y^2 + E.a₁*x*y + E.a₃*y = x^3 + E.a₂*x^2 + E.a₄*x + E.a₆)
+
+notation E(K) := point E K
+\end{lstlisting}
+
+\begin{itemize}
+\item Addition is complicated...
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def add : E(K) → E(K) → E(K)
+  | zero P := P
+  | P zero := P
+  | (some x₁ y₁ w₁) (some x₂ y₂ w₂) :=
+    if x_ne : x₁ ≠ x₂ then                                     -- add distinct points
+      let L := (y₁ - y₂) / (x₁ - x₂),
+          x₃ := L^2 + E.a₁*L - E.a₂ - x₁ - x₂,
+          y₃ := -L*x₃ - E.a₁*x₃ - y₁ + L*x₁ - E.a₃
+      in some x₃ y₃ $ by { ... }
+    else if y_ne : y₁ + y₂ + E.a₁*x₂ + E.a₃ ≠ 0 then -- double a point
+      ...
+    else                                                             -- draw vertical line
+      zero
+
+instance : has_add E(K) := ⟨add⟩
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Implementation --- the group}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : EllipticCurve F) (K : Type) [field K] [algebra F K]
+
+inductive point
+  | zero
+  | some (x y : K) (w : y^2 + E.a₁*x*y + E.a₃*y = x^3 + E.a₂*x^2 + E.a₄*x + E.a₆)
+
+notation E(K) := point E K
+\end{lstlisting}
+
+\begin{itemize}
+\item Commutativity is... doable.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+lemma add_comm (P Q : E(K)) : P + Q = Q + P :=
+  begin
+    rcases ⟨P, Q⟩ with ⟨_ | _, _ | _⟩,
+    ... -- six cases
+  end
+\end{lstlisting}
+
+\begin{itemize}
+\item Associativity is... impossible?
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+lemma add_assoc (P Q R : E(K)) : (P + Q) + R = P + (Q + R) :=
+  begin
+    rcases ⟨P, Q, R⟩ with ⟨_ | _, _ | _, _ | _⟩,
+    ... -- ??? cases
+  end
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Associativity --- explaining the problem}
+
+Known to be difficult with several proofs:
+\begin{itemize}
+\item Just do it!
+\begin{itemize}
+\item Probably(?) times out with 130,000(!) coefficients.
+\end{itemize}
+\item Uniformisation.
+\begin{itemize}
+\item Requires theory of elliptic functions.
+\end{itemize}
+\item Cayley--Bacharach.
+\begin{itemize}
+\item Requires intersection multiplicity and B\'ezout's theorem.
+\end{itemize}
+\item $ E(K) \cong \Pic_{E / F}^0(K) $.
+\begin{itemize}
+\item Requires divisors, differentials, and the Riemann--Roch theorem.
+\end{itemize}
+\end{itemize}
+
+\bigskip Current status:
+\begin{itemize}
+\item Left as a \texttt{sorry}.
+\item Ongoing attempt (by Marc Masdeu) to bash it out.
+\item Proof in Coq (by Evmorfia-Iro Bartzia and Pierre-Yves Strub \footnote{A Formal Library for Elliptic Curves in the Coq Proof Assistant (2015)}) \\
+that $ E(K) \cong \Pic_{E / F}^0(K) $ but only for $ \ch(F) \ne 2, 3 $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Associativity --- ignoring the problem}
+
+Modulo associativity, what has been done?
+\begin{itemize}
+\item Functoriality $ \Alg_F \to \Ab $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def point_hom (φ : K →ₐ[F] L) : E(K) → E(L)
+  | zero := zero
+  | (some x y w) := some (φ x) (φ y) $ by { ... }
+
+lemma point_hom.id (P : E(K)) : point_hom (K→[F]K) P = P
+
+lemma point_hom.comp (P : E(K)) :
+  point_hom (L→[F]M) (point_hom (K→[F]L) P) = point_hom ((L→[F]M).comp (K→[F]L)) P
+\end{lstlisting}
+
+\begin{itemize}
+\item Galois module structure $ \Gal(L/K) \curvearrowright E(L) $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def point_gal (σ : L ≃ₐ[K] L) : E(L) → E(L)
+  | zero := zero
+  | (some x y w) := some (σ • x) (σ • y) $ by { ... }
+
+variables [finite_dimensional K L] [is_galois K L]
+
+lemma point_gal.fixed :
+  mul_action.fixed_points (L ≃ₐ[K] L) E(L) = (point_hom (K→[F]L)).range
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Associativity --- ignoring the problem}
+
+Modulo associativity, what has been done?
+\begin{itemize}
+\item Isomorphisms $ (x, y) \mapsto (u^2x + r, u^3y + u^2sx + t) $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables (u : units F) (r s t : F)
+
+def cov : EllipticCurve F :=
+{ a₁ := u.inv*(E.a₁ + 2*s),
+  a₂ := u.inv^2*(E.a₂ - s*E.a₁ + 3*r - s^2),
+  a₃ := u.inv^3*(E.a₃ + r*E.a₁ + 2*t),
+  a₄ := u.inv^4*(E.a₄ - s*E.a₃ + 2*r*E.a₂ - (t + r*s)*E.a₁ + 3*r^2 - 2*s*t),
+  a₆ := u.inv^6*(E.a₆ + r*E.a₄ + r^2*E.a₂ + r^3 - t*E.a₃ - t^2 - r*t*E.a₁),
+  disc := ⟨u.inv^12*E.disc.val, u.val^12*E.disc.inv, by { ... }, by { ... }⟩,
+  disc_eq := by { simp only, rw [disc_eq, disc_aux, disc_aux], ring } }
+
+def cov.to_fun : (E.cov u r s t)(K) → E(K)
+  | zero := zero
+  | (some x y w) := some (u.val^2*x + r) (u.val^3*y + u.val^2*s*x + t) $ by { ... }
+
+def cov.inv_fun : E(K) → (E.cov u r s t)(K)
+  | zero := zero
+  | (some x y w) := some (u.inv^2*(x - r)) (u.inv^3*(y - s*x + r*s - t)) $ by { ... }
+
+def cov.equiv_add : (E.cov u r s t)(K) ≃+ E(K) :=
+  ⟨cov.to_fun u r s t, cov.inv_fun u r s t, by { ... }, by { ... }, by { ... }⟩
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Associativity --- ignoring the problem}
+
+Modulo associativity, what has been done?
+\begin{itemize}
+\item $ 2 $-division polynomial $ \psi_2(x) $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def ψ₂_x : cubic K := ⟨4, E.a₁^2 + 4*E.a₂, 4*E.a₄ + 2*E.a₁*E.a₃, E.a₃^2 + 4*E.a₆⟩
+
+lemma ψ₂_x.disc_eq_disc : (ψ₂_x E K).disc = 16*E.disc
+\end{lstlisting}
+
+\begin{itemize}
+\item Structure of $ E(K)[2] $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+notation E(K)[n] := ((•) n : E(K) →+ E(K)).ker
+
+lemma E₂.x {x y w} : some x y w ∈ E(K)[2] ↔ x ∈ (ψ₂_x E K).roots
+
+theorem E₂.card_le_four : fintype.card E(K)[2] ≤ 4
+
+variables [algebra ((ψ₂_x E F).splitting_field) K]
+
+theorem E₂.card_eq_four : fintype.card E(K)[2] = 4
+
+lemma E₂.gal_fixed (σ : L ≃ₐ[K] L) (P : E(L)[2]) : σ • P = P
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{The Mordell--Weil theorem --- statement and proof}
+
+\begin{theorem}[Mordell--Weil]
+Let $ K $ be a number field. Then $ E(K) $ is finitely generated.
+\end{theorem}
+
+By the structure theorem (Pierre-Alexandre Bazin),
+$$ E(K) \cong T \oplus \Z^r. $$
+Here, $ T $ is a finite \textbf{torsion subgroup} and $ r \in \N $ is the \textbf{algebraic rank}.
+
+\begin{proof}
+\renewcommand\qedsymbol{}
+Three steps.
+\begin{itemize}
+\item \textbf{Weak Mordell--Weil}: $ E(K) / 2E(K) $ is finite.
+\item \textbf{Heights}: $ E(K) $ can be endowed with a ``height function''.
+\item \textbf{Descent}: An abelian group $ A $ endowed with a ``height function'', such that $ A / 2A $ is finite, is necessarily finitely generated. $ \square $
+\end{itemize}
+\end{proof}
+
+The descent step is done (Jujian Zhang).
+
+\end{frame}
+
+\begin{frame}[fragile]{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+\vspace{-0.5cm}
+$$ E(K) = \{(x, y) : y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+
+\bigskip Completing the square is an isomorphism
+$$ \function{E(K)}{E'(K)}{(x, y)}{(x, y - \tfrac{1}{2}a_1x -\tfrac{1}{2}a_3)}. $$
+Thus
+$$ E(K) / 2E(K) \ \text{finite} \qquad \iff \qquad E'(K) / 2E'(K) \ \text{finite}. $$
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def covₘ.equiv_add : (E.cov _ _ _ _)(K) ≃+ E(K) := cov.equiv_add 1 0 (-E.a₁/2) (-E.a₃/2)
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+$$ E(K) = \{(x, y) : y^2 = x^3 + a_2x^2 + a_4x + a_6\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+\item Reduce to $ E[2] \subset E(K) $.
+
+\bigskip Let $ L = K(E[2]) $. Suffices to show
+$$ E(L) / 2E(L) \ \text{finite} \qquad \implies \qquad E(K) / 2E(K) \ \text{finite}. $$
+Suffices to show finiteness of
+$$ \Phi := \ker(E(K) / 2E(K) \to E(L) / 2E(L)). $$
+Define an injection
+$$ \kappa : \Phi \hookrightarrow \Hom(\Gal(L / K), E(L)[2]). $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+$$ E(K) = \{(x, y) : y^2 = x^3 + a_2x^2 + a_4x + a_6\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+\item Reduce to $ E[2] \subset E(K) $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables [finite_dimensional K L] [is_galois K L] (n : ℕ)
+
+lemma range_le_comap_range : n⬝E(K) ≤ add_subgroup.comap (point_hom _) n⬝E(L)
+
+def Φ : add_subgroup E(K)/n :=
+  (quotient_add_group.map _ _ _ $ range_le_comap_range n).ker
+
+lemma Φ_mem_range (P : Φ n E L) : point_hom _ P.val.out' ∈ n⬝E(L)
+
+def κ : Φ n E L → L ≃ₐ[K] L → E(L)[n] :=
+  λ P σ, ⟨σ • (Φ_mem_range n P).some - (Φ_mem_range n P).some, by { ... }⟩
+
+lemma κ.injective : function.injective $ κ n
+
+def coker_2_of_fg_extension.fintype : fintype E(L)/2 → fintype E(K)/2
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+$$ E(K) = \{(x, y) : y^2 = (x - e_1)(x - e_2)(x - e_3)\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+\item Reduce to $ E[2] \subset E(K) $.
+\item Define a \textbf{complete $ 2 $-descent} homomorphism
+$$ \delta \ : \ E(K) \quad \longrightarrow \quad K^\times / (K^\times)^2 \times K^\times / (K^\times)^2, \qquad $$
+by
+$$
+\begin{array}{rcccccc}
+0 & \longmapsto & ( & 1 & , & 1 & ) \\
+(x, y) & \longmapsto & ( & x - e_1 & , & x - e_2 & ) \\
+(e_1, 0) & \longmapsto & ( & \dfrac{e_1 - e_3}{e_1 - e_2} & , & e_1 - e_2 & ) \\
+(e_2, 0) & \longmapsto & ( & e_2 - e_1 & , & \dfrac{e_2 - e_3}{e_2 - e_1} & )
+\end{array}
+$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+$$ E(K) = \{(x, y) : y^2 = (x - e_1)(x - e_2)(x - e_3)\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+\item Reduce to $ E[2] \subset E(K) $.
+\item Define a \textbf{complete $ 2 $-descent} homomorphism
+$$ \delta \ : \ E(K) \quad \longrightarrow \quad K^\times / (K^\times)^2 \times K^\times / (K^\times)^2. \qquad $$
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables (ha₁ : E.a₁ = 0) (ha₃ : E.a₃ = 0) (h3 : (ψ₂_x E K).roots = {e₁, e₂, e₃})
+
+def δ : E(K) → (units K) / (units K)^2 × (units K) / (units K)^2
+  | zero := 1
+  | (some x y w) :=
+    if he₁ : x = e₁ then
+      (units.mk0 ((e₁ - e₃) / (e₁ - e₂)) $ by { ... }, units.mk0 (e₁ - e₂) $ by { ... })
+    else if he₂ : x = e₂ then
+      (units.mk0 (e₂ - e₁) $ by { ... }, units.mk0 ((e₂ - e₃) / (e₂ - e₁)) $ by { ... })
+    else
+      (units.mk0 (x - e₁) $ by { ... }, units.mk0 (x - e₂) $ by { ... })
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+$$ E(K) = \{(x, y) : y^2 = (x - e_1)(x - e_2)(x - e_3)\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+\item Reduce to $ E[2] \subset E(K) $.
+\item Define a \textbf{complete $ 2 $-descent} homomorphism
+$$ \delta \ : \ E(K) \quad \longrightarrow \quad K^\times / (K^\times)^2 \times K^\times / (K^\times)^2. \qquad $$
+\item Prove $ \ker\delta = 2E(K) $.
+
+\bigskip Here $ \supseteq $ is obvious, while $ \subseteq $ is long but constructive.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+lemma δ.ker : (δ ha₁ ha₃ h3).ker = 2⬝E(K) :=
+  begin
+    ... -- completely constructive proof
+  end
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{The Mordell--Weil theorem --- weak Mordell--Weil}
+
+Prove that $ E(K) / 2E(K) $ is finite with \textbf{complete $ 2 $-descent}.
+
+$$ E(K) = \{(x, y) : y^2 = (x - e_1)(x - e_2)(x - e_3)\} \cup \{0\} $$
+
+\begin{itemize}
+\item Reduce to $ a_1 = a_3 = 0 $.
+\item Reduce to $ E[2] \subset E(K) $.
+\item Define a \textbf{complete $ 2 $-descent} homomorphism
+$$ \delta \ : \ E(K) \quad \longrightarrow \quad K^\times / (K^\times)^2 \times K^\times / (K^\times)^2. \qquad $$
+\item Prove $ \ker\delta = 2E(K) $.
+\item Prove $ \im\delta \le K(S, 2) \times K(S, 2) $ for some $ K(S, 2) \le K^\times / (K^\times)^2 $.
+
+\bigskip Here $ S $ is a finite set of ``ramified'' places of $ K $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+lemma δ.range_le : (δ ha₁ ha₃ h3).range ≤ K(S, 2) × K(S, 2) := sorry -- ramification theory?
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Interlude --- Selmer groups}
+
+Let $ S $ be a finite set of places of $ K $. The \textbf{$ n $-Selmer group} of $ K $ is
+$$ K(S, n) := \{x(K^\times)^n \in K^\times / (K^\times)^n : \forall p \notin S, \ \ord_p(x) \equiv 0 \mod n\}. $$
+Claim that $ K(S, n) $ is finite.
+\begin{itemize}
+\item Reduce to $ K(\emptyset, n) $.
+
+\bigskip There is a homomorphism
+$$ \function{K(S, n)}{(\Z / n\Z)^{|S|}}{x(K^\times)^n}{(\ord_p(x))_{p \in S}}, $$
+with kernel $ K(\emptyset, n) $. Thus
+$$ K(S, n) \ \text{finite} \qquad \iff \qquad K(\emptyset, n) \ \text{finite}. $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Interlude --- Selmer groups}
+
+Let $ S $ be a finite set of places of $ K $. The \textbf{$ n $-Selmer group} of $ K $ is
+$$ K(S, n) := \{x(K^\times)^n \in K^\times / (K^\times)^n : \forall p \notin S, \ \ord_p(x) \equiv 0 \mod n\}. $$
+Claim that $ K(S, n) $ is finite.
+\begin{itemize}
+\item Reduce to $ K(\emptyset, n) $.
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def selmer : subgroup $ (units K) / (units K)^n :=
+  { carrier := {x | ∀ p ∉ S, val_of_ne_zero_mod p x = 1},
+    one_mem' := by { ... },
+    mul_mem' := by { ... },
+    inv_mem' := by { ... } }
+
+notation K(S, n) := selmer K S n
+
+def selmer.val : K(S, n) →* S → multiplicative (zmod n) :=
+  { to_fun := λ x p, val_of_ne_zero_mod p x,
+    map_one' := by { ... },
+    map_mul' := by { ... } }
+
+lemma selmer.val_ker : selmer.val.ker = K(∅, n).subgroup_of K(S, n)
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Interlude --- Selmer groups}
+
+Let $ S $ be a finite set of places of $ K $. The \textbf{$ n $-Selmer group} of $ K $ is
+$$ K(S, n) := \{x(K^\times)^n \in K^\times / (K^\times)^n : \forall p \notin S, \ \ord_p(x) \equiv 0 \mod n\}. $$
+Claim that $ K(S, n) $ is finite.
+\begin{itemize}
+\item Reduce to $ K(\emptyset, n) $.
+\item Define an exact sequence
+$$ 0 \to \OO_K^\times / (\OO_K^\times)^n \xrightarrow{f} K(\emptyset, n) \xrightarrow{g} \Cl_K. $$
+\end{itemize}
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def f : units (O K) →* K(∅, n) :=
+  { to_fun := λ x, ⟨quotient_group.mk $ ne_zero_of_unit x, λ p _, val_of_unit_mod p x⟩,
+    map_one' := rfl,
+    map_mul' := λ ⟨⟨_, _⟩, ⟨_, _⟩, _, _⟩ ⟨⟨_, _⟩, ⟨_, _⟩, _, _⟩, rfl } -- lol
+
+lemma f_ker : f.ker = (units (O K))^n
+
+def g : K(∅, n) →* class_group (O K) K := ... -- hmm
+
+lemma g_ker : g.ker = f.range
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Interlude --- Selmer groups}
+
+Let $ S $ be a finite set of places of $ K $. The \textbf{$ n $-Selmer group} of $ K $ is
+$$ K(S, n) := \{x(K^\times)^n \in K^\times / (K^\times)^n : \forall p \notin S, \ \ord_p(x) \equiv 0 \mod n\}. $$
+Claim that $ K(S, n) $ is finite.
+\begin{itemize}
+\item Reduce to $ K(\emptyset, n) $.
+\item Define an exact sequence
+$$ 0 \to \OO_K^\times / (\OO_K^\times)^n \xrightarrow{f} K(\emptyset, n) \xrightarrow{g} \Cl_K. $$
+\item Prove $ \Cl_K $ is finite. Done (Baanen, Dahmen, Narayanan, Nuccio).
+\item Prove $ \OO_K^\times / (\OO_K^\times)^n $ is finite. Suffices to show $ \OO_K^\times $ is finitely generated. Consequence of \textbf{Dirichlet's unit theorem (help wanted!)}.
+\end{itemize}
+
+\bigskip Note the classical $ n $-Selmer group of $ E $ is
+$$ \Sel(K, E[n]) \le K(S, n) \times K(S, n). $$
+
+\end{frame}
+
+\begin{frame}{The Mordell--Weil theorem --- heights}
+
+Prove that $ E(K) $ can be endowed with a ``height function''.
+
+\bigskip A \textbf{height function} $ h : E(K) \to \R $ satisfies the following.
+\begin{itemize}
+\item For all $ Q \in E(K) $, there exists $ C_1 \in \R $ such that for all $ P \in E(K) $,
+$$ h(P + Q) \le 2h(P) + C_1. $$
+\item There exists $ C_2 \in \R $ such that for all $ P \in E(K) $,
+$$ 4h(P) \le h(2P) + C_2. $$
+\item For all $ C_3 \in \R $, the set
+$$ \{P \in E(K) : h(P) \le C_3\} $$
+is finite.
+\end{itemize}
+
+\bigskip Ongoing for $ K = \Q $. Probably not ready for general $ K $?
+
+\end{frame}
+
+\begin{frame}[c]{Future}
+
+Potential future projects:
+\begin{itemize}
+\item $ n $-division polynomials and structure of $ E(K)[n] $
+\item formal groups and local theory
+\item ramification theory $ \implies $ full Mordell--Weil theorem
+\item Galois cohomology $ \implies $ Selmer and Tate--Shafarevich groups
+\item modular functions $ \implies $ complex theory
+\item algebraic geometry $ \implies $ associativity, finally
+\end{itemize}
+
+\end{frame}
+
+\end{document}

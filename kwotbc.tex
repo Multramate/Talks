@@ -1,0 +1,277 @@
+\input{header}
+\title{Kolyvagin's work on the BSD conjecture \footnote{Victor Kolyvagin, 1989. \textbf{Euler Systems}, in \emph{Grothendieck Festschrift}}}
+\subtitle{Mini project presentation}
+\author{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Thursday, 5 May 2022}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{From Gross--Zagier to Kolyvagin}
+
+\begin{assumptions}
+\begin{itemize}
+\item Elliptic curve $ E / \Q $ with modular parameterisation $ \phi : X_0(N) \twoheadrightarrow E $.
+\item Imaginary quadratic field $ K = \Q(\sqrt{-D}) $ with \textbf{Heegner condition}:
+$$ p \mid N \qquad \implies \qquad p \ \text{is split in} \ K. $$
+\end{itemize}
+\vspace{-0.5cm}
+\end{assumptions}
+
+\begin{consequences}
+\begin{itemize}
+\item An ideal $ \NN_K \trianglelefteq \OO_K $ such that $ \OO_K / \NN_K \cong \Z / N $.
+\item A cyclic $ N $-isogeny $ \C / \OO_K \to \C / \NN_K^{-1} $.
+\item A point $ x_1 \in X_0(N)(K^1) $ by CM theory.
+\item A \textbf{Heegner point} $ P_1 := \phi(x_1) \in E(K^1) $.
+\item A \textbf{basic Heegner point}
+$$ P_K := \sum_{\sigma \in \Gal(K^1 / K)} \sigma(P_1) \in E(K). $$
+\end{itemize}
+\end{consequences}
+
+\end{frame}
+
+\begin{frame}{From Gross--Zagier to Kolyvagin}
+
+Recall the Gross--Zagier formula.
+
+\bigskip
+
+\begin{theorem}[Gross--Zagier, 1986]
+$$ L'(E / K, 1) = c \cdot \widehat{h}(P_K). $$
+\end{theorem}
+
+If $ L'(E / K, 1) \ne 0 $, then $ \rk_\Z E(K) \ge 1 $.
+
+\bigskip
+
+\begin{theorem}[Kolyvagin, 1989]
+$$ \widehat{h}(P_K) \ne 0 \qquad \implies \qquad E(K)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K. $$
+\end{theorem}
+
+If $ L'(E / K, 1) \ne 0 $, then $ \rk_\Z E(K) = 1 $.
+
+\bigskip This \emph{almost} proves weak BSD for analytic rank $ \le 1 $!
+
+\end{frame}
+
+\begin{frame}{From Gross--Zagier to Kolyvagin}
+
+\begin{theorem}[Kolyvagin, 1989]
+$$ \widehat{h}(P_K) \ne 0 \qquad \implies \qquad E(K)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K. $$
+\end{theorem}
+
+\underline{Idea}: bound $ \rk_\Z E(K) $ with
+$$ \delta : E(K) / \ell E(K) \hookrightarrow \Sel(K, E[\ell]), $$
+for some prime $ \ell \in \N $.
+\begin{itemize}
+\item Want $ \dim_{\F_\ell} E(K) / \ell E(K) = \rk_\Z E(K) $. Suffices to assume
+$$ \Gal(\Q(E[\ell]) / \Q) \cong \GL_2(\F_\ell). $$
+\underline{Fact}: this implies $ E(K)[\ell] = 0 $.
+\item Need
+$$ P_K \notin \ell E(K). $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{From Gross--Zagier to Kolyvagin}
+
+\begin{theorem}[Kolyvagin, 1989]
+$$ \widehat{h}(P_K) \ne 0 \qquad \implies \qquad E(K)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K. $$
+\end{theorem}
+
+\begin{theorem}[main result \footnote{Benedict Gross, 1991. \textbf{Kolyvagin's work on modular elliptic curves}}]
+Let $ \ell \in \N $ be an odd prime of good reduction such that
+$$ \Gal(\Q(E[\ell]) / \Q) \cong \GL_2(\F_\ell), \qquad P_K \notin \ell E(K). $$
+Then
+$$ \Sel(K, E[\ell]) = \F_\ell \cdot \delta(P_K). $$
+\end{theorem}
+
+\begin{remark}
+There are infinitely many such $ \ell \in \N $.
+\end{remark}
+
+\end{frame}
+
+\begin{frame}{Generalised Selmer groups}
+
+For each $ \ell \in \N $, there is a short exact sequence
+$$ 0 \to E[\ell] \to E \xrightarrow{\cdot \ell} E \to 0. $$
+Applying $ \Gal(\overline{K} / K) $ cohomology,
+$$
+\begin{tikzcd}[ampersand replacement=\&, row sep=small]
+0 \arrow{r} \& E(K)[\ell] \arrow{r} \& E(K) \arrow{r}{\cdot \ell} \& E(K) \arrow[in=165, out=-15, overlay]{dll}[swap]{\delta} \& \\
+\& H^1(K, E[\ell]) \arrow{r} \& H^1(K, E) \arrow{r}[swap]{\cdot \ell} \& H^1(K, E) \arrow{r} \& \dots.
+\end{tikzcd}
+$$
+Truncating at $ H^1(K, E[\ell]) $, and for each place $ v $ of $ K $,
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=small, row sep=small]
+0 \arrow{r} \& E(K) / \ell E(K) \arrow{r}{\delta} \arrow{d} \& H^1(K, E[\ell]) \arrow{r} \arrow{d}[swap]{(\cdot)_v} \arrow[dashed]{dr}{(\cdot)^v} \& H^1(K, E)[\ell] \arrow{r} \arrow{d} \& 0 \\
+0 \arrow{r} \& E(K_v) / \ell E(K_v) \arrow{r} \& H^1(K_v, E[\ell]) \arrow{r} \& H^1(K_v, E)[\ell] \arrow{r} \& 0.
+\end{tikzcd}
+$$
+
+\end{frame}
+
+\begin{frame}{Generalised Selmer groups}
+
+There is an exact diagram
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=small, row sep=small]
+0 \arrow{r} \& E(K) / \ell E(K) \arrow{r}{\delta} \arrow{d} \& H^1(K, E[\ell]) \arrow{r} \arrow{d}[swap]{(\cdot)_v} \arrow[dashed]{dr}{(\cdot)^v} \& H^1(K, E)[\ell] \arrow{r} \arrow{d} \& 0 \\
+0 \arrow{r} \& E(K_v) / \ell E(K_v) \arrow{r} \& H^1(K_v, E[\ell]) \arrow{r} \& H^1(K_v, E)[\ell] \arrow{r} \& 0.
+\end{tikzcd}
+$$
+\begin{itemize}
+\item The \textbf{classical} Selmer group is
+$$ \Sel(K, E[\ell]) := \{c \in H^1(K, E[\ell]) : \forall v, \ c^v = 0\}. $$
+\item The \textbf{relaxed} Selmer group is
+$$ \Sel^S(K, E[\ell]) := \{c \in H^1(K, E[\ell]) : \forall v \notin S, \ c^v = 0\}. $$
+\item The \textbf{restricted} Selmer group is
+$$ \Sel_S(K, E[\ell]) := \{c \in \Sel^S(K, E[\ell]) : \forall v \in S, \ c_v = 0\}. $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Generalised Selmer groups}
+
+\begin{proposition}
+There is an exact sequence of $ \F_\ell $-vector spaces
+$$ 0 \to \Sel \to \Sel^S \xrightarrow{\sigma_S} \prod_{v \in S} H^1(K_v, E)[\ell] \to \Sel^\vee \to \Sel_S^\vee \to 0. $$
+\vspace{-0.5cm}
+\end{proposition}
+
+\begin{proof}
+Local Tate duality and the Poitou--Tate exact sequence.
+\end{proof}
+
+\begin{proposition}[sort of]
+There is a ``magical'' set $ S $ of primes, inert in $ K / \Q $, such that
+\begin{itemize}
+\item $ H^1(K_p, E)[\ell] = \F_\ell \cdot c(p)^p $ for all $ p \in S $,
+\item $ \im(\sigma_S) = \prod_{p \in S} \F_\ell \cdot c(p)^p $, and
+\item $ \Sel_S = \F_\ell \cdot \delta(P_K) $.
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+Chebotarev density and a lot of Galois cohomology.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Derived Heegner points}
+
+For any $ n \in \N $, there is a cohomology class $ c(n) \in H^1(K, E[\ell]) $ derived from a \textbf{Heegner point of conductor $ n $}.
+$$
+\renewcommand{\arraystretch}{2}
+\begin{array}{c|c}
+\text{conductor} \ 1 & \text{conductor} \ n \\
+\hline
+\text{ring of integers} \ \OO_K & \text{order} \ \OO_{K, n} := \Z + n\OO_K \\
+\text{ideal} \ \NN_K \trianglelefteq \OO_K & \text{ideal} \ \NN_{K, n} := \NN_K \cap \OO_{K, n} \trianglelefteq \OO_{K, n} \\
+\text{$ N $-isogeny} \ \C / \OO_K \to \C / \NN_K^{-1} & \text{$ N $-isogeny} \ \C / \OO_{K, n} \to \C / \NN_{K, n}^{-1} \\
+\text{Hilbert class field} \ K^1 & \text{ring class field} \ K^n \\
+\text{point} \ x_1 \in X_0(N)(K^1) & \text{point} \ x_n \in X_0(N)(K^n) \\
+\text{Heegner point} \ P_1 \in E(K^1) & \text{Heegner point} \ P_n \in E(K^n)
+\end{array}
+$$
+
+\end{frame}
+
+\begin{frame}{Derived Heegner points}
+
+The Heegner points $ P_n \in E(K^n) $ satisfy ``nice'' relations over all $ n \in \N $.
+
+\bigskip \underline{Fact}: If $ p $ is inert in $ K / \Q $, then
+$$ \Gal(K^p / K^1) = \{1, \sigma_p, \sigma_p^2, \dots, \sigma_p^p\}. $$
+
+\begin{proposition}[don't worry about this]
+Let $ p \in S $. Then
+$$ \sum_{i = 0}^p \sigma_p^iP_{pq} = a_pP_q \in E(K^q), \qquad \overline{P_{pq}} = \overline{\left(\dfrac{\pp_\qq}{K^q / K}\right)P_q} \in \overline{E}(\F_{\pp_\qq}). $$
+\end{proposition}
+
+\begin{proof}
+Consequence of the Eichler--Shimura congruence relation.
+\end{proof}
+
+\bigskip These are the axioms of an \textbf{AX3 Euler system}.
+
+\end{frame}
+
+\begin{frame}{Derived Heegner points}
+
+Given $ P_p \in E(K^p) $, how to derive $ c(p) \in H^1(K, E[\ell]) $?
+
+\bigskip Define the \textbf{Kolyvagin derivative} operator by
+$$ D_p := \sigma_p + 2\sigma_p^2 + \dots + p\sigma_p^p \in \Z[\Gal(K^p / K^1)]. $$
+Also define a ``trace'' operator by
+$$ T_p := \sum_{\tau \in T} \tau \in \Z[\Gal(K^p / K)], $$
+where $ T $ is a set of coset representatives for $ \Gal(K^p / K^1) \le \Gal(K^p / K) $.
+
+\bigskip Define the \textbf{Kolyvagin class} $ c(p) \in H^1(K, E[\ell]) $ by
+$$ c(p)(\sigma) := \sigma\left(\dfrac{1}{\ell}T_pD_pP_p\right) - \dfrac{1}{\ell}T_pD_pP_p - \dfrac{1}{\ell}(\sigma - 1)(T_pD_pP_p). $$
+
+\end{frame}
+
+\begin{frame}{The Tate--Shafarevich group}
+
+Kolyvagin proved something more.
+
+\bigskip There is an exact diagram
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=tiny]
+0 \arrow{r} \& E(K) / \ell E(K) \arrow{r}{\delta} \arrow{d} \& H^1(K, E[\ell]) \arrow{r} \arrow{d} \arrow[dashed]{dr}[swap]{\sigma} \& H^1(K, E)[\ell] \arrow{r} \arrow{d}{\tau[\ell]} \& 0 \\
+0 \arrow{r} \& \displaystyle\prod_v E(K_v) / \ell E(K_v) \arrow{r} \& \displaystyle\prod_v H^1(K_v, E[\ell]) \arrow{r} \& \displaystyle\prod_v H^1(K_v, E)[\ell] \arrow{r} \& 0.
+\end{tikzcd}
+$$
+The classical Selmer group is
+$$ \Sel(K, E[\ell]) := \ker\sigma. $$
+The \textbf{Tate--Shafarevich group} is
+$$ \Sha(K, E) := \ker\tau. $$
+
+\end{frame}
+
+\begin{frame}{The Tate--Shafarevich group}
+
+Kolyvagin proved something more.
+
+\bigskip There is an exact sequence
+$$ 0 \to E(K) / \ell E(K) \xrightarrow{\delta} \Sel(K, E[\ell]) \to \Sha(K, E)[\ell] \to 0. $$
+
+\bigskip
+
+\begin{corollary}
+Let $ \widehat{h}(P_K) \ne 0 $ and $ \ell \in \N $ be an odd prime of good reduction such that
+$$ \Gal(\Q(E[\ell]) / \Q) \cong \GL_2(\F_\ell), \qquad P_K \notin \ell E(K). $$
+Then $ \rk_\Z E(K) = 1 $ and $ \Sha(K, E)[\ell] = 0 $.
+\end{corollary}
+
+\bigskip Kolyvagin also proved $ \Sha(K, E) $ is finite.
+
+\end{frame}
+
+\begin{frame}[c]{Thank you!}
+
+\begin{center}
+
+For more details:
+
+\bigskip \textbf{\large The Euler system of Heegner points}
+
+\bigskip {\small London Junior Number Theory Seminar}
+
+{\footnotesize Tuesday, 10 May 2022, 17:15 -- 18:15}
+
+{\scriptsize Room K6.63, King's Building, Strand Campus, King's College London}
+
+\bigskip Please come!
+
+\end{center}
+
+\end{frame}
+
+\end{document}

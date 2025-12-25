@@ -1,0 +1,367 @@
+\input{header}
+\title{Formalisation of elliptic curves in Lean}
+\subtitle{Young Researchers in Algebraic Number Theory}
+\author{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Wednesday, 24 August 2022}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}[c]{The Lean theorem prover}
+
+\begin{center}
+\includegraphics[width=\textwidth]{img/lean.png}
+\end{center}
+
+\begin{flushleft}
+A functional programming language...
+\end{flushleft}
+
+\begin{flushright}
+and an interactive theorem prover!
+\end{flushright}
+
+\end{frame}
+
+\begin{frame}[fragile]{Programming in Lean}
+
+\begin{center}
+Idea: \emph{set theory} is replaced by \texttt{Type Theory}.
+$$ \textit{element} \ \in \ \textit{set} \quad \implies \quad \texttt{Term : Type} $$
+\end{center}
+
+\bigskip Can define inductive types.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+inductive Nat
+  | zero : Nat
+  | succ : Nat → Nat
+\end{lstlisting}
+
+\bigskip Can define functions recursively.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def add : Nat → Nat → Nat
+  | n zero := n
+  | n (succ m) := succ (add n m)
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Programming in Lean}
+
+How to prove $ \forall n \in \N, \ 0 + n = n $?
+
+\bigskip A theorem is a \texttt{Type} (of type \texttt{Prop}).
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+theorem zero_add : ∀ (n : Nat), add zero n = n :=
+\end{lstlisting}
+
+\bigskip A proof of this theorem (if it exists) is the unique \texttt{Term} of this type.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+begin
+  intro n,
+  induction n with m hm,
+  { refl },
+  { rw [add, hm] }
+end
+\end{lstlisting}
+
+The keywords \texttt{intro}, \texttt{induction}, \texttt{refl}, and \texttt{rw} are \textbf{tactics}.
+
+\bigskip Play \textbf{The Natural Number Game}!
+
+\end{frame}
+
+\begin{frame}[fragile]{Lean's mathematical library \texttt{mathlib}}
+
+Community-driven unified library of mathematics formalised in Lean.
+
+\bigskip
+\begin{minipage}{0.49\textwidth}
+\begin{itemize}
+\item algebra
+\item algebraic\_geometry
+\item algebraic\_topology
+\item analysis
+\item category\_theory
+\item combinatorics
+\item computability
+\item dynamics
+\item field\_theory
+\item geometry
+\item group\_theory
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+\begin{itemize}
+\item information\_theory
+\item linear\_algebra
+\item measure\_theory
+\item model\_theory
+\item number\_theory
+\item order
+\item probability
+\item representation\_theory
+\item ring\_theory
+\item set\_theory
+\item topology
+\end{itemize}
+\end{minipage}
+
+\bigskip 3k files, 1m lines, 40k definitions, 100k theorems, 270 contributors.
+
+\end{frame}
+
+\begin{frame}[fragile]{Lean's mathematical library \texttt{mathlib}}
+
+Consider the following theorem in \texttt{group\_theory/quotient\_group}.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {G H : Type} [group G] [group H]
+variables (φ : G →* H) (ψ : H → G) (hφ : right_inverse ψ φ)
+
+def quotient_ker_equiv_of_right_inverse : G / ker φ ≃* H :=
+  { to_fun := ker_lift φ,
+    inv_fun := mk ∘ ψ,
+    left_inv := ...,
+    right_inv := hφ,
+    map_mul' := ... }
+\end{lstlisting}
+
+Why is this a definition?
+
+\bigskip Consider an immediate corollary.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def quotient_bot : G / (⊥ : subgroup G) ≃* G :=
+  quotient_ker_equiv_of_right_inverse (monoid_hom.id G) id (λ _, rfl)
+\end{lstlisting}
+
+Why is this not trivial?
+
+\bigskip Canonical isomorphisms are important data!
+
+\end{frame}
+
+\begin{frame}[fragile]{Elliptic curves in Lean}
+
+What generality? Ideally, defined abstractly over a scheme or a ring... However, \texttt{mathlib}'s algebraic geometry is still quite primitive.
+
+\bigskip Here is a working definition in \texttt{algebraic\_geometry/EllipticCurve}.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def Δ_aux {R : Type} [comm_ring R] (a₁ a₂ a₃ a₄ a₆ : R) : R :=
+  let
+    b₂ := a₁^2 + 4*a₂,
+    b₄ := 2*a₄ + a₁*a₃,
+    b₆ := a₃^2 + 4*a₆,
+    b₈ := a₁^2*a₆ + 4*a₂*a₆ - a₁*a₃*a₄ + a₂*a₃^2 - a₄^2
+  in
+    -b₂^2*b₈ - 8*b₄^3 - 27*b₆^2 + 9*b₂*b₄*b₆
+
+structure EllipticCurve (R : Type) [comm_ring R] :=
+  (a₁ a₂ a₃ a₄ a₆ : R) (Δ : units R) (Δ_eq : ↑Δ = Δ_aux a₁ a₂ a₃ a₄ a₆)
+\end{lstlisting}
+
+Accurate for rings $ R $ with $ \Pic(R)[12] = 0 $, such as PIDs!
+
+\bigskip Much can be done just with this definition.
+
+\end{frame}
+
+\begin{frame}[fragile]{Elliptic curves in Lean}
+
+Can define $ K $-points.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : EllipticCurve F) (K : Type) [field K] [algebra F K]
+
+inductive point
+  | zero
+  | some (x y : K) (w : y^2 + E.a₁*x*y + E.a₃*y = x^3 + E.a₂*x^2 + E.a₄*x + E.a₆)
+
+notation E(K) := point E K
+\end{lstlisting}
+
+Can define zero.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+instance : has_zero E(K) := ⟨zero⟩
+\end{lstlisting}
+
+Can define negation.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def neg : E(K) → E(K)
+  | zero := zero
+  | (some x y w) := some x (-y - E.a₁*x - E.a₃)
+    begin
+      rw [← w],
+      ring
+    end
+
+instance : has_neg E(K) := ⟨neg⟩
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Elliptic curves in Lean}
+
+Can define $ K $-points.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : EllipticCurve F) (K : Type) [field K] [algebra F K]
+
+inductive point
+  | zero
+  | some (x y : K) (w : y^2 + E.a₁*x*y + E.a₃*y = x^3 + E.a₂*x^2 + E.a₄*x + E.a₆)
+
+notation E(K) := point E K
+\end{lstlisting}
+
+Can define addition.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+def add : E(K) → E(K) → E(K)
+  | zero P := P
+  | P zero := P
+  | (some x₁ y₁ w₁) (some x₂ y₂ w₂) :=
+    if x_ne : x₁ ≠ x₂ then
+      let
+        L := (y₁ - y₂) / (x₁ - x₂),
+        x₃ := L^2 + E.a₁*L - E.a₂ - x₁ - x₂,
+        y₃ := -L*x₃ - E.a₁*x₃ - y₁ + L*x₁ - E.a₃
+      in
+        some x₃ y₃ ... -- 100 lines
+    else ... -- 100 lines
+
+instance : has_add E(K) := ⟨add⟩
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Elliptic curves in Lean}
+
+Can define $ K $-points.
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : EllipticCurve F) (K : Type) [field K] [algebra F K]
+
+inductive point
+  | zero
+  | some (x y : K) (w : y^2 + E.a₁*x*y + E.a₃*y = x^3 + E.a₂*x^2 + E.a₄*x + E.a₆)
+
+notation E(K) := point E K
+\end{lstlisting}
+
+Can prove group axioms (except associativity, which is left as a \texttt{sorry}).
+
+\begin{lstlisting}[basicstyle=\scriptsize, frame=single]
+lemma zero_add (P : E(K)) : 0 + P = P := ...
+
+lemma add_zero (P : E(K)) : P + 0 = P := ...
+
+lemma add_left_neg (P : E(K)) : -P + P = 0 := ...
+
+lemma add_comm (P Q : E(K)) : P + Q = Q + P := ... -- 100 lines
+
+lemma add_assoc (P Q R : E(K)) : (P + Q) + R = P + (Q + R) := ... -- ?? lines
+\end{lstlisting}
+
+Can also prove Galois-theoretic properties and structure of torsion points.
+
+\end{frame}
+
+\begin{frame}{The Mordell--Weil theorem in Lean}
+
+Can prove Mordell's theorem by complete $ 2 $-descent and na\"ive heights.
+
+\begin{theorem}[Mordell]
+$ E(\Q) $ is finitely generated.
+\end{theorem}
+
+\begin{proof}[Proof ($ E(\Q) / 2E(\Q) $ finite)]
+\renewcommand\qedsymbol{}
+\begin{itemize}
+\item Reduce to $ K \supseteq E[2] $, so that $ y^2 = (x - e_1)(x - e_2)(x - e_3) $.
+\item Define the complete $ 2 $-descent homomorphism
+$$ \functions{E(K)}{K^\times / (K^\times)^2 \times K^\times / (K^\times)^2}{\OO}{(1, 1)}{(x, y)}{(x - e_1, x - e_2)}. $$
+\item Prove its kernel is $ 2E(K) $.
+\item Prove its image lies in a Selmer group $ K(S, 2) $.
+\item Prove $ 0 \to \OO_K^\times / (\OO_K^\times)^n \to K(\emptyset, n) \to \Cl_K[n] \to 0 $ is exact.
+\item Prove $ \Cl_K $ is finite (done) and $ \OO_K^\times $ is finitely generated (soon). $ \square $
+\end{itemize}
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{The Mordell--Weil theorem in Lean}
+
+Can prove Mordell's theorem by complete $ 2 $-descent and na\"ive heights.
+
+\begin{theorem}[Mordell]
+$ E(\Q) $ is finitely generated.
+\end{theorem}
+
+\begin{proof}[Proof ($ E(\Q) / 2E(\Q) $ finite $ \implies E(\Q) $ finitely generated)]
+\renewcommand\qedsymbol{}
+\begin{itemize}
+\item Define the na\"ive height
+$$ \functions[h]{E(\Q)}{\R}{\OO}{0}{(\tfrac{n}{d}, y)}{\log\max(|n|, |d|)}. $$
+\item Prove $ \forall Q \in E(\Q), \ \exists C \in \R, \ \forall P \in E(\Q), \ h(P + Q) \le 2h(P) + C $.
+\item Prove $ \exists C \in \R, \ \forall P \in E(\Q), \ 4h(P) \le h(2P) + C $.
+\item Prove $ \forall C \in \R $, the set $ \{P \in E(\Q) : h(P) \le C\} $ is finite.
+\item Prove the descent theorem (done). $ \square $
+\end{itemize}
+\vspace{-0.5cm}
+\end{proof}
+
+Can finally define the algebraic rank of $ E(\Q) $.
+
+\end{frame}
+
+\begin{frame}[c]{Algebraic number theory in Lean}
+
+Here are some recent developments.
+
+\bigskip
+
+\begin{minipage}{0.49\textwidth}
+Completed:
+\begin{itemize}
+\item Quadratic reciprocity
+\item Hensel's lemma
+\item UF in Dedekind domains
+\item $ \#\Cl_K < \infty $ for global fields
+\item Ad\`eles and id\`eles
+\item Statement of global CFT
+\item L-series of arithmetic functions
+\item Bernoulli polynomials
+\item Perfectoid spaces
+\item Liquid tensor experiment
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.49\textwidth}
+Ongoing:
+\begin{itemize}
+\item S-unit theorem (\textbf{HELP})
+\item FLT for regular primes
+\item p-adic L-functions
+\item $ B_{\dR} $, $ B_{\HT} $, and $ B_{\cris} $
+\item Modular forms
+\item \'Etale cohomology
+\item Local CFT
+\item Statement of BSD
+\item Statement of GAGA
+\item Statement of R=T
+\end{itemize}
+\end{minipage}
+
+\end{frame}
+
+\end{document}

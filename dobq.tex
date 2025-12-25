@@ -1,0 +1,293 @@
+\input{header}
+\title{Denominators of BSD quotients}
+\subtitle{Young Researchers in Algebraic Number Theory}
+\author{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Wednesday, 31 July 2024}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Mordell's theorem}
+
+Let $ E $ be an elliptic curve over $ \Q $ given by a Weierstrass equation
+$$ y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6, \qquad a_i \in \Q. $$
+Its rational points forms a group $ E(\Q) $ under a geometric addition law.
+
+\begin{theorem}[Mordell]
+$$ E(\Q) \cong \tor(E) \oplus \Z^{\rk(E)}. $$
+\end{theorem}
+
+The \textbf{torsion subgroup} $ \tor(E) $ is well understood.
+
+\begin{theorem}[Mazur]
+$$ \tor(E) \cong
+\begin{cases}
+C_n & \text{for} \ n = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, \\
+C_2 \oplus C_{2n} & \text{for} \ n = 1, 2, 3, 4.
+\end{cases}
+$$
+\end{theorem}
+
+The \textbf{rank} $ \rk(E) $ is somewhat mysterious.
+
+\end{frame}
+
+\begin{frame}{The Birch--Swinnerton-Dyer conjecture}
+
+Assume $ E $ has conductor $ N $. The L-function of $ E $ is the infinite product
+$$ L(E, s) := \prod_p \dfrac{1}{L_p(E, p^{-s})}. $$
+Here,
+$$ L_p(E, T) :=
+\begin{cases}
+1 \pm \epsilon T & \text{if} \ p \mid N, \\
+1 - a_p(E)T + pT^2 & \text{if} \ p \nmid N,
+\end{cases}
+$$
+where $ a_p(E) := 1 + p - \#E(\F_p) $ and $ \epsilon \in \{-1, 0, 1\} $.
+
+\bigskip
+
+\begin{conjecture}[weak Birch--Swinnerton-Dyer]
+$$ \ord_{s = 1} L(E, s) = \rk(E). $$
+\end{conjecture}
+
+\bigskip This is known for $ \ord_{s = 1} L(E, s) \le 1 $. Assume that $ \ord_{s = 1} L(E, s) = 0 $.
+
+\end{frame}
+
+\begin{frame}{The Birch--Swinnerton-Dyer quotient}
+
+\begin{conjecture}[strong Birch--Swinnerton-Dyer]
+$$ \dfrac{L(E, 1)}{\Omega(E)} = \dfrac{\Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2}. $$
+\end{conjecture}
+
+The LHS is the \textbf{algebraic L-value} and the RHS is the \textbf{BSD quotient}.
+\begin{itemize}
+\item The \textbf{Tamagawa product} is the finite product
+$$ \Tam(E) := \prod_{p \mid N} [E(\Q_p) : E_0(\Q_p)], $$
+where $ E_0(\Q_p) $ is the subgroup of points of $ E(\Q_p) $ whose reduction is \emph{nonsingular}. It can be computed by \emph{Tate's algorithm}.
+\item The \textbf{Tate--Shafarevich group} is the finite group
+$$ \Sha(E) := \ker\left(H^2(\Q, E) \to H^2(\R, E) \times \prod_p H^2(\Q_p, E)\right). $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{The Birch--Swinnerton-Dyer quotient}
+
+\begin{conjecture}[strong Birch--Swinnerton-Dyer]
+$$ \dfrac{L(E, 1)}{\Omega(E)} = \dfrac{\Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2}. $$
+\end{conjecture}
+
+The LHS is the \textbf{algebraic L-value} and the RHS is the \textbf{BSD quotient}.
+\begin{itemize}
+\item The \textbf{real period} is the integral
+$$ \Omega(E) := \int_{E(\R)} \omega_E, $$
+where $ \omega_E $ is the \textbf{N\'eron differential}. If $ E $ is given by a \emph{minimal} Weierstrass equation $ y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6 $,
+$$ \omega_E = \dfrac{\d x}{2y + a_1x + a_3}. $$
+It is the least positive element of the \emph{real period lattice} of $ E $.
+\end{itemize}
+
+\end{frame}
+
+{\usebackgroundtemplate{\includegraphics[width=\paperwidth]{img/lmfdb1.png}}
+\begin{frame}[b]
+
+\begin{minipage}{0.54\textwidth}\hfill\end{minipage}
+\begin{minipage}{0.45\textwidth}\fbox{\tiny $ \dfrac{L(E, 1)}{\Omega(E)} = \dfrac{\Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2} $}\end{minipage}
+
+\bigskip
+
+\end{frame}
+}
+
+\begin{frame}{Denominator bounds}
+
+Observe that BSD quotients have bounded denominators.
+
+\bigskip
+
+\begin{theorem}[Mazur]
+$$ \tor(E) \cong
+\begin{cases}
+C_n & \text{for} \ n = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, \\
+C_2 \oplus C_{2n} & \text{for} \ n = 1, 2, 3, 4.
+\end{cases}
+$$
+\end{theorem}
+
+\begin{corollary}
+$$ \ord_p\left(\dfrac{\Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2}\right) \ge
+\begin{cases}
+-8 & \text{if} \ p = 2, \\
+-4 & \text{if} \ p = 3, \\
+-2 & \text{if} \ p = 5, 7, \\
+0 & \text{if} \ p \ge 11.
+\end{cases}
+$$
+\end{corollary}
+
+There are typically cancellations between $ \tor(E) $ and $ \Tam(E) $.
+
+\end{frame}
+
+\begin{frame}{Torsion cancellations}
+
+\begin{theorem}[Lorenzini, 2010]
+Assume that $ \tor(E) $ has a point of order $ n \ge 4 $.
+\begin{itemize}
+\item If $ n = 4 $, then $ 2 \mid \Tam(E) $, except for 15a7, 15a8, 17a4.
+\item If $ n \ge 5 $, then $ n \mid \Tam(E) $, except for 11a3, 14a4, 14a6, 20a2.
+\item If $ n = 9 $, then $ 27 \mid \Tam(E) $.
+\end{itemize}
+\end{theorem}
+
+\begin{corollary}
+With seven exceptions,
+$$ \ord_p\left(\dfrac{\Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2}\right) \ge
+\begin{cases}
+-5 & \text{if} \ p = 2 \ \text{and} \ \tor(E) \cong C_2 \oplus C_{2n}, \\
+-3 & \text{if} \ p = 2 \ \text{and} \ \tor(E) \not\cong C_2 \oplus C_{2n}, \\
+-2 & \text{if} \ p = 3 \ \text{and} \ \tor(E) \cong C_3, \\
+-1 & \text{if} \ p = 3 \ \text{and} \ \tor(E) \not\cong C_3, \\
+-1 & \text{if} \ p = 5, 7, \\
+0 & \text{if} \ p \ge 11.
+\end{cases}
+$$
+\end{corollary}
+
+\end{frame}
+
+\begin{frame}{The seven exceptions}
+
+Let $ \BSD(E) $ denote the BSD quotient.
+$$
+\renewcommand{\arraystretch}{2}
+\begin{array}{|c|c|c|c|c|c|c|c|}
+\hline
+E & 11a3 & 14a4 & 14a6 & 15a7 & 15a8 & 17a4 & 20a2 \\
+\hline
+\tor(E) & C_5 & C_6 & C_6 & C_4 & C_4 & C_4 & C_6 \\
+\hline
+\Tam(E) & 1 & 2 & 2 & 1 & 1 & 1 & 3 \\
+\hline
+\Sha(E) & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+\hline
+\BSD(E) & \tfrac{1}{5^2} & \tfrac{1}{2 \cdot 3^2} & \tfrac{1}{2 \cdot 3^2} & \tfrac{1}{2^4} & \tfrac{1}{2^4} & \tfrac{1}{2^4} & \tfrac{1}{2^2 \cdot 3} \\
+\hline
+c_0(E) & 5 & 3 & 3 & 2 & 4 & 4 & 2 \\
+\hline
+c_0(E)\BSD(E) & \tfrac{1}{5} & \tfrac{1}{2 \cdot 3} & \tfrac{1}{2 \cdot 3} & \tfrac{1}{2^3} & \tfrac{1}{2^2} & \tfrac{1}{2^2} & \tfrac{1}{2 \cdot 3} \\
+\hline
+\end{array}
+$$
+Here, $ c_0(E) $ is the \textbf{Manin constant} in the LMFDB.
+
+\end{frame}
+
+{\usebackgroundtemplate{\includegraphics[width=\paperwidth]{img/lmfdb2.png}}
+\begin{frame}[c]
+
+\vspace{3cm}
+
+\begin{minipage}{0.09\textwidth}\hfill\end{minipage}
+\fbox{\begin{minipage}{0.13\textwidth}\bigskip\hfill\end{minipage}}
+
+\end{frame}
+}
+
+\begin{frame}{The Manin constant}
+
+\begin{theorem}[Modularity, version $ L $]
+There is an eigenform $ f_E \in S_2(\Gamma_0(N)) $ with eigenvalues $ a_p(E) $ such that
+$$ L(f_E, s) = L(E, s). $$
+\end{theorem}
+
+In particular, this defines a differential $ f_E(q)\d q $ on $ X_0(N) $.
+
+\begin{theorem}[Modularity, version $ X_\Q $]
+There is a finite morphism $ \phi_E : X_0(N) \twoheadrightarrow E $ defined over $ \Q $ such that
+$$ \phi_E^*\omega_E = c_0(E) \cdot f_E(q)\d q, $$
+for some positive integer $ c_0(E) $.
+\end{theorem}
+
+\bigskip Conjecturally $ c_0(E) = 1 $ for all \emph{$ \Gamma_0(N) $-optimal} elliptic curves (known in the semistable case!), but the seven exceptions are not $ \Gamma_0(N) $-optimal.
+
+\end{frame}
+
+\begin{frame}{A refined conjecture}
+
+\begin{conjecture}
+With no exceptions,
+$$ \ord_p\left(\dfrac{c_0(E) \cdot \Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2}\right) \ge
+\begin{cases}
+-3 & \text{if} \ p = 2, \\
+-1 & \text{if} \ p = 3, 5, 7, \\
+0 & \text{if} \ p \ge 11.
+\end{cases}
+$$
+\end{conjecture}
+
+This follows from Lorenzini's theorem, but the bound for $ p = 2 $ holds for $ \tor(E) \cong C_2 \oplus C_{2n} $, and the bound for $ p = 3 $ holds for $ \tor(E) \cong C_3 $.
+
+\bigskip
+
+\begin{conjecture}
+Assume that $ \tor(E) \cong C_3 $. Then $ 3 \mid c_0(E) \cdot \Tam(E) \cdot \#\Sha(E) $.
+\end{conjecture}
+
+\bigskip I can prove this under the strong Birch--Swinnerton-Dyer conjecture.
+
+\end{frame}
+
+\begin{frame}{Modular symbols}
+
+If $ f \in S_2(\Gamma_0(N)) $ and $ p \nmid N $, the Hecke operator $ T_p $ acts on periods by
+$$ (1 + p - T_p) \cdot \int_0^\infty f(q)\d q = \sum_{a = 1}^{p - 1} \int_0^{\tfrac{a}{p}} f(q)\d q. $$
+If $ f = f_E $ and $ p $ is odd, this says that
+$$ (1 + p - a_p(E)) \cdot (-L(E, 1)) = \dfrac{\Omega(E)}{c_0(E)} \cdot n, \quad n \in \Z. $$
+If the strong Birch--Swinnerton-Dyer conjecture holds,
+$$ (1 + p - a_p(E)) \cdot \dfrac{c_0(E) \cdot \Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2} \in \Z. $$
+If $ \tor(E) \cong C_3 $, it suffices to find an odd prime $ p \nmid N $ such that
+$$ 1 + p - a_p(E) \equiv 3 \mod 9. $$
+
+\end{frame}
+
+\begin{frame}{3-adic Galois images}
+
+In terms of $ \rho_{E, 3} : \Gal(\overline{\Q} / \Q) \to \GL_2(\Q_3) $,
+$$ p = \det(\rho_{E, 3}(\Fr_p)), \qquad a_p(E) = \tr(\rho_{E, 3}(\Fr_p)). $$
+Chebotarev's density theorem says that $ \Fr_p $ is uniformly distributed in $ \im(\rho_{E, 3}) $, so it suffices to find a matrix $ M \in \im(\rho_{E, 3}) $ such that
+$$ 3 = 1 + \det(M) - \tr(M). $$
+
+\begin{theorem}[Rouse--Sutherland--Zureick-Brown, 2022]
+Assume that $ \tor(E) \cong C_3 $. Then $ \im(\rho_{E, 3}) $ is one of the explicit matrix subgroups 3.8.0.1, 3.24.0.1, 9.24.0.1/2, 9.72.0.1/2/3/4/6/7/8/9/10, 27.72.0.1, 27.648.13.25, 27.648.18.1, or 27.1944.55.31/37/43/44.
+\end{theorem}
+
+\bigskip Each $ \im(\rho_{E, 3}) $ contains a matrix $ M $ such that $ 3 = 1 + \det(M) - \tr(M) $, except for 9.72.0.1, but Tate's algorithm shows $ 3 \mid \Tam(E) $ in this case.
+
+\end{frame}
+
+\begin{frame}{Concluding remarks}
+
+\begin{theorem}[A., 2023]
+Assume the $ 3 $-part of the strong Birch--Swinnerton-Dyer conjecture. Then
+$$ \ord_p\left(\dfrac{c_0(E) \cdot \Tam(E) \cdot \#\Sha(E)}{\#\tor(E)^2}\right) \ge
+\begin{cases}
+-3 & \text{if} \ p = 2, \\
+-1 & \text{if} \ p = 3, 5, 7, \\
+0 & \text{if} \ p \ge 11.
+\end{cases}
+$$
+\end{theorem}
+
+Note the similarity to a conjecture by Agashe--Stein (2005) that
+$$ \dfrac{2 \cdot c_0(E) \cdot \Tam(E) \cdot \#\Sha(E)}{\#\tor(E)} \in \Z. $$
+This is known for semistable optimal elliptic curves by Melistas (2023), building upon \v Cesnavi\v cius (2018) and Byeon--Kim--Yhee (2020).
+
+\bigskip Does this generalise to $ \F_q(C) $ or $ \ord_{s = 1} L(E, s) \ge 1 $?
+
+\end{frame}
+
+\end{document}

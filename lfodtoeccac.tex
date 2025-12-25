@@ -1,0 +1,325 @@
+\input{header}
+\title{L-functions of Dirichlet twists of elliptic curves: computations and congruences}
+\subtitle{PhD viva examination}
+\author{David Kurniadi Angdinata}
+\institute{University College London}
+\date{Monday, 1 December 2025}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Notation}
+
+Let $ K $ be a global field.
+
+\bigskip For each place $ v \in \Upsilon_K $,
+\begin{itemize}
+\item let $ q_v $ be the size of its residue field,
+\item let $ I_v $ be its inertia group, and
+\item let $ \varphi_v $ be a choice of geometric Frobenius.
+\end{itemize}
+For a $ \lambda $-adic representation $ \rho $ of $ K $,
+\begin{itemize}
+\item let $ \aa(\rho) $ be its global Artin conductor,
+\item let $ \epsilon(\rho) $ be its global epsilon factor, and
+\item let $ W(\rho) $ be its global root number.
+\end{itemize}
+Examples of $ \lambda $-adic representations of $ K $ will include
+\begin{itemize}
+\item the $ \ell $-adic cohomology $ \rho_{A, \ell}^\vee $ of an abelian variety $ A $,
+\item the $ \ell $-adic Tate module $ \rho_{E, \ell} $ of an elliptic curve $ E $,
+\item an Artin representation $ \varrho $, and
+\item a primitive Dirichlet character $ \chi $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Classical L-functions}
+
+The \textbf{L-function} of an abelian variety $ A $ over $ K $ is the complex function
+$$ L(A, s) := \prod_{v \in \Upsilon_K} \dfrac{1}{L_v(A, s)}, $$
+where for each place $ v \in \Upsilon_K $, the \textbf{local Euler factor} of $ A $ is given by
+$$ L_v(A, s) := \det(1 - (\rho_{A, \ell}^\vee)^{I_v}(\varphi_v) \cdot q_v^{-s}), $$
+for some prime $ \ell \nmid q_v $.
+
+\bigskip
+
+\begin{conjecture}[Birch--Swinnerton-Dyer (BSD)]
+Assume that $ L(A, s) $ has meromorphic continuation at $ s = 1 $. Then its order of vanishing at $ s = 1 $ is $ \rk(A) $, and its leading term is
+$$ L^*(A, 1) = \dfrac{\Omega(A) \cdot \Reg(A) \cdot \#\Sha(A) \cdot \Tam(A)}{\mu_K \cdot \#\tor(A) \cdot \#\tor(A^\vee)}. $$
+\end{conjecture}
+
+\end{frame}
+
+\begin{frame}{Twisted L-functions}
+
+Over a finite Galois extension $ K' $ of $ K $, Artin's formalism gives
+$$ L(A / K', s) = \prod_\varrho L(A, \varrho, s), $$
+where $ \varrho $ runs over Artin representations of $ K $ that factor through $ K' $ and $ L(A, \varrho, s) $ are certain \textbf{twisted L-functions} of $ A $.
+
+\bigskip One may ask a variety of theoretical and computational questions.
+\begin{itemize}
+\item Are there algebraic or integral versions of $ L^*(A, \varrho, 1) $?
+\item Can $ L^*(A, \varrho, 1) $ be expressed in terms of BSD invariants?
+\item Does $ L^*(A, \varrho, 1) $ have a predictable asymptotic distribution?
+\item Can $ L^*(A, \varrho, 1) $ be computed numerically or algorithmically?
+\item Is $ L^*(A, \varrho, 1) $ directly related to $ L^*(A, 1) $?
+\end{itemize}
+I provide partial answers when $ A = E $ is an elliptic curve and $ \varrho = \chi $ is a primitive Dirichlet character over the global fields $ K = \Q $ and $ K = \F_q(t) $.
+
+\end{frame}
+
+\begin{frame}{Algebraic L-values}
+
+When $ K = \Q $, the \textbf{algebraic L-value} of $ A $ twisted by $ \varrho $ is defined by
+$$ \LLL(A, \varrho) := \dfrac{L^*(A, \varrho, 1) \cdot \sqrt{\aa(\varrho)}^{\dim(A)}}{W(\varrho)^{\dim(A)} \cdot \Omega_+(A)^{\dim(\varrho^{\varsigma = +})} \cdot \Omega_-(A)^{\dim(\varrho^{\varsigma = -})}}, $$
+where $ \varsigma $ is a lift of complex conjugation in $ G_\Q $, and denote
+$$ \LLL(A) := \LLL(A, 1). $$
+If $ A = E $ and $ \varrho = \chi $, then
+$$ \LLL(E, \chi) = \dfrac{L^*(E, \chi, 1) \cdot \aa(\chi)}{\gg(\chi) \cdot \Omega_{\chi(-1)}(E)}, $$
+where $ \gg(\chi) $ is the Gauss sum of $ \chi $, and
+$$ \LLL(E) = \dfrac{L^*(E, 1)}{\Omega(E)}. $$
+
+\end{frame}
+
+\begin{frame}{Formal L-functions}
+
+When $ K = \F_q(C) $, rationality gives
+$$ L(A, \varrho, s) = \dfrac{P_1(\rho_{A, \ell}^\vee \otimes \varrho, q^{-s})}{P_0(\rho_{A, \ell}^\vee \otimes \varrho, q^{-s}) \cdot P_2(\rho_{A, \ell}^\vee \otimes \varrho, q^{-s})}, $$
+where there are canonical $ \overline{\Q_\ell} $-representations $ H^n(\rho) $ such that
+$$ P_n(\rho, T) := \det(1 - T \cdot H^n(\rho)(\varphi_q)) \in \overline{\Q}[T]. $$
+Define the \textbf{formal L-function} of $ A $ twisted by $ \varrho $ by
+$$ \LL(A, \varrho, T) := \dfrac{P_1(\rho_{A, \ell}^\vee \otimes \varrho, T)}{P_0(\rho_{A, \ell}^\vee \otimes \varrho, T) \cdot P_2(\rho_{A, \ell}^\vee \otimes \varrho, T)}, $$
+so that $ L(A, \varrho, s) = \LL(A, \varrho, q^{-s}) $, and denote
+$$ \LL(A, T) := \LL(A, 1, T). $$
+
+\end{frame}
+
+\begin{frame}{Algebraicity of L-functions}
+
+Assuming an appropriate automorphic correspondence for $ E $ over $ \Q^\chi $, a local argument shows that $ \LLL(E, \varrho) $ is the algebraic version of $ L^*(E, \varrho, 1) $.
+
+\begin{theorem}[Theorem 4.2 of Bouganis--Dokchitser 2007]
+Let $ K = \Q $. If $ (\aa(E), \aa(\chi)) = 1 $, then
+\begin{itemize}
+\item $ \LLL(E, \chi) \in \Q(\chi) $, and
+\item $ \LLL(E, \chi)^\varsigma = \LLL(E, \varsigma \circ \chi) $ for all $ \varsigma \in G_\Q $.
+\end{itemize}
+\end{theorem}
+
+They deduced this from the corresponding result for Rankin--Selberg convolutions of certain parallel weight primitive Hilbert modular forms.
+
+\bigskip A similar local argument works for $ \LL(E, \chi, T) $ without assumptions.
+
+\begin{theorem}[Theorem 5.7 of thesis]
+Let $ K = \F_q(C) $. Then
+\begin{itemize}
+\item $ \LL(E, \chi, T) \in \Q(\chi)(T) $, and
+\item $ \LL(E, \chi, T)^\varsigma = \LL(E, \varsigma \circ \chi, T) $ for all $ \varsigma \in G_\Q $.
+\end{itemize}
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Integrality of L-functions}
+
+Under assumptions on the Manin constant $ \cc_0(E) $, Wiersema--Wuthrich 2022 proved that $ \LLL(E, \chi) $ is integral in many cases, by formally manipulating its expression as period sums of modular symbols.
+
+\begin{theorem}[Proposition 3.8 of thesis]
+Let $ K = \Q $. If $ \chi $ has prime order $ \ell \nmid \cc_0(E) $ and $ (\aa(E), \aa(\chi)) = 1 $, then
+\begin{itemize}
+\item $ \LLL(E, \chi) \in \Z_\ell[\zeta_\ell] $, and
+\item $ \LLL(E) \cdot \#E(\F_v) \in \Z_\ell $ for any odd prime $ v \nmid \aa(E) $.
+\end{itemize}
+\end{theorem}
+
+\bigskip A similar result holds for $ \LL(E, \chi, T) $ when $ E $ and $ \chi $ are generic.
+
+\begin{theorem}[Proposition 5.10 of thesis]
+Let $ K = \F_q(C) $. If $ \chi $ is separable geometric and $ (\aa(E), \aa(\chi)) = 1 $, then
+\begin{itemize}
+\item $ \LL(E, \chi, T) \in \Q(\chi)[T] $, and
+\item $ \LL(E, T) \in \Q[T] $ if $ E $ is non-constant.
+\end{itemize}
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Congruences of L-functions}
+
+When $ \chi $ has prime order $ \ell $, a bit of further work gives a congruence with $ \LLL(E) $ or $ \LL(E, T) $ modulo the prime $ (1 - \zeta_\ell) $ of $ \Z[\zeta_\ell] $ above $ \ell $.
+
+\begin{theorem}[Corollary 3.9 of thesis]
+Let $ K = \Q $. If $ \ell \nmid \cc_0(E) \cdot \aa(\chi) $ and $ (\aa(E), \aa(\chi)) = 1 $, then
+$$ \LLL(E, \chi) \equiv \LLL(E) \cdot \prod_{v \mid \aa(\chi)} (-L_v(E, 1)) \mod (1 - \zeta_\ell). $$
+\end{theorem}
+
+\begin{theorem}[Theorem 5.12 of thesis]
+Let $ K = \F_q(t) $. If $ E $ is non-constant and $ \chi $ is separable geometric, and furthermore $ (\aa(E), \aa(\chi)) = 1 $, then
+$$ \LL(E, \chi, T) \equiv \LL(E, T) \cdot \prod_{v \mid \aa(\chi)} \LL_v(E, T) \mod (1 - \zeta_\ell). $$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Ideals of L-values}
+
+The ideal of $ \Z[\chi] $ generated by $ \LLL(E, \chi) $ and $ \LL(E, \chi, q^{-1}) $ can be expressed in terms of $ \chi $-isotypic components of $ \Reg(E) $ and $ \Sha(E) $.
+
+\begin{theorem}[Proposition 7.3 of Burns--Castillo 2024]
+Let $ K = \Q $. Assume that the refined BSD conjecture holds over $ K^\chi / K $. If $ (\aa(E), \aa(\chi)) = 1 $, then there is an explicit finite set $ S(E, \chi) \subseteq \Upsilon_{\Q(\chi)} $ such that for all $ \lambda \in \Upsilon_{\Q(\chi)} \setminus S(E, \chi) $,
+$$ \LLL(E, \chi) \cdot \prod_{v \mid \aa(\chi)} L_v(E, \chi, 1) \cdot \Z[\chi]_\lambda = \Reg(E, \chi) \cdot \ch(\Sha(E, \chi)). $$
+\end{theorem}
+
+\begin{theorem}[Theorem 7.12 of Kim--Tan--Trihan--Tsoi 2024]
+Let $ K = \F_q(C) $. Assume that $ \Sha(E / K^\chi) $ is finite. Then there is an explicit finite set $ S(E, \chi) \subseteq \Upsilon_{\Q(\chi)} $ such that for all $ \lambda \in \Upsilon_{\Q(\chi)} \setminus S(E, \chi) $,
+$$ \LL(E, \chi, q^{-1}) \cdot \prod_{v \mid \aa(\chi)} L_v(E, \chi, 1) \cdot \Z[\chi]_\lambda = \Reg_\lambda(E, \chi) \cdot \ch(\Sha_\lambda(E, \chi)). $$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Norms of L-values}
+
+When $ K = \Q $, Dokchitser--Evans--Wiersema 2021 computed the norm of $ \LLL(E, \chi) $ in terms of $ \BSD(E) $ and $ \BSD(E / \Q^\chi) $, which are invariants such that the BSD conjecture over $ \Q $ and over $ \Q^\chi $ respectively read
+$$ \LLL(E) = \BSD(E), \qquad \LLL(E / \Q^\chi) = \BSD(E / \Q^\chi). $$
+
+\begin{theorem}[Proposition 3.13 of thesis]
+Let $ K = \Q $. Assume the Manin constant conjecture $ \cc_1(E) = 1 $ and the BSD conjecture hold over $ \Q $ and over $ \Q^\chi $. If $ L(E, 1), L(E, \chi, 1) \ne 0 $, $ \chi $ has prime order $ \ell $, and $ (\aa(E), \aa(\chi)) = 1 $, then
+$$ \Nm_\Q^{\Q(\zeta_\ell)^+}(\LLL(E, \chi) \cdot \chi(\aa(E))^{(\ell - 1) / 2}) = \sqrt{\BSD(E / \Q^\chi) / \BSD(E)}. $$
+\end{theorem}
+
+\bigskip There is an ongoing project led by Maistret and Wiersema as part of Women In Numbers Europe 2025 for the $ K = \F_q(C) $ analogue.
+
+\end{frame}
+
+\begin{frame}{Predicting algebraic L-values}
+
+Dokchitser--Evans--Wiersema 2021 also gave examples of arithmetically identical elliptic curves $ E_1 $ and $ E_2 $ such that $ \LLL(E_1, \chi) \ne \LLL(E_2, \chi) $.
+
+\bigskip When $ \ell = 3 $, this difference can be explained by the congruence.
+
+\begin{theorem}[Corollary 3.14 of thesis]
+Let $ K = \Q $. Assume the Manin constant conjecture $ \cc_1(E) = 1 $ and the BSD conjecture hold over $ \Q $ and over $ \Q^\chi $. If $ L(E, 1), L(E, \chi, 1) \ne 0 $, $ \chi $ is cubic, and $ (\aa(E), \aa(\chi)) = 1 $, then
+$$ \LLL(E, \chi) = u \cdot \overline{\chi}(\aa(E)) \cdot \sqrt{\BSD(E / \Q^\chi) / \BSD(E)}, $$
+where $ u \in \{\pm1\} $ is such that
+$$ u \equiv \dfrac{\BSD(E) \cdot \prod_{v \mid \aa(\chi)} (-\#E(\F_v))}{\sqrt{\BSD(E / \Q^\chi) / \BSD(E)}} \mod 3. $$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Biases of algebraic L-values}
+
+Kisilevsky--Nam 2025 observed biases in the distribution of
+$$ \widetilde{\LLL}^+(E, \chi) := \dfrac{\Nm_\Q^{\Q(\zeta_\ell)^+}(\LLL(E, \chi) \cdot (1 + \overline{\chi}(\aa(E))))}{\gcd\left\{\Nm_\Q^{\Q(\zeta_\ell)^+}(\LLL(E, \chi) \cdot (1 + \overline{\chi}(\aa(E)))) : \chi \in \XX_\ell^{< N}\right\}}, $$
+as $ \chi $ varies over the set $ \XX_\ell^{< N} $ of primitive Dirichlet characters of $ \Q $ of odd prime order $ \ell \nmid \cc_0(E) $ and prime $ \aa(\chi) < N $ with $ N \to \infty $.
+
+\bigskip
+
+\begin{center}
+\includegraphics[width=\textwidth]{img/kisilevskynam.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Predicting residual L-densities}
+
+This distribution can be quantified by computing the \textbf{residual L-density} of $ E $ modulo an odd prime $ \ell \nmid \cc_0(E) $ defined by
+$$ \dd_{E, \ell}(n) := \lim_{N \to \infty} \dfrac{\#\{\chi \in \XX_\ell^{< N} : \LLL(E, \chi) \equiv n \mod (1 - \zeta_\ell)\}}{\#\XX_\ell^{< N}}. $$
+Chebotarev's density theorem reduces this to computations in $ \im(\rho_{E, \ell}) $.
+
+\begin{theorem}[Theorem 4.11 of thesis]
+Let $ K = \Q $. Assume that the BSD conjecture holds over $ \Q $. If $ L(E, 1) \ne 0 $, then $ \dd_{E, \ell} $ only depends on $ \ord_\ell(\BSD(E)) $ and on $ \im(\overline{\rho}_{E, \ell^2}) $.
+\end{theorem}
+
+\bigskip A similar argument recovers the distribution of Kisilevsky--Nam 2025.
+
+\begin{theorem}[Proposition 4.19 of thesis]
+Let $ K = \Q $. If $ E $ has Cremona label 11a1, 15a1, or 17a1, and $ \chi $ is cubic, then the distribution of $ \widetilde{\LLL}^+(E, \chi) $ can be predicted precisely.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Bounding denominators of L-values}
+
+Lorenzini 2011 described the cancellations between $ \tor(E) $ and $ \Tam(E) $.
+
+\begin{theorem}[Proposition 4.5 of thesis]
+Let $ K = \Q $. If $ \ell \nmid 3 \cdot \cc_0(E) $ is an odd prime, then
+$$ \ord_\ell(\#\tor(E)) \le \ord_\ell(\Tam(E)). $$
+\end{theorem}
+
+The $ \ell = 3 $ analogue can be deduced from the integrality of $ \LLL(E) $ and the classification of $ \im(\rho_{E, 3}) $ by Rouse--Sutherland--Zureick-Brown 2022.
+
+\begin{theorem}[Theorem 4.9 of thesis]
+Let $ K = \Q $. Assume that the BSD conjecture holds over $ \Q $. If $ L(E, 1) \ne 0 $ and $ \ell \nmid \cc_0(E) $, then
+$$ \ord_\ell(\LLL(E)) = \ord_\ell(\BSD(E)) \ge -1. $$
+\end{theorem}
+
+There is an ongoing project by Melistas and I for the $ K = \F_q(t) $ analogue.
+
+\end{frame}
+
+\begin{frame}{Computations of L-values}
+
+Much of the previous explorations were only possible thanks to efficient algorithms to compute $ \LLL(E, \chi) $ in computer algebra systems.
+
+\begin{algorithm}[Dokchitser 2004]
+Computes $ L(M, 0) $ where $ M $ is a motive over a number field.
+\end{algorithm}
+
+\bigskip There are almost no public implementations for global function fields.
+
+\begin{algorithm}[Comeau-Lapointe--David--Lal\'in--Li 2022]
+Computes $ \LL(E, \chi, T) $ where $ E $ and $ \chi $ are defined over $ \F_q(t) $.
+\end{algorithm}
+
+\bigskip The proof of the Weil conjectures gives an algorithm for general $ \lambda $-adic representations, which is used by Maistret and Wiersema in their project.
+
+\begin{algorithm}[Algorithm 5.15 of thesis]
+Computes $ \LL(\rho, T) $ where $ \rho $ is an almost everywhere unramified $ \lambda $-adic representation of $ \F_q(C) $ (that is pure of weight $ w $ and $ \rho^\vee \cong \rho^\varsigma \otimes \overline{\Q}(w) $).
+\end{algorithm}
+
+\end{frame}
+
+\begin{frame}{Computing formal L-functions}
+
+Let $ \rho $ be an almost everywhere unramified $ \lambda $-adic representation of $\F_q(C) $.
+
+\begin{theorem}[Proposition 5.13 of thesis]
+If $ \rho^{G_{\overline{\F_q}(C)}} = 0 $, then $ \LL(\rho, T) $ is a polynomial of degree
+$$ d := \deg\aa(\rho) + (2g(C) - 2)\dim\rho, $$
+where $ g(C) $ is the genus of $ C $. Furthermore, if $ \rho $ is pure of weight $ w $ and $ \rho^\vee \cong \rho^\varsigma \otimes \overline{\Q}(w) $, then the functional equation gives $ \epsilon(\rho) \in \C^\times $ such that
+$$ \LL(\rho, T) = \epsilon(\rho) \cdot T^d \cdot \LL(\rho, (q^{w + 1}T)^{-1})^\varsigma. $$
+In particular, if $ \{c_n\}_{n \in \N} $ denotes the coefficients of $ \LL(\rho, T) $, then
+$$ c_n =
+\begin{cases}
+1 & \text{if} \ n = 1, \\
+q^{(w + 1)(n - d)} \cdot \epsilon(\rho) \cdot c_{d - n}^\varsigma & \text{if} \ 0 < n < d, \\
+\epsilon(\rho) & \text{if} \ n = d, \\
+0 & \text{otherwise}.
+\end{cases}
+$$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Computing twisted L-functions}
+
+There is a refinement of the algorithm for tensor products $ \rho \otimes \sigma $.
+
+\begin{theorem}[Theorem 2.7 of thesis]
+Under the previous assumptions, if $ (\aa(\rho), \aa(\sigma)) = 1 $, then
+$$ \epsilon(\rho \otimes \sigma) = \dfrac{\epsilon(\rho)^{\dim\sigma} \cdot \epsilon(\sigma)^{\dim\rho} \cdot \det\sigma(\aa(\rho)) \cdot \det\rho(\aa(\sigma))}{q^{(g(C) - 1)\dim\rho\dim\sigma}}. $$
+\end{theorem}
+
+The remainder of the thesis provides explicit examples of $ \LL(\rho \otimes \sigma, T) $ when $ \rho $ and $ \sigma $ arise from elliptic curves or Dirichlet characters.
+
+\bigskip In particular, the examples use an alternative implementation of Dirichlet characters of $ \F_q(t) $ that is more amenable to computation.
+
+\begin{theorem}[Theorem 6.6 of thesis]
+Let $ K = \F_q(t) $. Then there is a canonical representation of any $ u \in (\F_q[t] / m)^\times $ that allows for an efficient computation of $ \chi(u) $.
+\end{theorem}
+
+\end{frame}
+
+\end{document}

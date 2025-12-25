@@ -1,0 +1,216 @@
+\input{header}
+\title{Twisted L-values of elliptic curves}
+\subtitle{75th British Mathematical Colloquium}
+\author{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Wednesday, 19 June 2024}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{L-functions}
+
+Let $ E $ be an elliptic curve over $ \Q $. Let $ K $ be finite Galois over $ \Q $.
+
+\bigskip Recall that the L-function of $ E / K $ is
+$$ L(E / K, s) := \prod_\pp \dfrac{1}{\det(1 - \Nm(\pp)^{-s} \cdot \Fr_\pp^{-1} \mid \rho_{E, q}^{\vee I_\pp})}. $$
+
+\begin{conjecture}[Birch--Swinnerton-Dyer]
+\begin{itemize}
+\item The order of vanishing $ r $ of $ L(E / K, s) $ at $ s = 1 $ is $ \rk(E / K) $.
+\item The leading term of $ L(E / K, s) $ at $ s = 1 $ is
+$$ \underbrace{\lim_{s \to 1} \dfrac{L(E / K, s)}{(s - 1)^r} \cdot \dfrac{\sqrt{\Delta(K)}}{\Omega(E / K)}}_{\LLL(E / K)} = \underbrace{\dfrac{\Reg(E / K) \cdot \Tam(E / K) \cdot \#\Sha(E / K)}{\#\tor(E / K)^2}.}_{\BSD(E / K)} $$
+\end{itemize}
+\end{conjecture}
+
+\end{frame}
+
+\begin{frame}{Twisted L-functions}
+
+Artin's formalism for L-functions gives
+$$ L(E / K, s) = \prod_{\rho : \Gal(K / \Q) \to \C^\times} L(E, \rho, s)^{\dim\rho}. $$
+Here the L-function of $ E $ twisted by an Artin representation $ \rho $ is
+$$ L(E, \rho, s) := \prod_p \dfrac{1}{\det(1 - p^{-s} \cdot \Fr_p^{-1} \mid (\rho_{E, q}^\vee \otimes \rho^\vee)^{I_p})}. $$
+If $ K $ is abelian, then $ \rho $ corresponds to a Dirichlet character $ \chi $, and
+$$ L(E, s) = \sum_{n \in \N} \dfrac{a_n}{n^s} \quad \overset{\chi}{\rightsquigarrow} \quad L(E, \chi, s) = \sum_{n \in \N} \dfrac{a_n\chi(n)}{n^s}. $$
+
+\bigskip What can be said about $ L(E, \rho, s) $ algebraically and analytically?
+
+\end{frame}
+
+\begin{frame}{Algebraic result: twisted conjectures}
+
+\begin{conjecture}[Deligne--Gross]
+The order of vanishing of $ L(E, \rho, s) $ at $ s = 1 $ is $ \langle\rho, E(K) \otimes_\Z \C\rangle $.
+\end{conjecture}
+
+\bigskip What is the conjectural leading term? Assuming $ L(E, 1) \ne 0 $, define
+$$ \LLL(E, \chi) := L(E, \chi, 1) \cdot \dfrac{p}{\tau(\chi) \cdot \Omega(E)}, $$
+for any primitive Dirichlet character $ \chi $ of conductor $ p $.
+
+\begin{example}[Dokchitser--Evans--Wiersema 2021]
+Let $ E_1 $ and $ E_2 $ be the elliptic curves given by 1356d1 and 1356f1, and let $ \chi $ be the cubic character of conductor $ 7 $ given by $ \chi(3) = \zeta_3^2 $. Then
+$$ \Reg(E_i / K) = \Tam(E_i / K) = \Sha(E_i / K) = \tor(E_i / K) = 1, $$
+for $ K = \Q $ and $ K = \Q(\zeta_7)^+ $, but $ \LLL(E_1, \chi) = \zeta_3^2 $ and $ \LLL(E_2, \chi) = -\zeta_3^2 $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Algebraic result: determining units}
+
+Assume $ E $ has conductor $ N $ and satisfies $ c_1(E) = 1 $, and assume $ \chi $ has odd prime conductor $ p \nmid N $ and odd prime order $ q \nmid \#E(\F_p) \cdot \BSD(E) $.
+
+\begin{theorem}[Dokchitser--Evans--Wiersema 2021]
+Let $ \zeta := \chi(N)^{(q - 1) / 2} $. Then $ \LLL(E, \chi) \cdot \zeta \in \Z[\zeta_q]^+ \setminus \{0\} $, and has norm
+$$ \Nm_\Q^{\Q(\zeta_q)^+}(\LLL(E, \chi) \cdot \zeta) = \pm\underbrace{\sqrt{\dfrac{\BSD(E / K)}{\BSD(E)}}}_B, $$
+where $ K $ is the degree $ q $ subfield of $ \Q(\zeta_p) $ cut out by $ \chi $.
+\end{theorem}
+
+\begin{theorem}[A. 2024]
+If $ q = 3 $, then
+$$ \LLL(E, \chi) \cdot \zeta =
+\begin{cases}
+B & \text{if} \ \#E(\F_p) \cdot \BSD(E) \cdot B^{-1} \equiv 2 \mod 3, \\
+-B & \text{if} \ \#E(\F_p) \cdot \BSD(E) \cdot B^{-1} \equiv 1 \mod 3.
+\end{cases}
+$$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Analytic result: numerical evidence}
+
+Assume $ E $ as before, and let $ q $ be an odd prime. As $ p $ varies over odd primes $ p \equiv 1 \mod q $, how does $ \LLL(E, \chi) $ vary, for some uniform choice of primitive Dirichlet characters $ \chi $ of conductor $ p $ and order $ q $?
+
+\begin{example}[$ E = 20a1, q = 3 $]
+\vspace{-0.5cm}
+$$
+\begin{array}{c|cccccccccc}
+p & 7 & 13 & 19 & 31 & 37 & 43 & 61 & 67 & 73 & 79 \\
+\hline
+\LLL(E, \chi) & 2 & -2\zeta_3 & -4 & -6\zeta_3 & -6\zeta_3 & 6\zeta_3 & 2 & -2\zeta_3 & 0 & -6\zeta_3 \\
+\mod 3 & 2 & 1 & 2 & 0 & 0 & 0 & 2 & 1 & 0 & 0
+\end{array}
+$$
+\vspace{-0.3cm}
+$$
+\begin{array}{c|ccccccccc}
+p & 97 & 103 & 109 & 127 & 139 & 151 & 157 & 163 & 181 \\
+\hline
+\LLL(E, \chi) & -4 & -6\zeta_3 & 6\zeta_3 & 6 & 18\zeta_3 & -4 & 30\zeta_3 & 4\zeta_3 & -2\zeta_3 \\
+\mod 3 & 2 & 0 & 0 & 0 & 0 & 2 & 0 & 1 & 1
+\end{array}
+$$
+\vspace{-0.2cm}
+$$
+\begin{array}{c|ccccccccc}
+p & 193 & 199 & 211 & 223 & 229 & 241 & 271 & 277 & 283 \\
+\hline
+\LLL(E, \chi) & -4 & 4\zeta_3 & 10\zeta_3 & -24\zeta_3 & 0 & -14\zeta_3 & -6\zeta_3 & 0 & 6\zeta_3 \\
+\mod 3 & 2 & 1 & 1 & 0 & 0 & 1 & 0 & 0 & 0
+\end{array}
+$$
+\end{example}
+
+Kisilevsky--Nam 2022 gave heuristic predictions on the asymptotic distribution of $ \LLL(E, \chi) $, and computed data for the six elliptic curves given by 11a1, 14a1, 15a1, 17a1, 19a1, and 37b1.
+
+\end{frame}
+
+\begin{frame}{Analytic result: residual densities}
+
+Let $ X_{E, q}^{< n} $ be the set of order $ q $ primitive Dirichlet characters $ \chi $ of conductor $ p_\chi < n $ such that $ \chi_1 \equiv \chi_2 $ whenever $ p_{\chi_1} = p_{\chi_2} $. Define
+$$ \delta_{E, q}(\lambda) := \lim_{n \to \infty} \dfrac{\#\{\chi \in X_{E, q}^{< n} : \LLL(E, \chi) \equiv \lambda \mod (1 - \zeta_q)\}}{\#X_{E, q}^{< n}}. $$
+
+\begin{theorem}[A. 2024]
+Let $ m = 1 - \ord_q(\BSD(E)) $. Then $ \delta_{E, q} $ counts certain matrices in
+$$ G_{E, q^m} := \{M \in \im\overline{\rho_{E, q^m}} : \det(M) \equiv 1 \mod q\}. $$
+If $ \overline{\rho_{E, q}} $ is surjective, then
+$$ \delta_{E, q}(\lambda) =
+\begin{cases}
+\tfrac{1}{q - 1} & \text{if} \ L_0(q)L_4(q) = 1, \\
+\tfrac{q}{q^2 - 1} & \text{if} \ L_0(q)L_4(q) = 0, \\
+\tfrac{1}{q + 1} & \text{if} \ L_0(q)L_4(q) = -1,
+\end{cases}
+\qquad L_n(q) := \left(\dfrac{\tfrac{\lambda}{\BSD(E)} + n}{q}\right). $$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Analytic result: explicit algorithm}
+
+\begin{theorem}[A. 2024]
+If $ q = 3 $, then $ \delta_{E, 3} $ only depends on $ \im\overline{\rho_{E, 9}} $ and $ b := 3\BSD(E) \bmod 9 $.
+\end{theorem}
+
+{\scriptsize $$
+\renewcommand{\arraystretch}{1.5}
+\begin{array}{|c|c|c|c|c|c|}
+\hline
+\im\overline{\rho_{E, 3}} \ \text{or} \ \im\overline{\rho_{E, 9}} & b & \delta_{E, 3}(0) & \delta_{E, 3}(1) & \delta_{E, 3}(2) & example \\
+\hline
+\multirow{2}{*}{$ \GL_2(\F_3) $} & 3 & 3 / 8 & 1 / 4 & 3 / 8 & 11a2 \\
+\cline{2-6}
+& 6 & 3 / 8 & 3 / 8 & 1 / 4 & \text{11a1} \\
+\hline
+\multirow{2}{*}{3B, 3Cs} & 3 & 1 / 2 & 0 & 1 / 2 & \text{50b3} \\
+\cline{2-6}
+& 6 & 1 / 2 & 1 / 2 & 0 & \text{50b1} \\
+\hline
+\multirow{2}{*}{3Nn} & 3 & 1 / 8 & 3 / 4 & 1 / 8 & \text{704e1} \\
+\cline{2-6}
+& 6 & 1 / 8 & 1 / 8 & 3 / 4 & \text{245b1} \\
+\hline
+\multirow{2}{*}{3Ns} & 3 & 1 / 4 & 1 / 2 & 1 / 4 & \text{1690d1} \\
+\cline{2-6}
+& 6 & 1 / 4 & 1 / 4 & 1 / 2 & \text{338d1} \\
+\hline
+\text{3.8.0.1} & any & 5 / 9 & 2 / 9 & 2 / 9 & \text{20a1} \\
+\hline
+\multirow{2}{*}{\begin{tabular}{c} 9.24.0.2, \ 9.72.0.(8,9,10), \\ 27.648.18.1, \ 27.1944.55.(43,44) \end{tabular}} & 1, 4, 7 & 1 / 3 & 2 / 3 & 0 & \text{108a1} \\
+\cline{2-6}
+& 2, 5, 8 & 1 / 3 & 0 & 2 / 3 & \text{36a1} \\
+\hline
+\multicolumn{2}{|c|}{any} & 1 & 0 & 0 & 14a1 \\
+\hline
+\end{array}
+$$}
+
+\end{frame}
+
+\begin{frame}{Proof of algebraic result}
+
+Manin's formalism for modular symbols compares $ L(E, 1) $ and $ L(E, \chi, 1) $.
+
+\bigskip The Hecke action on the space of modular symbols gives
+$$ -L(E, 1) \cdot \#E(\F_p) = \sum_{a = 1}^{p - 1} \int_0^{\tfrac{a}{p}} 2\pi if_E(z)\d z. $$
+On the other hand, Birch's formula can be modified to give
+$$ L(E, \chi, 1) = \dfrac{\tau(\chi)}{n}\sum_{a = 1}^{p - 1} \overline{\chi(a)}\int_0^{\tfrac{a}{p}} 2\pi if_E(z)\d z. $$
+Scaling appropriately gives a $ \Z[\zeta_q] $ congruence
+$$ -\LLL(E) \cdot \#E(\F_p) \equiv \LLL(E, \chi) \mod (1 - \zeta_q), $$
+which proves the algebraic result.
+
+\end{frame}
+
+\begin{frame}{Proof of analytic result}
+
+For the analytic result, note that $ \LLL(E, \chi) $ varies according to
+$$ \#E(\F_p) = 1 + \det(\rho_{E, q}(\Fr_p)) - \tr(\rho_{E, q}(\Fr_p)) \mod q. $$
+Chebotarev's density theorem says that $ \rho_{E, q}(\Fr_p) $ varies uniformly in
+$$ G_{E, q^\infty} := \{M \in \im\rho_{E, q} : \det(M) \equiv 1 \mod q\}. $$
+The following result reduces the computation from $ G_{E, q^\infty} $ to $ G_{E, q^2} $.
+
+\begin{theorem}[A. 2024]
+Let $ q $ be an odd prime. Then $ \ord_q(\LLL(E)) \ge -1 $.
+\end{theorem}
+
+\begin{proof}
+\begin{itemize}
+\item Cancellation of torsion and Tamagawa numbers (Lorenzini 2011)
+\item Classification of $ \im(\rho_{E, 3}) $ (Rouse--Sutherland--Zureick-Brown 2022)
+\end{itemize}
+\end{proof}
+
+\end{frame}
+
+\end{document}

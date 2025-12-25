@@ -1,0 +1,262 @@
+\input{header}
+\title{Sheaves, functors, and derived versions}
+\subtitle{Character sheaves}
+\author{David Kurniadi Angdinata}
+\institute{University of East Anglia}
+\date{Tuesday, 4 November 2025}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Presheaves}
+
+Throughout, let $ R $ be a ring, and let $ X $, $ Y $, and $ Z $ be topological spaces. Then $ U $ and $ U_i $ (resp $ V $ and $ V_i $) will be open sets of $ X $ (resp $ Y $), and $ \FF $ and $ \FF_i $ (resp $ \GG $ and $ \GG_i $) will be sheaves of $ R $-modules on $ X $ (resp $ Y $).
+
+\bigskip A \textbf{presheaf} (of $ R $-modules on $ X $) is a functor $ \FF : \Top(X)^\op \to \Mod_R $. In other words, it associates every $ U \in \Top(X) $ to some $ \FF(U) \in \Mod_R $, and for all $ U_1, U_2 \in \Top(X) $ with $ U_1 \subseteq U_2 $, there are restrictions
+$$ (-)|_{U_1}^{U_2} : \FF(U_1 \to U_2) : \FF(U_2) \to \FF(U_1), $$
+such that
+\begin{itemize}
+\item $ (-)|_{U_1}^{U_1} = \id $, and
+\item $ ((-)|_{U_1}^{U_2})|_{U_2}^{U_3} = (-)|_{U_1}^{U_3} $ for all $ U_3 \in \Top(X) $ with $ U_2 \subseteq U_3 $.
+\end{itemize}
+
+\bigskip Let $ \PSh(X, R) $ denote the category of presheaves (of $ R $-modules on $ X $).
+
+\end{frame}
+
+\begin{frame}{Sheaves}
+
+A \textbf{sheaf} (of $ R $-modules on $ X $) is a presheaf $ \FF \in \PSh(X, R) $ such that, if $ \{U_i\}_i $ is an open cover of $ U \in \Top(X) $, then the (equaliser) sequence
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+0 \arrow{r} \&[-0.5cm] \FF(U) \arrow{r}{s \mapsto (s|_{U_i}^U)_i} \&[0.5cm] \prod_i \FF(U_i) \arrow[shift left=0.1cm]{r}{(s_i \mapsto (s_i|_{U_i \cap U_j}^{U_i})_j)_i} \arrow[shift right=0.1cm]{r}[swap]{(s_j \mapsto (s_j|_{U_i \cap U_j}^{U_j})_i)_j} \&[1.5cm] \prod_{i, j} \FF(U_i \cap U_j)
+\end{tikzcd}
+$$
+is exact. In other words,
+\begin{itemize}
+\item[S1] if $ s \in \FF(U) $ is such that $ s|_{U_i}^U = 0 $ for all $ i $, then $ s = 0 $, and
+\item[S2] if $ s_i \in \FF(U_i) $ and $ s_j \in \FF(U_j) $ are such that $ s_i|_{U_i \cap U_j}^{U_i} = s_j|_{U_i \cap U_j}^{U_j} $ for all $ i $ and $ j $, then there is some $ s \in \FF(U) $ such that $ s|_{U_i}^U = s_i $ for all $ i $.
+\end{itemize}
+
+\bigskip Let $ \Sh(X, R) $ denote the category of sheaves (of $ R $-modules on $ X $), and let $ (-)^- : \Sh(X, R) \to \PSh(X, R) $ denote its natural forgetful functor.
+
+\end{frame}
+
+\begin{frame}{Morphisms of sheaves}
+
+A \textbf{morphism} of (pre)sheaves (of $ R $-modules on $ X $) is a natural transformation $ \phi : \FF_1 \to \FF_2 $. In other words, it is a collection of $ R $-linear maps $ \phi_U : \FF_1(U) \to \FF_2(U) $ for each $ U \in \Top(X) $, such that
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+\FF_1(U_1) \arrow{r}{\phi_{U_1}} \arrow{d}[swap]{(-)|_{U_2}^{U_1}} \& \FF_2(U_1) \arrow{d}{(-)|_{U_2}^{U_1}} \\
+\FF_1(U_2) \arrow{r}[swap]{\phi_{U_2}} \& \FF_2(U_2).
+\end{tikzcd}
+$$
+The \textbf{stalk} of $ \FF $ at some $ x \in X $ is the direct limit
+$$ \FF_x := \varinjlim_{\substack{U \in \Top(X), \\ x \in U}} \FF(U). $$
+If $ \FF_1 $ and $ \FF_2 $ are sheaves, then $ \phi $ is an isomorphism precisely if the induced morphism $ \phi_x : \FF_{1, x} \to \FF_{2, x} $ is an isomorphism for each $ x \in X $.
+
+\end{frame}
+
+\begin{frame}{Examples of sheaves}
+
+Let $ X $ be a $ C^n $-manifold over $ K / \R $. For all $ m \le n $, there are sheaves
+$$ U \mapsto C^m(U, K). $$
+Let $ X $ be a variety over $ K = \overline{K} $. The \textbf{structure sheaf} is given by
+$$ \OO_X : U \mapsto \{\text{regular functions} \ U \to K\}. $$
+Let $ M $ be an $ R $-module, and let $ x \in X $. The \textbf{skyscraper sheaf} is given by
+$$ \underline{M_x} : U \mapsto
+\begin{cases}
+M & \text{if} \ x \in U, \\
+0 & \text{otherwise}.
+\end{cases}
+$$
+On the other hand, the presheaf
+$$ \FF : U \mapsto \{\text{bounded continuous functions} \ U \to \R\} $$
+is not a sheaf.
+
+\end{frame}
+
+\begin{frame}{Constant sheaves}
+
+Let $ M $ be an $ R $-module. The constant sheaf $ \underline{M_X} $ is not just the presheaf $ U \mapsto M $! Since $ \emptyset $ has an empty open cover $ \{U_i\}_{i \in \emptyset} $, all $ s \in \underline{M_X}(\emptyset) $ vacuously satisfy $ s|_{U_i}^\emptyset = 0 $ for all $ i \in \emptyset $, so S1 says that $ s = 0 $. Thus
+$$ \underline{M_X}(\emptyset) = 0. $$
+Let $ U_1, U_2 \in \Top(X) $ be disjoint with $ \underline{M_X}(U_1) = \underline{M_X}(U_2) = M $. If $ s_1 \in \underline{M_X}(U_1) $ and $ s_2 \in \underline{M_X}(U_2) $, then $ s_1|_{U_1 \sqcap U_2}^{U_1} = s_2|_{U_1 \sqcap U_2}^{U_2} = 0 $, so S2 gives some $ s \in \underline{M_X}(U_1 \sqcup U_2) $ such that $ s|_{U_1}^{U_1 \sqcup U_2} = s_1 $ and $ s|_{U_2}^{U_1 \sqcup U_2} = s_2 $. Thus
+$$ \underline{M_X}(U_1 \sqcup U_2) = M \oplus M. $$
+In other words, the \textbf{constant sheaf} is given by
+$$ \underline{M_X} : U \mapsto \{\text{continuous functions} \ U \to M\}, $$
+where $ M $ is given the discrete topology.
+
+\end{frame}
+
+\begin{frame}{Sheafification}
+
+Let $ \FF \in \PSh(X, R) $. The \textbf{sheafification} of $ \FF $ is the unique sheaf $ \FF^+ \in \Sh(X, R) $ satisfying the universal property
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+\FF \arrow{r}{(-)^+} \arrow{dr}[swap]{\forall \phi} \& \FF^+ \arrow[dashed]{d}{\exists!\phi^+} \\
+\& \forall\FF_0.
+\end{tikzcd}
+$$
+This says that for any $ \FF_0 \in \Sh(X, R) $ and any $ \phi : \FF \to \FF_0 $, there is a unique $ \phi^+ : \FF^+ \to \FF_0 $ such that $ \phi^+ \circ (-)^+ = \phi $.
+
+\bigskip In other words, $ (-)^+ : \PSh(X, R) \to \Sh(X, R) $ is the \textbf{right adjoint} to the forgetful functor $ (-)^- : \Sh(X, R) \to \PSh(X, R) $, in the sense that
+$$ \Hom_{\Sh(X, R)}(\FF_1^+, \FF_2) \cong \Hom_{\PSh(X, R)}(\FF_1, \FF_2^-), $$
+so that $ \FF_x = \FF_x^+ $ for all $ x \in X $.
+
+\end{frame}
+
+\begin{frame}{Hom and tensor product}
+
+Grothendieck introduced a six-functor formalism for sheaves.
+
+\bigskip The \textbf{hom} $ \HH om(\FF_1, \FF_2) \in \Sh(X, R) $ is the sheaf
+$$ U \mapsto \Hom_{\Sh(U, R)}(\FF_1|_U, \FF_2|_U). $$
+The \textbf{tensor product} $ \FF_1 \otimes \FF_2 \in \Sh(X, R) $ is the sheafification of
+$$ U \mapsto \FF_1(U) \otimes_R \FF_2(U). $$
+
+\begin{fact}
+\begin{itemize}
+\item $ \Hom_{\Sh(X, R)}(\FF_1 \otimes \FF_2, \FF_3) \cong \Hom_{\Sh(X, R)}(\FF_1, \HH om(\FF_2, \FF_3)) $.
+\item $ \FF \otimes \underline{R_X} \cong \FF $ and $ \HH om(\underline{R_X}, \FF) \cong \FF $.
+\item If $ x \in X $, then $ (\FF_1 \otimes \FF_2)_x \cong \FF_{1, x} \otimes_R \FF_{2, x} $, but $ \HH om(\FF_1, \FF_2)_x \not\cong \Hom(\FF_{1, x}, \FF_{2, x}) $ in general.
+\end{itemize}
+\end{fact}
+
+\end{frame}
+
+\begin{frame}{Pullback and pushforward}
+
+Let $ f : X \to Y $. The \textbf{pushforward} $ f_*\FF \in \Sh(Y, R) $ is the sheaf
+$$ V \mapsto \FF(f^{-1}(V)). $$
+The \textbf{pullback} $ f^*\GG \in \Sh(X, R) $ is the sheafification of
+$$ U \mapsto \varinjlim_{\substack{V \in \Top(Y), \\ f(U) \subseteq V}} \GG(V). $$
+\begin{fact}
+\begin{itemize}
+\item $ \Hom_{\Sh(X, R)}(f^*\GG, \FF) \cong \Hom_{\Sh(Y, R)}(\GG, f_*\FF) $.
+\item $ f^*\underline{R_Y} = \underline{R_X} $ and $ (f^*\GG)_x = \GG_{f(x)} $ for all $ x \in X $.
+\item If $ \iota_y : \{y\} \hookrightarrow Y $ for some $ y \in Y $, then $ \iota_y^*\GG = \underline{\GG_{y, \{y\}}} $.
+\item If $ \pi^x : X \twoheadrightarrow \{x\} $ for some $ x \in X $, then $ \pi_*^x\FF = \underline{\FF(X)} $.
+\item If $ g : Y \to Z $, then $ (g \circ f)_* = g_* \circ f_* $ and $ (g \circ f)^* = f^* \circ g^* $.
+\end{itemize}
+\end{fact}
+
+\end{frame}
+
+\begin{frame}{Shriek pushforward}
+
+Recall that $ f $ is \textbf{proper} if it is universally closed, in the sense that $ f \times \id : X \times Z \to Y \times Z $ is closed for all $ Z $. If $ X $ is locally compact Hausdorff, then $ f $ is proper iff $ f^{-1}(Z) $ is compact for any compact $ Z \subseteq Y $. The \textbf{shriek pushforward} $ f_!\FF \in \Sh(Y, R) $ is the sheaf
+$$ V \mapsto \{s \in \FF(f^{-1}(V)) : f|_{\supp(s)} \ \text{is proper}\}, $$
+where $ \supp(s) := \{x \in X : s \ne 0 \ \text{in} \ \FF_x\} $ is closed.
+
+\begin{fact}
+\begin{itemize}
+\item If $ \iota : X \hookrightarrow Y $ is open, then $ \Hom_{\Sh(Y, R)}(\iota_!\FF, \GG) \cong \Hom_{\Sh(X, R)}(\FF, \iota^*\GG) $.
+\item If $ f $ is proper, such as when $ f : X \hookrightarrow Y $ is closed, then $ f_! = f_* $.
+\item If $ \pi^x : X \twoheadrightarrow \{x\} $ for some $ x \in X $, then
+$$ \pi_!^x\FF = \underline{\{s \in \FF(X) : \supp(s) \ \text{is compact}\}}. $$
+\item If $ g : Y \to Z $ is separated, in the sense that the diagonal $ Y \hookrightarrow Y \times_Z Y $ is closed, then $ (g \circ f)_! = g_! \circ f_! $.
+\end{itemize}
+\end{fact}
+
+\end{frame}
+
+\begin{frame}{Locally closed inclusions}
+
+Assume that $ \iota : X \hookrightarrow Y $ is locally closed. Then $ \iota_! : \Sh(X, R) \to \Sh(Y, R) $ is \textbf{extension-by-zero}, where $ \iota_!\FF \in \Sh(Y, R) $ is the sheafification of
+$$ V \mapsto
+\begin{cases}
+\FF(V \cap \iota(X)) & \text{if} \ V \cap \overline{\iota(X)} \subseteq \iota(X), \\
+0 & \text{otherwise},
+\end{cases}
+$$
+so its stalk at $ y \in Y $ is
+$$ (\iota_!\FF)_y =
+\begin{cases}
+\FF_y & \text{if} \ y \in \iota(X), \\
+0 & \text{otherwise}.
+\end{cases}
+$$
+In this case, $ \iota_! $ has a right adjoint \textbf{restriction-with-supports} $ \iota^! : \Sh(Y, R) \to \Sh(X, R) $, where $ \iota^!\GG \in \Sh(X, R) $ is the sheafification of
+$$ U \mapsto \varinjlim_{\substack{V \in \Top(Y), \\ V \cap \overline{\iota(X)} = \iota(U)}} \{s \in \GG(V) : \supp(s) \subseteq \iota(U)\}, $$
+so that $ \iota^! = \iota^* $ whenever $ \iota $ is open.
+
+\end{frame}
+
+\begin{frame}{Classical derived functors}
+
+Since $ \Mod_R $ has enough injectives, $ \Sh(X, R) $ also has enough injectives, so for any $ \FF \in \Sh(X, R) $, there is a \textbf{classical injective resolution}
+$$ 0 \to \FF \to \II^0 \xrightarrow{d^0} \II^1 \xrightarrow{d^1} \dots. $$
+Let $ F : \Sh(X, R) \to \Sh(Y, R) $ be a functor. For each $ i \in \N $, the \textbf{classical derived functor} $ R^iF : \Sh(X, R) \to \Sh(Y, R) $ of $ F $ is given by
+$$ \FF \mapsto H^i(0 \to F(\II^0) \xrightarrow{F(d^0)} F(\II^1) \xrightarrow{F(d^1)} \dots) := \ker F(d^i) / \im F(d^{i - 1}), $$
+which is independent of the choice of classical injective resolution. For each $ i \in \Z $, the \textbf{cohomology} of $ \FF $ is
+$$ H^i(\FF) := R^iF(\FF). $$
+If $ F $ is left exact, then $ H^0(\FF) = R^0F(\FF) = \ker F(d^0) = F(\FF) $. For instance, $ \HH om(\FF, -) $, $ \HH om(-, \FF) $, $ f^* $, $ f_* $, $ f_! $, $ \iota_! $, and $ \iota^! $ are all left exact, and $ f^* $ and $ \iota_! $ (and $ \FF \otimes - $ and $ - \otimes \FF $ if $ \Mod_R $ is flat) are also right exact.
+
+\end{frame}
+
+\begin{frame}{Complex category}
+
+Let $ \AA $ be an abelian category. Let $ C(\AA) $ denote the category whose objects are \textbf{chain complexes} $ A^\bullet $ for some $ A^i \in \AA $ given by
+$$ \dots \xrightarrow{d_A^{i - 1}} A^i \xrightarrow{d_A^i} A^{i + 1} \xrightarrow{d_A^{i + 1}} \dots, $$
+and whose morphisms are \textbf{chain maps} $ \phi^\bullet : A^\bullet \to B^\bullet $ such that
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+\dots \arrow{r}{d_A^{i - 1}} \& A^i \arrow{r}{d_A^i} \arrow{d}{\phi^i} \& A^{i + 1} \arrow{r}{d_A^{i + 1}} \arrow{d}{\phi^{i + 1}} \& \dots \\
+\dots \arrow{r}[swap]{d_B^{i - 1}} \& B^i \arrow{r}[swap]{d_B^i} \& B^{i + 1} \arrow{r}[swap]{d_B^{i + 1}} \& \dots.
+\end{tikzcd}
+$$
+For each $ i \in \Z $, the \textbf{cohomology} of a chain complex $ A^\bullet \in \AA $ is given by
+$$ H^i(A^\bullet) := \ker d^i / \im d^{i - 1}. $$
+A chain map $ \phi^\bullet : A^\bullet \to B^\bullet $ is a \textbf{quasi-isomorphism} if the induced morphisms $ H^i(\phi^\bullet) : H^i(A^\bullet) \to H^i(B^\bullet) $ are isomorphisms for all $ i \in \Z $.
+
+\end{frame}
+
+\begin{frame}{Derived category}
+
+Let $ \CC $ be a category. The \textbf{localisation} of $ \CC $ with respect to a collection $ S $ of morphisms is a category $ S^{-1}\CC $ satisfying the universal property
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+\CC \arrow{r}{S^{-1}} \arrow{dr}[swap]{\forall F} \& S^{-1}\CC \arrow{d}{\exists!S^{-1}F} \\
+\& \forall\CC_0,
+\end{tikzcd}
+$$
+where $ \CC_0 $ is any category such that $ F(\phi) $ is an isomorphism for all $ \phi \in S $.
+
+\bigskip The \textbf{derived category} $ D(\AA) $ of $ \AA $ is the localisation of $ C(\AA) $ with respect to quasi-isomorphisms. Furthermore, let $ D^+(\AA) $ and $ D^-(\AA) $ denote its subcategories such that $ A^i = 0 $ for sufficiently large or small $ i \in \Z $ respectively, and let $ D^b(\AA) := D^+(\AA) \cap D^-(\AA) $.
+
+\bigskip Similarly, let $ C^*(\AA) $ denote the same for $ C(\AA) $ for each of $ * \in \{+, -, b\} $.
+
+\end{frame}
+
+\begin{frame}{Derived functors}
+
+Assume that $ \AA $ has enough injectives. Then for all $ A^\bullet \in C(\AA) $, there is an \textbf{injective resolution} $ I^\bullet \in C(\AA) $ with a quasi-isomorphism
+$$ A^\bullet \to I^\bullet. $$
+Let $ F : \AA \to \BB $ be a left exact functor between abelian categories. By abstract nonsense, it preserves quasi-isomorphisms on $ C^+(\AA) $, so it defines a functor $ F : D^+(\AA) \to D^+(\BB) $. Furthermore, there is a \textbf{derived functor} $ RF : D^+(\AA) \to D^+(\BB) $ given by
+$$ A^\bullet \mapsto F(I^\bullet), $$
+which recovers the classical derived functor for each $ i \in \Z $ by
+$$ R^iF(A) = H^i(RF(A)). $$
+If it is also right exact, then it preserves quasi-isomorphisms on $ C^-(\AA) $, so it defines a functor $ F : D(\AA) \to D(\BB) $, and the derived functor $ RF : D(\AA) \to D(\BB) $ satisfies $ RF(A^\bullet) = 0 $ for all $ A^\bullet \in \AA $.
+
+\end{frame}
+
+\begin{frame}{Derived sheaf functors}
+
+Let $ D^*(X, R) := D^*(\Sh(X, R)) $, which has non-zero derived functors
+$$ R\HH om(\FF, -), \ R\HH om(-, \FF), \ Rf_*, \ Rf_!, \ \iota^!. $$
+The \textbf{shriek pullback} $ f^! : D^+(Y, R) \to D^+(X, R) $ is the right adjoint of $ Rf_! : D^+(X, R) \to D^+(Y, R) $, which exists when $ X $ and $ Y $ are locally compact Hausdorff. If $ \iota : X \hookrightarrow Y $ is locally closed, then this coincides with $ R\iota^! : D^+(Y, R) \to D^+(X, R) $.
+
+\bigskip
+
+\begin{fact}
+\begin{itemize}
+\item If $ \pi^x : X \to \{x\} $ for some $ x \in X $, then $ R^i\pi_*^x\FF = H^i(\FF) $ and $ R^i\pi_!^x\FF = H_c^i(\FF) $.
+\item If $ f : X \to Y $ and $ g : Y \to Z $, and $ X $, $ Y $, and $ Z $ are locally compact Hausdorff, then $ (Rg \circ Rf)_* = Rg_* \circ Rf_* $ and $ (Rg \circ Rf)_! = Rg_! \circ Rf_! $.
+\item Proper base change: if $ f : X \to Y $ and $ h : Z \to X $, and $ \pi_X : X \times_Y Z \to X $ and $ \pi_Z : X \times_Y Z \to Z $, then $ h^* \circ Rf_! \cong R\pi_{Z!} \circ \pi_X^* $.
+\end{itemize}
+\end{fact}
+
+\end{frame}
+
+\end{document}

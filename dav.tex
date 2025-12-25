@@ -1,0 +1,159 @@
+\input{header}
+\title{Dual abelian varieties \footnote{J S Milne (2008) Abelian Varieties}}
+\subtitle{Abelian varieties over finite fields}
+\author{David Kurniadi Angdinata}
+\institute{University College London}
+\date{Wednesday, 18 January 2023}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Dual elliptic curves}
+
+Let $ (E, O) $ be an elliptic curve over a field $ K $. Recall that
+$$ \function[\lambda_{(O)}]{E}{\Cl^0(E) \le \Cl(E)}{P}{(-P) - (O)}. $$
+Here $ \Cl(E) $ is the \textbf{class group} of Weil divisors $ \sum_{P \in E} n_P(P) $ modulo $ \sim $, where $ D \sim 0 $ if $ D $ is the divisor $ (f) $ of some rational function $ f \in \overline{K}(E)^\times $, and $ \Cl^0(E) $ is its subgroup with $ \sum_{P \in E} n_P = 0 $.
+
+\bigskip Idea: for any $ D \in \Cl^0(E) $, the Riemann--Roch space $ \LLL(D + (O)) $, where
+$$ \LLL(D) := \{f \in \overline{K}(E)^\times : (f) + D \ge 0\} \cup \{0\}, $$
+is one-dimensional, so $ D \sim (-P) - (O) $ for some $ P \in E $.
+
+\bigskip For an elliptic curve $ E $, its \emph{dual} is $ \Cl^0(E) $.
+
+\end{frame}
+
+\begin{frame}{Invertible sheaves on smooth varieties}
+
+Let $ X / K $ be a smooth variety. Then identify
+$$
+\begin{array}{rcl}
+\Cl(X) & \xrightarrow{\sim} & \Pic(X) \\
+D & \mapsto & \LL(D).
+\end{array}
+$$
+Here $ \Pic(X) $ is the \textbf{Picard group} of invertible sheaves $ \LL $ modulo $ \cong $, with
+$$ \LL \cdot \LL' := \LL \otimes_{\OO_X} \LL', \qquad \LL^{-1} := \HH om(\LL, \OO_X), $$
+and $ \LL(D) $ is the sheaf of $ \OO_X $-modules such that for any open $ U \subseteq X $,
+$$ \Gamma(U, \LL(D)) := \{f \in K(X)^\times : (f) + D \ge 0 \ \text{in} \ U\} \cup \{0\}. $$
+If $ f : Y \to X $ is a morphism, then there is also a \textbf{pull-back}
+$$ f^*\LL := f^{-1}\LL \otimes_{f^{-1}\OO_Y} \OO_X \in \Pic(Y). $$
+
+\end{frame}
+
+\begin{frame}{Invertible sheaves on abelian varieties}
+
+Let $ A / K $ be an abelian variety. For any $ a \in A(K) $, the translation map $ \tau_a : A \to A $ induces $ \tau_a^* : \Pic(A) \to \Pic(A) $. For any $ \LL \in \Pic(A) $, define
+$$ \function[\lambda_\LL]{A(K)}{\Pic(A)}{a}{\tau_a^*\LL \cdot \LL^{-1}}. $$
+This is a homomorphism, by \textbf{theorem of the square}
+$$ \tau_{a + b}^*\LL \cdot \LL \cong \tau_a^*\LL \cdot \tau_b^*\LL, \qquad a, b \in A(K). $$
+This follows from \textbf{theorem of the cube} \footnote{Theorem I.5.1} that
+$$ (f + g + h)^*\LL \cdot (f + g)^*\LL^{-1} \cdot (f + h)^*\LL^{-1} \cdot (g + h)^*\LL^{-1} \cdot f^*\LL \cdot g^*\LL \cdot h^*\LL $$
+is trivial for any regular maps $ f, g, h : V \to A $ from a variety $ V / K $.
+
+\bigskip In fact, if $ \LL \in \Pic(A) $ is ample, then $ \ker(\lambda_{\LL}) \le A(K) $ is finite. \footnote{Proposition I.8.1}
+
+\end{frame}
+
+\begin{frame}{Invertible sheaves and Weil divisors}
+
+\begin{remark}
+Equivalently, $ \tau_a^* : \Cl(A) \to \Cl(A) $ translates a Weil divisor $ D $ by $ -a $, so
+$$ \function[\lambda_{\LL(D)}]{A(K)}{\Cl(A)}{a}{D_{-a} - D}, $$
+where $ D_{-a} $ is translation of $ D $ by $ -a $. Theorem of the square becomes
+$$ D_{-(a + b)} + D \sim D_{-a} + D_{-b}, \qquad a, b \in A(K). $$
+If $ A = E $, then
+$$ \function[\lambda_{\LL((O))}]{E(K)}{\Cl(E)}{P}{(-P) - (O)}. $$
+In fact, if $ D \in \Cl(E) $ is effective, then $ \deg D = 0 $ iff $ \lambda_{\LL(D)} = 0 $. \footnote{Example I.8.3}
+\end{remark}
+
+\end{frame}
+
+\begin{frame}{Translation-invariant invertible sheaves}
+
+Let $ + : A \times A \to A $ be the addition map, and let $ \pi_i : A \times A \to A $ be the projection map to the $ i $-th component.
+For any $ \LL \in \Pic(A) $, define
+$$ K(\LL) := \{a \in A : (+^*\LL \cdot \pi_1^*\LL^{-1})|_{A \times \{a\}} \cong \OO_A\}. $$
+Then $ K(\LL)(K) = \ker(\lambda_\LL) $ as subgroups of $ A $, since
+$$ (+^*\LL \cdot \pi_1^*\LL^{-1})|_{A \times \{a\}} = \tau_a^*\LL \cdot \LL^{-1}, \qquad a \in A(K). $$
+In fact, $ K(\LL) $ is closed as a subvariety of $ A $. \footnote{Proposition I.5.19}
+
+\bigskip Define the subgroup of \textbf{translation-invariant invertible sheaves}
+$$ \Pic^0(A) := \{\LL \in \Pic(A) : K(\LL) = A\}. $$
+Then $ \tau_a^*\LL \cdot \LL^{-1} \in \Pic^0(A) $ for any $ a \in A(K) $, so $ \im(\lambda_\LL) \subseteq \Pic^0(A) $.
+
+\bigskip Need an abelian variety $ \widehat{A} $ such that $ \widehat{A}(K) \cong \Pic^0(A) $.
+
+\end{frame}
+
+\begin{frame}{Construction of dual abelian varieties}
+
+Idea: $ \lambda_\LL : A(K) \to \Pic^0(A) $ has kernel $ K(\LL)(K) $, and in fact is surjective if $ \LL \in \Pic(A) $ is ample, \footnote{Proposition I.8.14} so $ \widehat{A} $ should be the quotient variety $ A / K(\LL) $.
+\begin{itemize}
+\item If $ \ch(K) = 0 $, then $ K(\LL) $ is a reduced subgroup variety of $ A $, and $ A / K(\LL) $ is simply defined as the $ K(\LL) $-orbits of $ A $.
+\item If $ \ch(K) \ne 0 $, then $ K(\LL) $ may not be reduced in general, so redefine $ K(\LL) $ as the maximal subscheme of $ A $ such that $ (+^*\LL \cdot \pi_1^*\LL^{-1})|_{A \times K(\LL)} \cong \pi_2^*\LL' $ for some $ \LL' \in \Pic(K(\LL)) $, and $ A / K(\LL) $ is naturally an algebraic space quotient of $ A $.
+\end{itemize}
+The \textbf{dual abelian variety} of $ A $ is $ \widehat{A} := A / K(\LL) $.
+
+\bigskip
+
+\begin{remark}
+Since $ \LL \in \Pic^0(A) $ iff $ +^*\LL \cong \pi_1^*\LL \cdot \pi_2^*\LL $, addition on $ A $ lifts to multiplication on $ \LL $ and makes $ \GG(\LL) := \LL \setminus \{0\} $ an abelian group scheme over $ K $. In fact, $ \GG(\LL) $ is an extension of $ A $ by $ \G_m $, and this defines an isomorphism $ \GG : \Pic^0(A) \xrightarrow{\sim} \Ext_K^1(A, \G_m) $ of abelian group schemes. \footnote{Proposition I.9.3}
+\end{remark}
+
+\end{frame}
+
+\begin{frame}{Representability of dual abelian varieties}
+
+Consider the functor $ \FF : \textbf{Var}_K \to \textbf{Set} $ that associates a variety $ V / K $ to the set of isomorphism classes of $ \LL \in \Pic(A \times V) $ such that
+\begin{itemize}
+\item $ \LL|_{A \times \{x\}} \in \Pic^0(A_x) $ for any $ x \in V $, and
+\item $ \LL|_{\{0\} \times V} \cong \OO_V $.
+\end{itemize}
+
+\begin{theorem}
+$ \widehat{A} $ represents $ \FF $. In other words $ \FF(V) = \Hom(V, \widehat{A}) $ for any variety $ V / K $.
+\end{theorem}
+
+\begin{proof}
+Sketched in Section I.8.
+\end{proof}
+
+\bigskip By construction, $ \widehat{A}(L) = \Pic^0(A_L) $ for any field extension $ L / K $.
+
+\bigskip By universality, $ \widehat{A} $ is unique up to unique isomorphism. Its corresponding universal element is the \textbf{Poincar\'e sheaf} $ \PP_A \in \FF(\widehat{A}) $, which associates any $ \LL \in \Pic^0(A) $ with a unique $ \PP_A|_{A \times \{a\}} $ for some $ a \in \widehat{A}(K) $.
+
+\end{frame}
+
+\begin{frame}{Dualities on abelian varieties}
+
+The functor $ A \mapsto \widehat{A} $ is a duality theory in the sense that $ \widehat{\widehat{A}} \cong A $. This follows from $ \PP_{\widehat{A}} \cong \PP_A $, \footnote{Theorem I.8.9} since $ \PP_A $ parameterises $ \widehat{A}(K) \cong \Pic^0(A) $.
+
+\bigskip Now let $ \phi : A \to B $ be a morphism. Then it has a dual morphism
+$$ \function[\widehat{\phi}]{\widehat{B}}{\widehat{A}}{\LL}{\phi^*\LL}. $$
+If $ \phi $ is an isogeny, then $ \ker(\widehat{\phi}) = \widehat{\ker(\phi)} $ is the \emph{Cartier dual} of $ \ker(\phi) $, \footnote{Theorem I.9.1} where $ \widehat{\widehat{\ker(\phi)}} \cong \ker(\phi) $. If $ K = K^s $ with $ \ch(K) \nmid n := \#\ker(\phi) $, then
+$$ \widehat{\ker(\phi)} = \Hom(\ker(\phi), \mu_n). $$
+This defines a \emph{Weil pairing}
+$$ e_\phi : \ker(\phi) \times \ker(\widehat{\phi}) \to \mu_n. $$
+
+\end{frame}
+
+\begin{frame}{Polarisations on abelian varieties}
+
+A \textbf{polarisation} on $ A $ is an isogeny $ \lambda : A \to \widehat{A} $ such that $ \lambda = \lambda_\LL $ over $ \overline{K} $ for some ample $ \LL \in \Pic(A_{\overline{K}}) $. It is \textbf{principal} if it has degree one.
+
+\bigskip
+
+\begin{remark}
+Zarhin proved that $ (A \times \widehat{A})^4 $ is always principally polarised. \footnote{Theorem I.13.12}
+\end{remark}
+
+\bigskip Let $ \lambda : A \to \widehat{A} $ be a polarisation. This defines an involution on $ \End^0(A) $ called the \textbf{Rosati involution} $ (\cdot)^\dagger : \End^0(A) \to \End^0(A) $, where
+$$ A \xrightarrow{\phi} A \qquad \longmapsto \qquad A \xrightarrow{\lambda} \widehat{A} \xrightarrow{\widehat{\phi}} \widehat{A} \xrightarrow{\lambda^{-1}} A, $$
+which is well-defined since $ \lambda^{-1} \in \Hom^0(\widehat{A}, A) $. It satisfies
+$$ (\phi + \psi)^\dagger = \phi^\dagger + \psi^\dagger, \qquad (\phi \circ \psi)^\dagger = \psi^\dagger \circ \phi^\dagger, \qquad \phi, \psi \in \End^0(A), $$
+and $ a^\dagger = a $ for any $ a \in \Q $.
+
+\end{frame}
+
+\end{document}

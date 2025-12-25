@@ -1,0 +1,410 @@
+\input{header}
+\usetheme{warsaw}
+\title{The Group Law on Weierstrass Elliptic Curves}
+\subtitle{An Elementary Formal Proof in Any Characteristic}
+\author[David Ang]{\textbf{David Kurniadi Angdinata} \inst{1} \and Junyan Xu \inst{2}}
+\institute{\inst{1} \textbf{London School of Geometry and Number Theory, UK} \and \inst{2} Cancer Data Science Laboratory, National Cancer Institute, Bethesda, MD, USA}
+\date{Fourteenth International Conference on Interactive Theorem Proving \\ \bigskip Wednesday, 2 August 2023}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Elliptic curves}
+
+An \textbf{elliptic curve} over a field $ F $ is a pair $ (E, \OO) $:
+\begin{itemize}
+\item $ E $ is a \emph{smooth projective curve} of \emph{genus one} defined over $ F $
+\item $ \OO $ is a distinguished point on $ E $ defined over $ F $
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.3\textwidth]{img/ellipticcurve.png}
+\end{center}
+
+Applications:
+\begin{itemize}
+\item computational mathematics
+\begin{itemize}
+\item primality testing, integer factorisation, public-key cryptography
+\end{itemize}
+\item algebraic geometry and number theory
+\begin{itemize}
+\item Fermat's last theorem, the Birch and Swinnerton-Dyer conjecture
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Weierstrass equations}
+
+\begin{theorem}[corollary of \emph{Riemann--Roch}]
+Any elliptic curve $ E $ over $ F $ can be given by $ E(X, Y) = 0 $, where
+$$ E(X, Y) := Y^2 + a_1XY + a_3Y - (X^3 + a_2X^2 + a_4X + a_6), $$
+for some $ a_i \in F $ such that $ \Delta(a_i) \ne 0 $, with $ \OO $ the point at infinity.
+\end{theorem}
+
+This is the \textbf{Weierstrass model} for $ E $, but $ E $ has other models.
+\begin{itemize}
+\item If $ \ch(F) \ne 2, 3 $, then $ E $ has a \textbf{short Weierstrass model}
+$$ E(X, Y) := Y^2 - (X^3 + aX + b), \qquad a, b \in F, $$
+where $ \Delta(a, b) = -16(4a^3 + 27b^2) $.
+\item If $ \ch(F) \ne 2 $, then $ E $ has an \textbf{Edwards model}
+$$ E(X, Y) := X^2 + Y^2 - (1 + dX^2Y^2), \qquad d \in F \setminus \{0, 1\}, $$
+with $ \OO := (1, 0) $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Weierstrass equations}
+
+\begin{theorem}[corollary of \emph{Riemann--Roch}]
+Any elliptic curve $ E $ over $ F $ can be given by $ E(X, Y) = 0 $, where
+$$ E(X, Y) := Y^2 + a_1XY + a_3Y - (X^3 + a_2X^2 + a_4X + a_6), $$
+for some $ a_i \in F $ such that $ \Delta(a_i) \ne 0 $, with $ \OO $ the point at infinity.
+\end{theorem}
+
+In the Weierstrass model, an \textbf{elliptic curve} over $ F $ is the data of:
+\begin{itemize}
+\item five coefficients $ a_1, a_2, a_3, a_4, a_6 \in F $, and
+\item a proof that $ \Delta(a_1, a_2, a_3, a_4, a_6) \ne 0 $.
+\end{itemize}
+
+\begin{lstlisting}[backgroundcolor=\color{lime}, basicstyle=\scriptsize, frame=single]
+structure weierstrass_curve (F : Type) := (a₁ a₂ a₃ a₄ a₆ : F)
+
+def weierstrass_curve.Δ {F : Type} [comm_ring F] (W : weierstrass_curve F) : F :=
+  -(E.a₁^2 + 4*E.a₂)*(E.a₁^2*E.a₆ + 4*E.a₂*E.a₆ - E.a₁*E.a₃*E.a₄ + E.a₂*E.a₃^2 - E.a₄^2)
+    - 8*(2*E.a₄ + E.a₁*E.a₃)^3 - 27*(E.a₃^2 + 4*E.a₆)^2
+    + 9*(E.a₁^2 + 4*E.a₂)*(2*E.a₄ + E.a₁*E.a₃)*(E.a₃^2 + 4*E.a₆)
+
+structure elliptic_curve (F : Type) [comm_ring F] extends weierstrass_curve F :=
+  (Δ' : units F) (coe_Δ' : ↑Δ' = to_weierstrass_curve.Δ)
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Weierstrass equations}
+
+\begin{theorem}[corollary of \emph{Riemann--Roch}]
+Any elliptic curve $ E $ over $ F $ can be given by $ E(X, Y) = 0 $, where
+$$ E(X, Y) := Y^2 + a_1XY + a_3Y - (X^3 + a_2X^2 + a_4X + a_6), $$
+for some $ a_i \in F $ such that $ \Delta(a_i) \ne 0 $, with $ \OO $ the point at infinity.
+\end{theorem}
+
+In the Weierstrass model, a \textbf{point} on $ E $ is either:
+\begin{itemize}
+\item the point at infinity $ \OO $, or
+\item two affine coordinates $ x, y \in F $ and a proof that $ (x, y) \in E $.
+\end{itemize}
+
+\begin{lstlisting}[backgroundcolor=\color{lime}, basicstyle=\scriptsize, frame=single]
+variables {F : Type} [field F] (E : elliptic_curve F)
+
+def polynomial : F[X][Y] :=
+  Y^2 + C (C E.a₁*X + C E.a₃)*Y - C (X^3 + C E.a₂*X^2 + C E.a₄*X + C E.a₆)
+
+def equation (x y : F) : Prop := (E.polynomial.eval (C y)).eval x = 0
+
+inductive point
+  | zero
+  | some {x y : F} (h : E.equation x y)
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Group law}
+
+\begin{theorem}[the group law]
+The points of $ E $ form an abelian group under a geometric addition law.
+\end{theorem}
+
+Identity is given by $ \OO $.
+
+\begin{lstlisting}[backgroundcolor=\color{lime}, basicstyle=\scriptsize, frame=single]
+instance : has_zero E.point := ⟨zero⟩
+\end{lstlisting}
+
+Negation and addition are characterised by
+$$ P + Q + R = 0 \qquad \iff \qquad P, Q, R \ \text{are collinear}. $$
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{img/grouplaw.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{Group law}
+
+\begin{theorem}[the group law]
+The points of $ E $ form an abelian group under a geometric addition law.
+\end{theorem}
+
+Negation is given by $ -(x, y) := (x, \sigma(y)) $, where
+$$ \sigma(Y) := -Y - a_1X - a_3. $$
+
+\begin{lstlisting}[backgroundcolor=\color{lime}, basicstyle=\scriptsize, frame=single]
+def neg_Y (x y : F) : F := -y - E.a₁ * x + E.a₃
+
+lemma equation_neg {x y : F} : E.equation x y → E.equation x (E.neg_Y x y) := ...
+
+def neg : E.point → E.point
+  | zero := zero
+  | (some h) := some (equation_neg h)
+
+instance : has_neg E.point := ⟨neg⟩
+\end{lstlisting}
+
+\underline{\textbf{Note:}} in the \textbf{coordinate ring} $ F[E] := F[X, Y] / (E(X, Y)) $,
+$$ -(Y \cdot \sigma(Y)) = Y^2 + a_1XY + a_3Y \equiv X^3 + a_2X^2 + a_4X + a_6. $$
+
+\end{frame}
+
+\begin{frame}[fragile]{Group law}
+
+\begin{theorem}[the group law]
+The points of $ E $ form an abelian group under a geometric addition law.
+\end{theorem}
+
+Addition is given by $ (x_1, y_1) + (x_2, y_2) := -(x_3, y_3) $, where
+$$ x_3 := \lambda^2 + a_1\lambda - a_2 - x_1 - x_2, \qquad y_3 := \lambda(x_3 - x_1) + y_1. $$
+
+\begin{lstlisting}[backgroundcolor=\color{lime}, basicstyle=\scriptsize, frame=single]
+def add : E.point → E.point → E.point
+  | zero P := P
+  | P zero := P
+  | (some h₁) (some h₂) := some (equation_add h₁ h₂)
+
+instance : has_add E.point := ⟨add⟩
+\end{lstlisting}
+
+Here,
+$$ \lambda :=
+\begin{cases}
+\dfrac{y_1 - y_2}{x_1 - x_2} & \text{if} \ x_1 \ne x_2, \\[0.1cm]
+\dfrac{3x_1^2 + 2a_2x_1 + a_4 - a_1y_1}{y_1 - \sigma(y_1)} & \text{if} \ y_1 \ne \sigma(y_1), \\
+\infty & \text{otherwise}.
+\end{cases}
+$$
+
+\end{frame}
+
+\begin{frame}[fragile]{Attempts at proof}
+
+One may attempt to prove the axioms directly.
+
+\begin{lstlisting}[backgroundcolor=\color{lime}, basicstyle=\scriptsize, frame=single]
+instance : add_group E.point :=
+  { zero            := zero,
+    neg              := neg,
+    add              := add,
+    zero_add       := rfl,     -- by definition
+    add_zero       := rfl,     -- by definition
+    add_left_neg := ...,      -- by cases
+    add_comm       := ...,      -- by cases
+    add_assoc     := sorry } -- seems impossible?
+\end{lstlisting}
+
+Associativity is a proof that
+$$ (P + Q) + R = P + (Q + R), $$ where each $ + $ has five cases!
+
+\bigskip In the generic case, this is an equality of polynomials with 26,082 terms.
+
+\bigskip In contrast, the \texttt{ring} tactic in Lean can handle at most 1,000 terms.
+
+\end{frame}
+
+\begin{frame}{Attempts at proof}
+
+Associativity is known to be mathematically difficult with many proofs.
+
+\bigskip Proof 1: just do it.
+\begin{itemize}
+\item elementary but slow
+\item several known formalisations
+\begin{itemize}
+\item Th\'ery (Coq, 2007): short Weierstrass model $ Y^2 = X^3 + aX + b $
+\item Hales, Raya (Isabelle, 2020): Edwards model $ X^2 + Y^2 = 1 + dX^2Y^2 $
+\item Fox, Gordon, Hurd (HOL4, 2006): long Weierstrass model $ Y^2 + a_1XY + a_3Y = X^3 + a_2X^2 + a_4X + a_6 $ but no associativity
+\end{itemize}
+\end{itemize}
+
+\bigskip Proof 2: ad-hoc argument with projective geometry.
+\begin{itemize}
+\item only works generically via \emph{Cayley--Bacharach}
+\item no known formalisations
+\begin{itemize}
+\item our original attempt
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Attempts at proof}
+
+One may instead identify the set of points $ E(F) $ with a known group.
+
+\bigskip Proof 3: identify with a quotient of $ \C $ by the \emph{fundamental lattice} $ \Lambda_E $.
+\begin{itemize}
+\item only works in characteristic zero via \emph{uniformisation}
+\item no known formalisations
+\begin{itemize}
+\item needs a lot of theory
+\end{itemize}
+\end{itemize}
+
+\bigskip Proof 4: identify with the \emph{degree zero Weil divisor class group} $ \Pic_F^0(E) $.
+\begin{itemize}
+\item algebro-geometric and usually uses \emph{Riemann--Roch}
+\item one known formalisation
+\begin{itemize}
+\item Bartzia, Strub (10,000 lines of Coq, 2014): short Weierstrass model
+\end{itemize}
+\end{itemize}
+
+\bigskip Proof 5: identify with the \emph{ideal class group} $ \Cl(F[E]) $.
+\begin{itemize}
+\item purely algebraic and uses commutative algebra
+\item one known formalisation
+\begin{itemize}
+\item our final proof (1,000 lines of Lean, 2023): long Weierstrass model
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sketch of proof}
+
+\begin{proof}[Proof of the group law]
+\begin{enumerate}
+\item Construct a function $ E(F) \to \Cl(F[E]) $.
+\item Prove that $ E(F) \to \Cl(F[E]) $ respects addition.
+\item Prove that $ E(F) \to \Cl(F[E]) $ is injective.
+\end{enumerate}
+\vspace{-0.5cm}
+\end{proof}
+
+Here, the \textbf{ideal class group} $ \Cl(R) $ of an integral domain $ R $ is the quotient group of \emph{invertible fractional ideals} by \emph{principal fractional ideals}.
+
+\begin{example}
+Any nonzero ideal $ I \trianglelefteq R $ such that $ I \cdot J $ is principal for some ideal $ J \trianglelefteq R $ is an invertible fractional ideal of $ R $.
+\end{example}
+
+Ideal class groups were formalised in Lean's mathematical library \texttt{mathlib} by Baanen, Dahmen, Narayanan, Nuccio (2021).
+
+\bigskip \underline{\textbf{Key:}} the coordinate ring $ F[E] $ is an integral domain.
+
+\end{frame}
+
+\begin{frame}{Sketch of proof}
+
+\begin{proof}[Proof of the group law]
+\begin{enumerate}
+\item Construct a function $ E(F) \to \Cl(F[E]) $. $ \checkmark $
+\item Prove that $ E(F) \to \Cl(F[E]) $ respects addition. $ \checkmark $
+\item Prove that $ E(F) \to \Cl(F[E]) $ is injective.
+\end{enumerate}
+\vspace{-0.5cm}
+\end{proof}
+
+Consider the function \texttt{point.to\_class} given by
+$$ \functions{E(F)}{\Cl(F[E])}{\OO}{[(1)]}{(x, y)}{[(X - x, Y - y)]}. $$
+\underline{\textbf{Note:}} $ (X - x, Y - y) $ is invertible, since
+$$ (X - x, Y - y) \cdot (X - x, Y - \sigma(y)) = (X - x). $$
+The function \texttt{point.to\_class} respects addition, since
+$$ (X - x_1, Y - y_1) \cdot (X - x_2, Y - y_2) \cdot (X - x_3, Y - \sigma(y_3)) = (Y - \lambda(X - x_3) - y_3). $$
+
+\end{frame}
+
+\begin{frame}{Proof of injectivity}
+
+\begin{theorem}[Xu, 2022]
+The function \texttt{point.to\_class} is injective.
+\end{theorem}
+
+\underline{\textbf{Key:}} $ F[E] = F[X, Y] / (E(X, Y)) $ is free over $ F[X] $ with basis $ \{1, Y\} $, so it has a norm $ \Nm : F[E] \to F[X] $ given by $ \Nm(f) := \det([\cdot f]) $.
+
+\begin{lemma}[A]
+If $ f \in F[E] $, then $ \deg(\Nm(f)) \ne 1 $.
+\end{lemma}
+
+\begin{proof}[Proof of Lemma (A)]
+Let $ f = p + qY $ for $ p, q \in F[X] $. Then
+\begin{align*}
+\Nm(f) & \equiv \det\begin{pmatrix} p & q \\ q(X^3 + a_2X^2 + a_4X + a_6) & p - q(a_1X + a_3) \end{pmatrix} \\
+& = p^2 - pq(a_1X + a_3) - q^2(X^3 + a_2X^2 + a_4X + a_6).
+\end{align*}
+Then $ \deg(\Nm(f)) = \max(2\deg(p), 2\deg(q) + 3) $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Proof of injectivity}
+
+\begin{theorem}[Xu, 2022]
+The function \texttt{point.to\_class} is injective.
+\end{theorem}
+
+\underline{\textbf{Key:}} $ F[E] = F[X, Y] / (E(X, Y)) $ is free over $ F[X] $ with basis $ \{1, Y\} $, so it has a norm $ \Nm : F[E] \to F[X] $ given by $ \Nm(f) := \det([\cdot f]) $.
+
+\begin{lemma}[B]
+If $ f \in F[E] $, then $ \deg(\Nm(f)) = \dim_F(F[E] / (f)) $.
+\end{lemma}
+
+\begin{proof}[Proof of Lemma (B)]
+Multiplication by $ f $ has Smith normal form
+$$ [\cdot f] \sim \begin{pmatrix} p & 0 \\ 0 & q \end{pmatrix}, \qquad p, q \in F[X]. $$
+\vspace{-0.5cm}
+\begin{itemize}
+\item Taking determinants gives $ \Nm(f) = pq $.
+\item Taking quotients gives $ F[E] / (f) \cong F[X] / (p) \oplus F[X] / (q) $.
+\end{itemize}
+\vspace{-0.5cm}
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Proof of injectivity}
+
+\begin{theorem}[Xu, 2022]
+The function \texttt{point.to\_class} is injective.
+\end{theorem}
+
+\underline{\textbf{Key:}} $ F[E] = F[X, Y] / (E(X, Y)) $ is free over $ F[X] $ with basis $ \{1, Y\} $, so it has a norm $ \Nm : F[E] \to F[X] $ given by $ \Nm(f) := \det([\cdot f]) $.
+
+\begin{proof}[Proof of Theorem]
+Suffices to show if $ (x, y) \in E(F) $, then $ (X - x, Y - y) $ is not principal.
+
+\bigskip Suppose otherwise that $ (X - x, Y - y) = (f) $ for some $ f \in F[E] $. Then
+\vspace{-0.3cm}
+$$ F \overset{1^{\text{st}} \text{iso}}{\cong} F[X, Y] / (X - x, Y - y) \overset{3^{\text{rd}} \text{iso}}{\cong} F[E] / (X - x, Y - y) = F[E] / (f). $$
+Taking dimensions gives
+\vspace{-0.3cm}
+$$ 1 = \dim_F(F) = \dim_F(F[E] / (f)) \overset{(B)}{=} \deg(\Nm(f)) \overset{(A)}{\ne} 1. $$
+Contradiction!
+\end{proof}
+
+\end{frame}
+
+\begin{frame}[c]{Concluding retrospectives}
+
+Some thoughts:
+\begin{itemize}
+\item proof works for nonsingular points of Weierstrass curves
+\item formalisation encouraged proof accessible to undergraduates
+\item heavy use of linear algebra and ring theory in \texttt{mathlib}
+\item fully integrated to \texttt{mathlib} and even ported to \texttt{mathlib4}
+\end{itemize}
+
+\bigskip Some projects:
+\begin{itemize}
+\item division polynomials, torsion subgroups, and Tate modules
+\item elliptic curves over discrete valuation rings and the reduction map
+\item verification of computational algorithms and cryptographic protocols
+\item equivalence with scheme-theoretic definitions via Riemann--Roch
+\item elliptic curves over specific fields: finite fields, local fields, number fields, global function fields, complete fields
+\end{itemize}
+
+\end{frame}
+
+\end{document}

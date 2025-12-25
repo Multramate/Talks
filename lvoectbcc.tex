@@ -1,0 +1,154 @@
+\def\type{}
+\input{header}
+\title{L-values of elliptic curves twisted by cubic characters}
+\author{David Kurniadi Angdinata}
+\date{Wednesday, 24 April 2024}
+
+\begin{document}
+
+\maketitle
+
+\section{Motivational background}
+
+Let $ E $ be an elliptic curve over $ \Q $. Associated to $ E $ is its Hasse--Weil L-function
+$$ L(E, s) := \prod_p \dfrac{1}{\det(1 - p^{-s} \cdot \Fr_p^{-1} \mid (\rho_{E, q}^\vee)^p)}, $$
+where $ \Fr_p $ is an arithmetic Frobenius at a prime $ p $, and $ \rho_{E, q} $ is the $ q $-adic representation associated to the $ q $-adic Tate module of $ E $ for any prime $ q \ne p $. The algebraic and analytic properties of these L-functions are studied extensively in the literature, and they are the subject of many problems in the arithmetic of elliptic curves. Most notably, the Birch--Swinnerton-Dyer conjecture says that the order of vanishing $ r $ of $ L(E, s) $ at $ s = 1 $ is precisely the Mordell--Weil rank $ \rk(E) $, and its leading term is given by
+$$ \lim_{s \to 1} \dfrac{L(E, s)}{(s - 1)^r} \cdot \dfrac{1}{\Omega(E)} = \dfrac{\Tam(E) \cdot \#\Sha(E) \cdot \Reg(E)}{\#\tor(E)^2}, $$
+where $ \Omega(E) $ denotes the real period, $ \Tam(E) $ denotes the Tamagawa number, $ \Sha(E) $ denotes the Tate--Shafarevich group, $ \Reg(E) $ denotes the elliptic regulator, and $ \tor(E) $ denotes the torsion subgroup. As Tate once said, this remarkable conjecture relates the behaviour of a function $ L(E, s) $ at a point where it is not at present known to be defined, to the order of a group $ \Sha(E) $ which is not known to be finite. Since then, the modularity theorem of Taylor--Wiles shows that $ L(E, s) $ admits analytic continuation to the entire complex plane, and $ \Sha(E) $ is now known to be finite for $ r \le 1 $ thanks to the works of Gross--Zagier and Kolyvagin. For the sake of convenience, call the left hand side the algebraic L-value of $ E $, denoting it by $ \LLL(E) $, and call the right hand side the Birch--Swinnerton-Dyer quotient of $ E $, denoting it by $ \BSD(E) $.
+
+When $ E $ is base changed to a finite Galois extension $ K $ of $ \Q $, analogous quantities $ L(E / K, s) $, $ \rk(E / K) $, $ \Omega(E / K) $, $ \Tam(E / K) $, $ \Sha(E / K) $, $ \Reg(E / K) $, and $ \tor(E / K) $ can be defined to formulate a generalisation of the conjecture over $ K $. However, the modularity theorem has yet to be extended to elliptic curves beyond specific number fields, so the conjectural equality remains ill-defined in general. On the other hand, Artin's formalism for L-functions says that $ L(E / K, s) $ decomposes into a product of twisted L-functions
+$$ L(E, \rho, s) := \prod_p \dfrac{1}{\det(1 - p^{-s} \cdot \Fr_p^{-1} \mid (\rho_{E, q}^\vee \otimes \rho^\vee)^p)}, $$
+over all irreducible Artin representations $ \rho $ that factor through $ K $, so the behaviour of $ L(E / K, s) $ is completely governed by $ L(E, \rho, s) $. These twisted L-functions can in turn be analytically continued to the entire complex plane by expressing them as Rankin--Selberg convolutions of $ L(E, s) $, so the validity of the conjecture can be asked at the level of twisted L-functions. For instance, the Deligne--Gross conjecture states that the order of vanishing of $ L(E, \rho, s) $ at $ s = 1 $ is precisely the multiplicity of $ \rho $ in the Artin representation associated to $ E(K) $. Analogous to the classical leading term conjecture that $ \LLL(E) = \BSD(E) $, the twisted leading term conjecture would be a statement about a twisted algebraic L-value $ \LLL(E, \rho) $ of $ E $. For the sake of simplicity, when $ K $ is a cyclotomic extension of $ \Q $, the corresponding twisted algebraic L-value is given by
+$$ \LLL(E, \chi) := \lim_{s \to 1} \dfrac{L(E, \chi, s)}{(s - 1)^r} \cdot \dfrac{p}{\tau(\chi)\Omega(E)}, $$
+where $ \tau(\chi) $ is the Gauss sum of the primitive Dirichlet character $ \chi $ associated to $ K $. When $ E $ is semistable $ \Gamma_0 $-optimal of conductor $ N $ and $ \chi $ has prime conductor $ p \nmid N $ and order $ q > 1 $, it is known that $ \LLL(E, \chi) \in \Z[\zeta_q] $.
+
+\pagebreak
+
+\section{Known results}
+
+Unfortunately, there seems to be a barrier to formulating a twisted leading term conjecture for $ \LLL(E, \chi) $, even assuming classical leading term conjectures over general number fields. Dokchitser--Evans--Wiersema gave many explicit pairs of examples of elliptic curves $ E_1 $ and $ E_2 $ over $ \Q $, with $ \LLL(E_1, \chi) \ne \LLL(E_2, \chi) $ for some fixed Dirichlet character $ \chi $, but are arithmetically identical over the number field $ K $ cut out by $ \chi $.
+
+\begin{example}[DEW21, Example 45]
+Let $ E_1 $ and $ E_2 $ be the elliptic curves given by the Cremona labels 1356d1 and 1356f1 respectively, and let $ \chi $ be the cubic character of conductor $ 7 $ such that $ \chi(3) = \zeta_3^2 $. Then $ \BSD(E_i) = \BSD(E_i / K) = 1 $ for $ i = 1, 2 $, but $ \LLL(E_1, \chi) = \zeta_3^2 $ and $ \LLL(E_2, \chi) = -\zeta_3^2 $.
+\end{example}
+
+This phenomenon can be partially explained with the assumption of standard arithmetic conjectures. For instance, under Stevens's Manin constant conjecture and the leading term conjectures over $ \Q $ and over $ K $, Dokchitser--Evans--Wiersema expressed the norm of $ \LLL(E, \chi) $ in terms of Birch--Swinnerton-Dyer quotients.
+
+\begin{theorem}[DEW21, Theorem 38]
+Let $ E $ be a semistable $ \Gamma_0 $-optimal elliptic curve over $ \Q $ of conductor $ N $, let $ \chi $ be a primitive Dirichlet character of odd prime conductor $ p \nmid N $ and odd prime order $ q \nmid \BSD(E)\#E(\F_p) $, and let $ \zeta := \chi(N)^{(q - 1) / 2} $. Then $ \LLL(E, \chi) \cdot \zeta \in \Z[\zeta_q]^+ $, and has norm
+$$ \Nm_\Q^{\Q(\zeta_q)^+}(\LLL(E, \chi) \cdot \zeta) = \sqrt{\dfrac{\BSD(E / K)}{\BSD(E)}}. $$
+In particular, if $ \BSD(E) = \BSD(E / K) $, then there is a unit $ u \in \Z[\zeta_q]^+ $ such that $ \LLL(E, \chi) = u \cdot \zeta^{-1} $.
+\end{theorem}
+
+In the relevant case of $ \BSD(E) = \BSD(E / K) $, this predicts the ideal of $ \Q(\zeta_q)^+ $ generated by $ \LLL(E, \chi) $, but not the precise value of $ \LLL(E, \chi) $. Note that in general, the exact prime ideal factorisation of $ \LLL(E, \chi) $ can be recovered from the $ \Gal(K / \Q) $-module structure of $ \Sha(E / K) $ under stronger Iwasawa-theoretic assumptions.
+
+From a purely analytic perspective, a natural problem is to determine the asymptotic distribution of $ \LLL(E, \chi) $ as $ \chi $ varies over primitive Dirichlet characters of some fixed prime order $ q $ but arbitrarily high prime conductor $ p \nmid N $, for some fixed elliptic curve $ E $ of conductor $ N $. However, for each such $ p $, there are $ q - 1 $ primitive Dirichlet characters $ \chi $ of conductor $ p $ and order $ q $, giving rise to $ q - 1 $ conjugates of $ \LLL(E, \chi) $, so a uniform choice of $ \chi $ for each $ p $ has to be made for any meaningful analysis. One solution is to observe that the residue class of $ \LLL(E, \chi) $ modulo $ (1 - \zeta_q) $ is independent of the choice of $ \chi $, so a simpler problem would be to determine the asymptotic distribution of these residue classes instead. Let $ X_{E, q}^{< n} $ be the set of equivalence classes of primitive Dirichlet characters of odd order $ q $ and odd prime conductor $ p \nmid N $ less than $ n $, where two primitive Dirichlet characters in $ X_{E, q}^{< n} $ are equivalent if they have the same conductor. Define the residual densities $ \delta_{E, q} $ of $ \LLL(E, \chi) $ to be the natural densities of $ \LLL(E, \chi) $ modulo $ (1 - \zeta_q) $, namely
+$$ \delta_{E, q}(\lambda) := \lim_{n \to \infty} \dfrac{\#\{\chi \in X_{E, q}^{< n} : \LLL(E, \chi) \equiv \lambda \mod (1 - \zeta_q)\}}{\#X_{E, q}^{< n}}, \qquad \lambda \in \F_q, $$
+if such a limit exists. Fixing six elliptic curves $ E $ and five small orders $ q $, Kisilevsky--Nam numerically computed $ \delta_{E, q} $ by varying $ \chi $ over millions of conductors $ p $, and observed inherent biases.
+
+\begin{example}[KN22, Section 7]
+Let $ E $ be the elliptic curve given by the Cremona label 11a1. Then
+$$ \delta_{E, 3}(0) \approx \tfrac{3}{8}, \qquad \delta_{E, 3}(1) \approx \tfrac{3}{8}, \qquad \delta_{E, 3}(2) \approx \tfrac{1}{4}. $$
+\end{example}
+
+Note that their actual computational results seemingly give
+$$ \delta_{E, 3}(0) \approx \tfrac{9}{24}, \qquad \delta_{E, 3}(1) \approx \tfrac{15}{24}, \qquad \delta_{E, 3}(2) \approx \tfrac{1}{24}, $$
+but this is simply due to a difference in normalisation. Instead of considering the residual density of $ \LLL(E, \chi) $, they computed that of the norms of $ \LLL^+(E, \chi) / \gcd_{E, q} $, where
+$$ \LLL^+(E, \chi) :=
+\begin{cases}
+\LLL(E, \chi) & \text{if} \ \chi(N) = 1, \\
+\LLL(E, \chi) \cdot (1 + \overline{\chi(N)}) & \text{if} \ \chi(N) \ne 1,
+\end{cases}
+$$
+and $ \gcd_{E, q} $ is the greatest common divisor of these norms as $ \chi $ varies, which is determined empirically.
+
+\pagebreak
+
+\section{New results}
+
+I refined the result of Dokchitser--Evans--Wiersema by predicting the precise value of $ \LLL(E, \chi) $ in terms of an abstract generator of the ideal of $ \Q(\zeta_q)^+ $ generated by $ \LLL(E, \chi) $. When $ \chi $ is cubic, this can be made explicit.
+
+\begin{theorem}[Ang24, Corollary 5.2]
+Let $ E $ be a semistable $ \Gamma_0 $-optimal elliptic curve over $ \Q $ of conductor $ N $, and let $ \chi $ be a cubic primitive Dirichlet character of odd prime conductor $ p \nmid N $ such that $ 3 \nmid \BSD(E)\#E(\F_p) $. Then
+$$ \LLL(E, \chi) = u \cdot \overline{\chi(N)}\sqrt{\dfrac{\BSD(E / K)}{\BSD(E)}}, $$
+for some sign $ u = \pm1 $, chosen such that
+$$ u \equiv -\#E(\F_p)\sqrt{\dfrac{\BSD(E)^3}{\BSD(E / K)}} \mod 3. $$
+\end{theorem}
+
+This clarifies the original example given by Dokchitser--Evans--Wiersema, as well as all of their other cubic examples, in the sense that $ \LLL(E_1, \chi) \ne \LLL(E_2, \chi) $ precisely because $ \#E_1(\F_p) \not\equiv \#E_2(\F_p) \mod 3 $.
+
+\begin{example}[Ang24, Example 5.3]
+Let $ E_1 $ and $ E_2 $ be the elliptic curves given by the Cremona labels 1356d1 and 1356f1 respectively, and let $ \chi $ be the cubic character of conductor $ 7 $ such that $ \chi(3) = \zeta_3^2 $. Then $ \LLL(E_i, \chi) = u \cdot \zeta_3^2 $ for $ u \equiv -\#E_i(\F_7) \mod 3 $ for $ i = 1, 2 $, and indeed $ \#E_1(\F_7) = 11 $ and $ \#E_2(\F_7) = 7 $.
+\end{example}
+
+When $ \chi $ has order $ q > 3 $, the same proof only yields a congruence on the unit $ u \in \Z[\zeta_q]^+ $ modulo $ q $, since the group of units of $ \Z[\zeta_q]^+ $ is infinite. This does clarify all of the quintic examples given by Dokchitser--Evans--Wiersema with $ \BSD(E) = \BSD(E / K) $, in the sense that $ \LLL(E_1, \chi) \ne \LLL(E_2, \chi) $ precisely because $ \#E_1(\F_p) \not\equiv \#E_2(\F_p) \mod 5 $. Unfortunately, enforcing the congruence on $ \#E(\F_p) $ modulo $ q $ remains insufficient to determine the precise value of $ \LLL(E, \chi) $, as the following rare example shows.
+
+\begin{example}[Ang24, Remark 5.7]
+Let $ E_1 $ and $ E_2 $ be the the elliptic curves given by the Cremona labels 544b1 and 544f1 respectively, and let $ \chi $ be the quintic character of conductor $ 11 $ such that $ \chi(2) = \zeta_5 $. Then $ \BSD(E_i) = \BSD(E_i / K) = 1 $, but $ \LLL(E_1, \chi) = -\zeta_5^3 - \zeta_5 $ and $ \LLL(E_2, \chi) = -2\zeta_5^3 - 3\zeta_5^2 - 2\zeta_5 $.
+\end{example}
+
+I also classified the possible residual densities of $ \LLL(E, \chi) $ in terms of the mod-$ q^m $ representations $ \overline{\rho_{E, q^m}} $.
+
+\begin{theorem}[Ang24, Proposition 6.1]
+Let $ E $ be a semistable $ \Gamma_0 $-optimal elliptic curve over $ \Q $ such that $ L(E, 1) \ne 0 $, and let $ q $ be an odd prime. If $ \ord_q(\BSD(E)) > 0 $, then $ \delta_{E, q}(0) = 1 $ and $ \delta_{E, q}(\lambda) = 0 $ for any $ \lambda \in \F_q^\times $. Otherwise, for any $ \lambda \in \F_q $,
+$$ \delta_{E, q}(\lambda) = \dfrac{\#\{M \in G_{E, q^m} : 1 + \det(M) - \tr(M) \equiv -\lambda\BSD(E)^{-1} \mod q^m\}}{\#G_{E, q^m}}, $$
+where $ m := 1 - \ord_q(\BSD(E)) $ and $ G_{E, q^m} := \{M \in \im\overline{\rho_{E, q^m}} : \det(M) \equiv 1 \mod q\} $, and furthermore if $ \overline{\rho_{E, q}} $ is surjective, then for any $ \lambda \in \F_q $,
+$$ \delta_{E, q}(\lambda) =
+\begin{cases}
+\tfrac{1}{q - 1} & \text{if} \ \lambda_{E, q} = 1, \\
+\tfrac{q}{q^2 - 1} & \text{if} \ \lambda_{E, q} = 0, \\
+\tfrac{1}{q + 1} & \text{if} \ \lambda_{E, q} = -1,
+\end{cases}
+\qquad \lambda_{E, q} := \left(\dfrac{\lambda\BSD(E)^{-1}}{q}\right)\left(\dfrac{\lambda\BSD(E)^{-1} + 4}{q}\right). $$
+\end{theorem}
+
+When $ \chi $ is cubic, this can be made very explicit.
+
+\begin{theorem}[Ang24, Theorem 6.4]
+Let $ E $ be a semistable $ \Gamma_0 $-optimal elliptic curve over $ \Q $ such that $ L(E, 1) \ne 0 $. Then there is an explicit algorithm to determine the ordered triple $ (\delta_{E, 3}(0), \delta_{E, 3}(1), \delta_{E, 3}(2)) $ in terms of only $ \BSD(E) $ and $ \im\overline{\rho_{E, 9}} $. In particular, they can only be one of
+$$ (1, 0, 0), \ (\tfrac{3}{8}, \tfrac{3}{8}, \tfrac{1}{4}), \ (\tfrac{3}{8}, \tfrac{1}{4}, \tfrac{3}{8}), \ (\tfrac{1}{2}, \tfrac{1}{2}, 0), \ (\tfrac{1}{2}, 0, \tfrac{1}{2}), \ (\tfrac{1}{8}, \tfrac{3}{4}, \tfrac{1}{8}), $$
+$$ (\tfrac{1}{8}, \tfrac{1}{8}, \tfrac{3}{4}), \ (\tfrac{1}{4}, \tfrac{1}{2}, \tfrac{1}{4}), \ (\tfrac{1}{4}, \tfrac{1}{4}, \tfrac{1}{2}), \ (\tfrac{5}{9}, \tfrac{2}{9}, \tfrac{2}{9}), \ (\tfrac{1}{3}, \tfrac{2}{3}, 0), \ (\tfrac{1}{3}, 0, \tfrac{2}{3}). $$
+\end{theorem}
+
+This algorithm is in the form of two tables and will be omitted for brevity, but ultimately does recover the predicted residual densities in the six examples of Kisilevsky--Nam.
+
+\pagebreak
+
+\section{Proof ingredients}
+
+The proofs of all of these results crucially rely on the following fundamental congruence.
+
+\begin{theorem}[Ang24, Corollary 3.7]
+Let $ E $ be a semistable $ \Gamma_0 $-optimal elliptic curve of conductor $ N $, and let $ \chi $ be a primitive Dirichlet character of odd prime conductor $ p \nmid N $ and order $ q > 1 $. Then
+$$ \LLL(E, \chi) \equiv -\LLL(E)\#E(\F_p) \mod (1 - \zeta_q). $$
+\end{theorem}
+
+This is a consequence of writing $ L(E, 1) $ and $ L(E, \chi, 1) $ as sums of modular symbols
+$$ \mu_E(q) := \int_0^q 2\pi if(z)\d z, $$
+where $ f $ is the normalised cuspidal eigenform associated to $ E $ by the modularity theorem. Specifically, the Hecke action on the space of modular symbols and a modification of Birch's formula respectively give
+$$ -L(E, 1)\#E(\F_p) = \sum_{a = 1}^{p - 1} \mu_E(\tfrac{a}{p}), \qquad L(E, \chi, 1) = \dfrac{\tau(\chi)}{n}\sum_{a = 1}^{p - 1} \overline{\chi(a)}\mu_E(\tfrac{a}{p}). $$
+By Manin's formalism for modular symbols, it turns out that $ \mu_E(q) + \mu_E(1 - q) $ is an integer multiple of $ \Omega(E) $ for any $ q \in \Q $, so the modular symbols in both expressions can be paired up and normalised accordingly to give an expression for $ -\LLL(E)\#E(\F_p) $ in $ \Z $ and an expression for $ \LLL(E, \chi) $ in $ \Z[\zeta_q] $. The congruence then follows immediately by comparing both integral expressions, noting that $ \overline{\chi(a)} \equiv 1 \mod (1 - \zeta_q) $.
+
+This essentially proves the algebraic result, while the analytic results require more work. As the conductor $ p $ of $ \chi $ varies over odd primes congruent to $ 1 $ modulo the order $ q $ of $ \chi $, the congruence says that $ \LLL(E, \chi) $ varies according to $ \#E(\F_p) = 1 + \det(\rho_{E, q}(\Fr_p)) - \tr(\rho_{E, q}(\Fr_p)) $ modulo $ q $. On the other hand, $ \rho_{E, q}(\Fr_p) $ varies over $ G_{E, q^\infty} := \{M \in \im\rho_{E, q} : \det(M) \equiv 1 \mod q\} $, but Chebotarev's density theorem says that this is asymptotically uniformly distributed. It turns out that it suffices to compute densities in the finite group $ G_{E, q^m} $ rather than the infinite group $ G_{E, q^\infty} $, and $ m $ is bounded above by the following general result.
+
+\begin{theorem}[Ang24, Theorem 4.4]
+Let $ E $ be a semistable $ \Gamma_0 $-optimal elliptic curve over $ \Q $ such that $ L(E, 1) \ne 0 $, and let $ q $ be an odd prime. Then $ \ord_q(\LLL(E)) \ge -1 $ assuming the Birch--Swinnerton-Dyer conjecture. If $ E $ has no rational $ q $-isogeny, then $ \ord_q(\LLL(E)) \ge 0 $ unconditionally.
+\end{theorem}
+
+The proof of this turned out to be quite subtle, involving many cases using a multitude of recent results. Mazur's torsion theorem first reduces this to a finite number of cases depending on $ \tor(E) $, and all of which can be dealt with by Lorenzini's theorem on cancellations between torsion and Tamagawa numbers [Lor11, Proposition 1.1], except for when $ q = 3 $ and $ \tor(E) \cong \Z / 3\Z $. The proof of this last case follows from an application of Tate's algorithm, the aforementioned integrality of $ \LLL(E)\#E(\F_p) $, and a case-by-case analysis on the possible mod-$ 3 $ and $ 3 $-adic Galois images of $ E $ classified by Rouse--Sutherland--Zureick-Brown [RSZB22, Corollary 1.3.1 and Corollary 12.3.3]. The analytic results can then be derived by computing the densities of $ \rho_{E, 3}(\Fr_p) $ in all possible finite groups $ G_{E, 3} $ and $ G_{E, 9} $ given by the same classification.
+
+Finally, note that all hypotheses that $ E $ is semistable $ \Gamma_0 $-optimal can be weakened by considering Manin constants, which is possible thanks to \v Cesnavi\v cius's theorem on Manin constants [Ces18, Theorem 1.2].
+
+\section*{References}
+
+\begin{itemize}
+\item[Ang24] D Angdinata (2024) L-values of elliptic curves twisted by cubic characters
+\item[Ces18] K \v Cesnavi\v cius (2018) The Manin constant in the semistable case
+\item[DEW21] V Dokchitser, R Evans, and H Wiersema (2021) On a BSD-type formula for L-values
+of Artin twists of elliptic curves
+\item[KN22] H Kisilevsky and J Nam (2022) Small algebraic central values of twists of elliptic L-functions
+\item[Lor11] D Lorenzini (2011) Torsion and Tamagawa numbers
+\item[RSZB22] J Rouse, A Sutherland, and D Zureick-Brown (2022) $ \ell $-adic images of Galois for elliptic curves over $ \Q $
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,298 @@
+\input{header}
+\title{The group law on an elliptic curve \footnote{Angdinata, David Kurniadi and Xu, Junyan. \emph{An Elementary Formal Proof of the Group Law on Weierstrass Elliptic Curves in Any Characteristic}. Fourteenth International Conference on Interactive Theorem Proving (ITP 2023)}}
+\subtitle{Postgraduate seminar}
+\author{David Kurniadi Angdinata}
+\institute{University College London}
+\date{Thursday, 5 October 2023}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Introduction}
+
+Pedagogical question:
+\begin{itemize}
+\item Is there an \emph{elementary} proof of the group law on \emph{any} elliptic curve?
+\end{itemize}
+
+\bigskip Status quo:
+\begin{itemize}
+\item Yes. But it depends on what is considered \emph{elementary}.
+\end{itemize}
+
+\bigskip Our answer:
+\begin{itemize}
+\item Yes. And we formalised the argument in the \emph{Lean theorem prover}.
+\end{itemize}
+
+\bigskip Talk overview:
+\begin{itemize}
+\item What is an elliptic curve?
+\item Why is it a group?
+\item Where is the problem then?
+\item How did we do it?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Elliptic curves}
+
+An \textbf{elliptic curve} over a field $ F $ is a pair $ (E, 0) $, where
+\begin{itemize}
+\item $ E $ is a \emph{smooth projective curve} of \emph{genus one} defined over $ F $, and
+\item $ 0 $ is a distinguished point on $ E $ defined over $ F $.
+\end{itemize}
+
+\bigskip They are the simplest non-trivial objects in arithmetic geometry.
+\begin{itemize}
+\item Wiles proved \emph{Fermat's last theorem} by drawing a correspondence between certain elliptic curves and certain \emph{modular forms}.
+\item The \emph{Birch and Swinnerton-Dyer conjecture} predicts the behaviour of the \emph{L-function} of an elliptic curve based on its arithmetic invariants.
+\end{itemize}
+
+\bigskip Outside pure mathematics, they see many computational applications.
+\begin{itemize}
+\item Intractability of the \emph{discrete logarithm problem} for elliptic curves forms the basis behind many public key cryptographic protocols.
+\item The \emph{Atkin--Morain primality test} and \emph{Lenstra's factorisation method} use elliptic curves and are two of the fastest known algorithms.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Elliptic curves}
+
+An \textbf{elliptic curve} over a field $ F $ is a pair $ (E, 0) $, where
+\begin{itemize}
+\item $ E $ is a \emph{smooth projective curve} of \emph{genus one} defined over $ F $, and
+\item $ 0 $ is a distinguished point on $ E $ defined over $ F $.
+\end{itemize}
+
+\begin{theorem}[long Weierstrass model]
+Any elliptic curve $ E $ over $ F $ can be given by $ E(X, Y) = 0 $, where
+$$ E(X, Y) := Y^2 + a_1XY + a_3Y - (X^3 + a_2X^2 + a_4X + a_6), $$
+for some $ a_i \in F $ such that $ \Delta \ne 0 $, \footnote{\tiny $ \Delta := -(a_1^2 + 4a_2)^2(a_1^2a_6 + 4a_2a_6 - a_1a_3a_4 + a_2a_3^2 - a_4^2) - 8(2a_4 + a_1a_3)^3 - 27(a_3^2 + 4a_6)^2 + 9(a_1^2 + 4a_2)(2a_4 + a_1a_3)(a_3^2 + 4a_6) $} with $ 0 $ being the ``point at infinity''.
+\end{theorem}
+
+\begin{proof}
+Follows from the \emph{Riemann--Roch theorem} in algebraic geometry.
+\end{proof}
+
+If $ \ch(F) \ne 2, 3 $, then $ E $ has a \textbf{short Weierstrass model}, where
+$$ E(X, Y) := Y^2 - (X^3 + aX + b), $$
+for some $ a, b \in F $ such that $ \Delta = -16(4a^3 + 27b^2) \ne 0 $.
+
+\end{frame}
+
+\begin{frame}{Group law}
+
+\begin{theorem}[the group law]
+The points of an elliptic curve form an abelian group, where the identity element is $ 0 $, and the addition law is characterised by
+$$ P + Q + R = 0 \qquad \iff \qquad P, Q, R \ \text{are collinear}. $$
+\end{theorem}
+
+If $ R = 0 $, then this translates to $ P + Q = 0 $ if and only if the line through $ P $ and $ Q $ is vertical. Thus negation can be given by
+$$ -(x, y) := (x, -y - a_1x - a_3). $$
+Define an affine involution given by
+$$ \sigma(Y) := -Y - a_1X - a_3. $$
+Note that in the \textbf{coordinate ring} $ F[E] := F[X, Y] / (E(X, Y)) $,
+$$ -(Y \cdot \sigma(Y)) = Y^2 + a_1XY + a_3Y \equiv X^3 + a_2X^2 + a_4X + a_6. $$
+
+\end{frame}
+
+\begin{frame}{Group law}
+
+\begin{theorem}[the group law]
+The points of an elliptic curve form an abelian group, where the identity element is $ 0 $, and the addition law is characterised by
+$$ P + Q + R = 0 \qquad \iff \qquad P, Q, R \ \text{are collinear}. $$
+\end{theorem}
+
+Addition can be given by $ (x_1, y_1) + (x_2, y_2) := -(x_3, y_3) $. Here,
+\begin{align*}
+\lambda & :=
+\begin{cases}
+\dfrac{y_1 - y_2}{x_1 - x_2} & \text{if} \ x_1 \ne x_2, \\[0.1cm]
+\dfrac{3x_1^2 + 2a_2x_1 + a_4 - a_1y_1}{y_1 - \sigma(y_1)} & \text{if} \ y_1 \ne \sigma(y_1), \\
+\infty & \text{otherwise},
+\end{cases} \\
+x_3 & := \lambda^2 + a_1\lambda - a_2 - x_1 - x_2, \\
+y_3 & := \lambda(x_3 - x_1) + y_1.
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Hard problem}
+
+One may attempt to prove the axioms directly.
+\begin{itemize}
+\item Identity: $ 0 + P = P = P + 0 $ is trivial.
+\item Inverses: $ (-P) + P = 0 = P + (-P) $ is easy.
+\item Commutativity: $ P + Q = Q + P $ is easy.
+\item Associativity: $ (P + Q) + R = P + (Q + R) $ seems impossible?
+
+\bigskip Recall that each addition operation has five cases!
+
+\bigskip In the generic case, \footnote{$ P $, $ Q $, $ R $, $ P + Q $, $ P + R $, and $ Q + R $ are affine and have distinct $ X $-coordinates} checking that their $ X $-coordinates are equal is an equality of polynomials with 26,082 terms.
+
+\bigskip In the short Weierstrass model, this reduces to 2,636 terms.
+
+\bigskip Automation in an interactive theorem prover enables manipulation of multivariate polynomials with at most 5,000 terms.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Hard problem}
+
+Associativity is known to be mathematically difficult with many proofs.
+\begin{itemize}
+\item[Pf 1.] Just do it. \\
+Polynomial manipulation, but impossibly slow and many cases.
+\item[Pf 2.] Count dimensions. \\
+Projective geometry (\emph{Cayley--Bacharach}), but only works generically.
+\end{itemize}
+One may instead identify the set of points $ E(F) $ with a known group $ G $.
+\begin{itemize}
+\item[Pf 3.] $ G = \C / \Lambda_E $. \\
+Riemann surfaces (\emph{uniformisation}), but only works for $ \ch(F) = 0 $.
+\item[Pf 4.] $ G = \Pic_F^0(E) $. \\
+Algebraic geometry (\emph{Riemann--Roch}) in general. \\
+Ring theory (\emph{Fermat descent}), but only works for $ \ch(F) \ne 2 $.
+\end{itemize}
+Undergraduate courses typically teach Pf 2 (assuming genericity), Pf 3 (assuming uniformisation), or Pf 4 (assuming Riemann--Roch).
+
+\bigskip Existing interactive theorem provers have used Pf 1 (Th\'ery 2007) or Pf 4 (Bartzia--Strub 2014), both assuming the short Weierstrass model.
+
+\end{frame}
+
+\begin{frame}{Algebraic analogue}
+
+Let us examine the argument for Pf 3 and Pf 4 in more detail.
+
+\bigskip To identify $ E(F) $ with \emph{a subgroup of} $ G $ is to
+\begin{itemize}
+\item define a function $ \phi : E(F) \to G $,
+\item prove that $ \phi $ respects addition, and
+\item prove that $ \phi $ is injective.
+\end{itemize}
+
+\bigskip Pf 4 sets $ G = \Pic_F^0(E) $, and
+$$ \phi \ \text{is injective} \qquad \iff \qquad \text{there is no isomorphism} \ E \xrightarrow{\sim} \P^1, $$
+which follows from isomorphism invariance of the \emph{genus}.
+
+\bigskip Our proof sets $ G = \Cl(F[E]) $, and
+$$ \phi \ \text{is injective} \qquad \iff \qquad \text{an ideal of} \ F[E] \ \text{is not principal}, $$
+which is just a statement in ring theory.
+
+\end{frame}
+
+\begin{frame}{Algebraic analogue}
+
+The group $ \Cl(F[E]) $ is the \emph{ideal class group} of the coordinate ring
+$$ F[E] := F[X, Y] / (E(X, Y)). $$
+\underline{Exercise (easy)}: $ F[E] $ is an integral domain.
+
+\bigskip For any integral domain $ R $, the \textbf{ideal class group} $ \Cl(R) $ is the quotient group of \emph{invertible fractional ideals} by those that are \emph{principal}.
+\begin{itemize}
+\item A submodule $ I $ is a \textbf{fractional ideal} if $ \exists r \in R $ such that $ r \cdot I \subseteq R $.
+\item $ I $ is \textbf{invertible} if there is a fractional ideal $ J $ such that $ I \cdot J = R $.
+\item $ I $ is \textbf{principal} if $ \exists r, s \in R $ such that $ r \cdot I = (s) $.
+\end{itemize}
+\underline{Exercise (hard)}: $ \Cl(R) $ is an abelian group.
+
+\bigskip
+
+\begin{example}[of invertible fractional ideals]
+Any nonzero ideal $ I $ such that $ I \cdot J $ is principal for some ideal $ J $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Algebraic analogue}
+
+\begin{proof}[Pf 5 (A.--Xu)]
+\renewcommand\qedsymbol{}
+\begin{itemize}
+\item Define a function $ \phi : E(F) \to \Cl(F[E]) $. This will be
+$$ \functions[\phi]{E(F)}{\Cl(F[E])}{0}{[(1)]}{(x, y)}{[(X - x, Y - y)]}. $$
+Note that $ \phi $ is well-defined since
+$$ (X - x, Y - y) \cdot (X - x, Y - \sigma(y)) = (X - x). $$
+\item Prove that $ \phi $ respects addition. This holds since
+$$ (X - x_1, Y - y_1) \cdot (X - x_2, Y - y_2) \cdot (X - x_3, Y - \sigma(y_3)) \qquad $$
+$$ \qquad = ((Y - y_3) - \lambda(X - x_3)). $$
+\item Prove that $ \phi $ is injective. $ \square $
+\end{itemize}
+\vspace{-0.5cm}
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Injectivity proof}
+
+Note that $ F[E] $ is free over $ F[X] $ with basis $ \{1, Y\} $. Thus it has a \textbf{norm}
+$$ \function[\Nm]{F[E]}{F[X]}{f}{\det([\cdot f])}. $$
+
+\begin{example}[of norms]
+Recall that $ Y \cdot Y \equiv -(a_1X + a_3) \cdot Y + (X^3 + a_2X^2 + a_4X + a_6) $. Then
+\begin{align*}
+\Nm(Y) & \equiv \det\begin{pmatrix} 0 & 1 \\ X^3 + a_2X^2 + a_4X + a_6 & -(a_1X + a_3) \end{pmatrix} \\
+& = X^3 + a_2X^2 + a_4X + a_6.
+\end{align*}
+\end{example}
+
+In general, if $ f = p + qY \in F[E] $ for some $ p, q \in F[X] $,
+$$ \Nm(f) = p^2 - pq(a_1X + a_3) - q^2(X^3 + a_2X^2 + a_4X + a_6). $$
+This has degree $ \max(2\deg(p), 2\deg(q) + 3) \ne 1 $.
+
+\end{frame}
+
+\begin{frame}{Injectivity proof}
+
+Note that $ F[E] $ is free over $ F[X] $ with basis $ \{1, Y\} $. Thus it has a \textbf{norm}
+$$ \function[\Nm]{F[E]}{F[X]}{f}{\det([\cdot f])}. $$
+Now $ [\cdot f] $ has a Smith normal form
+$$ [\cdot f] \sim \begin{pmatrix} p & 0 \\ 0 & q \end{pmatrix}, \qquad p, q \in F[X]. $$
+On one hand, $ F[E] / (f) \cong F[X] / (p) \oplus F[X] / (q) $. Then
+$$ \dim(F[E] / (f)) = \deg(p) + \deg(q). $$
+On the other hand, $ \Nm(f) = pq $. Then
+$$ \deg(\Nm(f)) = \deg(p) + \deg(q). $$
+Combining these with $ \deg(\Nm(f)) \ne 1 $ yields $ \dim(F[E] / (f)) \ne 1 $.
+
+\end{frame}
+
+\begin{frame}{Injectivity proof}
+
+\begin{proof}[Pf 5 (A.--Xu)]
+\renewcommand\qedsymbol{}
+\begin{itemize}
+\item Define a function $ \phi : E(F) \to \Cl(F[E]) $.
+\item Prove that $ \phi $ respects addition.
+\item Prove that $ \phi $ is injective. It suffices to show that $ (X - x, Y - y) $ is not principal for any $ (x, y) \in E(F) $. Suppose otherwise, that
+$$ (X - x, Y - y) = (f), \qquad f \in F[E]. $$
+Then
+\begin{align*}
+F[E] / (f)
+& = F[E] / (X - x, Y - y) \\
+& \cong F[X, Y] / (E(X, Y), X - x, Y - y) & \text{3\textsuperscript{rd} iso thm} \\
+& = F[X, Y] / (X - x, Y - y) & (x, y) \in E(F) \\
+& \cong F & \text{1\textsuperscript{st} iso thm}.
+\end{align*}
+Since $ \dim(F) = 1 $, this contradicts $ \dim(F[E] / (f)) \ne 1 $! $ \square $
+\end{itemize}
+\vspace{-0.5cm}
+\end{proof}
+
+\end{frame}
+
+\begin{frame}[c]{Conclusions}
+
+Some retrospectives:
+\begin{itemize}
+\item formalisation encouraged proof accessible to undergraduates
+\item novel injectivity proof and novel formalisation
+\item proof works for \emph{nonsingular} points of \emph{Weierstrass} curves
+\item heavy use of linear algebra and ring theory in Lean's \texttt{mathlib}
+\item generality of ideal class groups of integral domains
+\item plans for many more formalisation projects!
+\end{itemize}
+
+\end{frame}
+
+\end{document}

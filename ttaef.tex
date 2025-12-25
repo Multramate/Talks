@@ -1,0 +1,374 @@
+\input{header}
+\title{Tate's thesis \footnote{Tate (1950) \emph{Fourier analysis in number fields and Hecke's zeta-functions}} and epsilon factors}
+\subtitle{Galois representations and root numbers}
+\author{David Kurniadi Angdinata}
+\institute{University College London}
+\date{Tuesday, 22 November 2022}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Overview}
+
+Consider the Riemann $ \zeta $-function
+$$ \zeta(s) := \sum_{n \in \N^+} \dfrac{1}{n^s}. $$
+
+\begin{theorem}[Riemann (1859)]
+$ \zeta(s) $ has an analytic continuation to $ \C $ with simple poles at $ s = 0, 1 $ and satisfies a functional equation $ Z(s) = Z(1 - s) $ where
+$$ Z(s) := \pi^{-\tfrac{s}{2}}\Gamma\left(\dfrac{s}{2}\right) \cdot \zeta(s). $$
+\vspace{-0.5cm}
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Write $ Z(s) $ as a real integral of the theta series $ \Theta(z) := \sum_{n \in \Z} e^{-\pi n^2z} $. The Poisson summation formula for $ \Z \subset \R $ relates $ \Theta(z) $ and $ \Theta(1 / z) $.
+\end{proof}
+
+\bigskip Can you generalise this to a number field $ K $?
+
+\end{frame}
+
+\begin{frame}{Overview}
+
+Consider the Dedekind $ \zeta $-function
+$$ \zeta_K(s) := \sum_{0 \ne I \trianglelefteq \OO_K} \dfrac{1}{\Nm(I)^s}. $$
+
+\begin{theorem}[Hecke (1917)]
+$ \zeta_K(s) $ has an analytic continuation to $ \C $ with simple poles at $ s = 0, 1 $ and satisfies a functional equation $ Z_K(s) = Z_K(1 - s) $ where
+$$ Z_K(s) := |\Delta_K|^{\tfrac{s}{2}} \cdot \left(\pi^{-\tfrac{s}{2}}\Gamma\left(\dfrac{s}{2}\right)\right)^{r_1} \cdot \left(2(2\pi)^{-s}\Gamma(s)\right)^{r_2} \cdot \zeta_K(s). $$
+\vspace{-0.5cm}
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+Write $ Z_K(s) $ as a real integral of a generalised theta series $ \Theta_K(s) $ and apply the Poisson summation formula for a lattice in $ \R^n $.
+\end{proof}
+
+\bigskip Can you explain the $ \Gamma $-factors in the functional equation? Can you generalise this to $ L $-functions $ L(\chi, s) $ twisted by characters?
+
+\end{frame}
+
+\begin{frame}{Overview}
+
+Tate (1950) answered both questions by giving a different proof of this. Idea: lift $ \zeta_K(s) $ or $ L(\chi, s) $ into global $ \zeta $-integrals over the locally compact topological group of id\`eles $ \A_K^\times $ and apply techniques of Fourier analysis.
+
+\bigskip Note that there is an Euler product
+$$ Z_K(s) = |\Delta_K|^{\tfrac{s}{2}} \cdot \left(\pi^{-\tfrac{s}{2}}\Gamma\left(\dfrac{s}{2}\right)\right)^{r_1} \cdot \left(2(2\pi)^{-s}\Gamma(s)\right)^{r_2} \cdot \prod_{v \in V_K^f} \left(\sum_{n = 0}^\infty q_v^{-ns}\right), $$
+where $ V_K^f $ is the set of primes of $ K $. On the other hand,
+$$ \A_K^\times = (\R^\times)^{r_1} \times (\C^\times)^{r_2} \times \overline{\prod_{v \in V_K^f}} K_v^\times. $$
+Idea: the global $ \zeta $-integral over $ \A_K^\times $ is the product of local $ \zeta $-integrals over $ K_v^\times $, and the $ \Gamma $-factors are local $ \zeta $-integrals at the archimedean places.
+
+\end{frame}
+
+\begin{frame}{Local theory --- Fourier analysis}
+
+Let $ F $ be a completion of a number field $ K_v $, so $ F / \R $ or $ F / \Q_p $.
+
+\bigskip For $ F = \R $, the Fourier transform
+$$ \widehat{f}(y) = \int_{-\infty}^\infty e^{-2\pi ixy}f(x)\d x $$
+has three components. These are
+\begin{itemize}
+\item the integrable function $ f $,
+\item the Lebesgue measure $ \d x $, and
+\item the additive factor $ e^{-2\pi ixy} $.
+\end{itemize}
+
+\bigskip Each of these can be generalised for $ F = \C $ and $ F / \Q_p $.
+
+\end{frame}
+
+\begin{frame}{Local theory --- Haar measures}
+
+A locally compact topological group $ G $ can be endowed with a translation-invariant \textbf{Haar measure} $ \mu_G = \int \d_Gx $ unique up to scaling.
+
+\begin{examples}
+\begin{itemize}
+\item Let $ \d_\R x := \d x $ be the Lebesgue measure, and let $ \d_{\R^\times}x := \d_\R x / |x|_\R $.
+\item Let $ \d_\C(x + iy) := 2\d x\d y $ be twice the Lebesgue measure, and let $ \d_{\C^\times}z := \d_\C z / |z|_\C $.
+\item Normalise $ \d_{\Q_p}x $ such that $ \mu_{\Q_p}(\Z_p) := 1 $, so that
+$$ \mu_{\Q_p}(a + p^n\Z_p) = \mu_{\Q_p}(p^n\Z_p) = p^{-n}\mu_{\Q_p}(\Z_p) = p^{-n}, $$
+for all $ a \in \Q_p $, and let
+$$ \d_{\Q_p^\times}x := \dfrac{1}{1 - p^{-1}}\dfrac{\d_{\Q_p}x}{|x|_v}, $$
+so that $ \mu_{\Q_p^\times}(\Z_p^\times) = 1 $. If $ G / \Q_p $, then $ \mu_G $ and $ \mu_{G^\times} $ should account for the valuation $ \delta_v $ of the different ideal $ \DD_{G / \Q_p} \trianglelefteq \OO_G $.
+\end{itemize}
+\end{examples}
+
+\end{frame}
+
+\begin{frame}{Local theory --- Schwartz--Bruhat functions}
+
+What do you integrate over $ F^\times $? \textbf{Schwartz--Bruhat} functions $ F \to \C $.
+\begin{itemize}
+\item If $ F = \R $, this is a function such that for all $ n \in \N $ and $ m \in \N $,
+$$ \lim_{|x| \to \infty} \left(|x|^n\left|\dfrac{\d^mf}{\d x^m}\right|\right) = 0. $$
+\end{itemize}
+
+\begin{example}
+Let $ f(x) = f_0(x) := e^{-\pi x^2} $. Then
+\begin{align*}
+\int_{\R^\times} f(x)|x|_\R^s\d_{\R^\times}x
+& = 2\int_0^\infty e^{-\pi x^2}x^s \ \dfrac{\d x}{x} \\
+& = \int_0^\infty e^{-y}\left(\dfrac{y}{\pi}\right)^{\tfrac{s}{2}} \ \dfrac{\d y}{y} & y = \pi x^2 \\
+& = \pi^{-\tfrac{s}{2}}\Gamma\left(\dfrac{s}{2}\right) \\
+& =: \Gamma_\R(s).
+\end{align*}
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Local theory --- Schwartz--Bruhat functions}
+
+What do you integrate over $ F^\times $? \textbf{Schwartz--Bruhat} functions $ F \to \C $.
+\begin{itemize}
+\item If $ F = \C $, this is a function such that for all $ n \in \N $ and $ m_1, m_2 \in \N $,
+$$ \lim_{|x + iy| \to \infty} \left(|x + iy|_\C^n\left|\dfrac{\partial^{m_1 + m_2}f}{\partial x^{m_1}\partial y^{m_2}}\right|_\C\right) = 0. $$
+\end{itemize}
+
+\begin{example}
+Let $ f(z) = f_0(z) := \tfrac{1}{\pi}e^{-2\pi z\overline{z}} $. Then
+\begin{align*}
+\int_{\C^\times} f(z)|z|_\C^s\d_{\C^\times}z
+& = \dots \\
+& = 2(2\pi)^{-s}\Gamma(s) \\
+& =: \Gamma_\C(s).
+\end{align*}
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Local theory --- Schwartz--Bruhat functions}
+
+What do you integrate over $ F^\times $? \textbf{Schwartz--Bruhat} functions $ F \to \C $.
+\begin{itemize}
+\item If $ F = K_v / \Q_p $, this is a linear combination of characteristic functions
+$$ \I_{a + \pi_v^n\OO_v}(x) =
+\begin{cases}
+1 & \text{if} \ x \in a + \pi_v^n\OO_v, \\
+0 & \text{if} \ x \notin a + \pi_v^n\OO_v,
+\end{cases}
+$$
+\end{itemize}
+
+\begin{example}
+Let $ f(x) = f_0(x) := \I_{\Z_p}(x) $. Then
+\begin{align*}
+\int_{\Q_p^\times} f(x)|x|_p^s\d_{\Q_p^\times}x
+& = \dfrac{1}{1 - p^{-1}}\int_{\Z_p} |x|_p^s\dfrac{\d_{\Q_p}x}{|x|_p} \\
+& = \sum_{n = 0}^\infty \dfrac{p^{n - ns}}{1 - p^{-1}}\int_{p^n\Z_p \setminus p^{n + 1}\Z_p}\d_{\Q_p}x
+= \sum_{n = 0}^\infty p^{-ns}.
+\end{align*}
+If $ F / \Q_p $, let $ f_0(x) := \I_{\OO_F}(x) $ instead.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Local theory --- additive characters}
+
+A Schwartz--Bruhat function $ f : F \to \C $ has a Fourier transform
+$$ \widehat{f}(y) := \int_F \psi_F(xy)f(x)\d_Fx, $$
+where $ \psi_F : F \to \C $ is an \textbf{additive character}.
+\begin{itemize}
+\item If $ F = \R $, then $ \psi_\R(x) := e^{-2\pi ix} $.
+\item If $ F = \C $, then $ \psi_\C(z) := e^{-2\pi i(z + \overline{z})} $.
+\item If $ F = \Q_p $, then $ \psi_{\Q_p}(x) := e^{2\pi iy} $, where $ y \in \Z[p^{-1}] $ is such that $ x \in y + \Z_p $. If $ F / \Q_p $, apply the trace $ \tr : F \to \Q_p $ first.
+\end{itemize}
+
+\bigskip These are defined in such a way so that the Fourier inversion formula $ \widehat{\widehat{f}}(x) = f(-x) $ holds, giving a duality between $ \psi_F $ and $ \d_Fx $. Indeed $ \widehat{\widehat{f_0}} = f_0 $, which is necessary in the Poisson summation formula.
+
+\end{frame}
+
+\begin{frame}{Local theory --- $ \zeta $-integrals}
+
+Let $ f : F \to \C $ be a Schwartz--Bruhat function, and let $ \chi : F^\times \to \C^\times $ be a multiplicative character. The \textbf{local $ \zeta $-integral} is defined to be
+$$ \zeta_F(f, \chi) := \int_{F^\times} f(x)\chi(x)\d_{F^\times} x, $$
+which is independent of the dual pair $ (\psi_F, \d_Fx) $.
+
+\begin{theorem}[Functional equation for the local $ \zeta $-integral]
+There is a meromorphic function $ L_F : \Hom(F^\times, \C^\times) \to \C^\times $ and a holomorphic function $ \epsilon_F : \Hom(F^\times, \C^\times) \to \C^\times $ such that
+$$ \dfrac{\zeta_F(\widehat{f}, \chi^{-1}|\cdot|_F)}{L_F(\chi^{-1}|\cdot|_F)} = \epsilon_F(\chi)\dfrac{\zeta_F(f, \chi)}{L_F(\chi)}. $$
+\end{theorem}
+
+Here $ L_F(\chi) $ is the \textbf{local $ L $-factor} and $ \epsilon_F(\chi) $ is the \textbf{local $ \epsilon $-factor}, which are both independent of the choice of $ f $. The \textbf{local root number} is then defined to be $ w_F(\chi) := \epsilon_F(\chi) / |\epsilon_F(\chi)| \in U(1) $.
+
+\end{frame}
+
+\begin{frame}{Local theory --- $ \epsilon $-factors}
+
+Determine multiplicative characters $ \chi : F^\times \to \C^\times $ completely.
+\begin{itemize}
+\item Let $ F = \R $. Then
+$$ \chi(x) = \eta(x)|x|_\R^s, \qquad \eta \in \{1, \sgn\}. $$
+\vspace{-0.5cm}
+\begin{itemize}
+\item If $ \eta = 1 $, set $ f(x) := f_0(x) = e^{-\pi x^2} $ and $ L_\R(\chi) := \Gamma_\R(s) $. \\
+Then compute $ \epsilon_\R(\chi) = 1 $.
+\item If $ \eta = \sgn $, set $ f(x) := xe^{-\pi x^2} $ and $ L_\R(\chi) := \Gamma_\R(s + 1) $. \\
+Then compute $ \epsilon_\R(\chi) = -i $.
+\end{itemize}
+\item Let $ F = \C $. Then
+$$ \chi(z) = (z / \sqrt{z\overline{z}})^n|z|_\C^s, \qquad n \in \Z. $$
+\vspace{-0.5cm}
+\begin{itemize}
+\item If $ n = 0 $, set $ f(z) := f_0(z) = \tfrac{1}{\pi}e^{-2\pi z\overline{z}} $ and $ L_\C(\chi) := \Gamma_\C(s) $. \\
+Then compute $ \epsilon_\C(\chi) = 1 $.
+\item In general, set $ f(z) := \tfrac{1}{\pi}z^ne^{-2\pi z\overline{z}} $ and $ L_\C(\chi) := \Gamma_\C(s + \tfrac{1}{2}|n|) $. \\
+Then compute $ \epsilon_\C(\chi) = i^{-|n|} $.
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Local theory --- $ \epsilon $-factors}
+
+Determine multiplicative characters $ \chi : F^\times \to \C^\times $ completely.
+\begin{itemize}
+\item Let $ F = K_v / \Q_p $. The \textbf{conductor} of $ \chi $ is the least $ n \in \N $ such that
+$$ \chi((1 + \pi_v^n\OO_v) \cap \OO_v^\times) = 1. $$
+If $ n = 0 $, then $ \chi $ is said to be \textbf{unramified}.
+\begin{itemize}
+\item If $ n = 0 $, set $ f := \I_{\OO_v} $ and $ L_{K_v}(\chi) := (1 - \chi(\pi_v)^{-1})^{-1} $. \\
+Then compute
+$$ \epsilon_{K_v}(\chi) = q_v^{\tfrac{\delta_v}{2}}\chi(\pi_v)^{\delta_v}. $$
+\item If $ n > 0 $, set $ f := \I_{1 + \pi_v^n\OO_v} $ and $ L_{K_v}(\chi) := 1 $. \\
+Then compute
+$$ \epsilon_{K_v}(\chi) = \int_{K_v^\times} \psi_v(x)\chi(x)^{-1}\d_{K_v}x. $$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Local theory --- $ \epsilon $-factors}
+
+Determine multiplicative characters $ \chi : F^\times \to \C^\times $ completely.
+$$
+\renewcommand{\arraystretch}{2}
+\begin{array}{c|c|c|c}
+F & \chi & L_F(\chi) & \epsilon_F(\chi) \\
+\hline
+\R & |x|_\R^s & \Gamma_\R(s) & 1 \\
+\R & \sgn(x)|x|_\R^s & \Gamma_\R(s + 1) & -i \\
+\C & (z / \sqrt{z\overline{z}})^n|z|_\C^s & \Gamma_\C(s + \tfrac{1}{2}|n|) & i^{-|n|} \\
+K_v & \text{unramified} & (1 - \chi(\pi_v)^{-1})^{-1} & q_v^{\tfrac{\delta_v}{2}}\chi(\pi_v)^{\delta_v} \\
+K_v & \text{ramified} & 1 & \int_{K_v^\times} \psi_v(x)\chi(x)^{-1}\d_{K_v}x
+\end{array}
+$$
+
+\end{frame}
+
+\begin{frame}{Global theory --- ad\`eles and id\`eles}
+
+Let $ V_K = V_K^f \cup V_K^\infty $ be the set of places of a number field $ K $.
+
+\bigskip Consider the ad\`ele ring
+$$ \A_K := \left\{(x_v)_{v \in V_K} \in \prod_{v \in V_K} K_v : x_v \in \OO_v \ \text{for almost all} \ v \in V_K\right\}. $$
+Its unit group is the id\`ele group
+$$ \A_K^\times := \left\{(x_v)_{v \in V_K} \in \prod_{v \in V_K} K_v^\times : x_v \in \OO_v^\times \ \text{for almost all} \ v \in V_K\right\}. $$
+
+\begin{example}
+If $ K = \Q $, then
+$$ \A_\Q \cong \R \times \bigcup_{n \in \N^+} \dfrac{1}{n}\prod_{p < \infty} \Z_p. $$
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Global theory --- ad\`eles and id\`eles}
+
+Let $ V_K = V_K^f \cup V_K^\infty $ be the set of places of a number field $ K $.
+
+\bigskip The id\`ele group is endowed with the restricted product topology such that
+$$ \prod_{v \in S} U_v \times \prod_{v \in V_K \setminus S} \OO_v^\times, $$
+is an open basis for some finite $ V_K^\infty \subseteq S \subset V_K $ and some open $ U_v \subseteq K_v^\times $.
+
+\bigskip There is a diagonal embedding $ K^\times \hookrightarrow \A_K^\times $. By the product formula,
+$$ |x|_{\A_K} := \prod_{v \in V_K} |x|_v = 1, \qquad x \in K^\times. $$
+By Tychonoff's theorem, both the id\`ele group $ \A_K^\times $ and the id\`ele class group $ C_K := \A_K^\times / K^\times $ are locally compact topological groups.
+
+\end{frame}
+
+\begin{frame}{Global theory --- Hecke characters}
+
+A \textbf{Hecke character} is a character of the id\`ele class group, that is a continuous homomorphism $ C_K \to \C^\times $ with the discrete topology on $ \C^\times $.
+
+\begin{examples}
+\begin{itemize}
+\item A Dirichlet character $ \phi : (\Z / n\Z)^\times \to \C^\times $ induces a Hecke character
+$$ C_\Q \cong \R^+ \times \prod_{p < \infty} \Z_p^\times \twoheadrightarrow \prod_{p \mid n} (\Z_p / n\Z_p)^\times \cong (\Z / n\Z)^\times \xrightarrow{\phi} \C^\times $$
+of finite order. Indeed, Hecke characters of $ \Q $ of finite order correspond precisely to primitive Dirichlet characters of $ \Q $.
+\item In fact, any Hecke character of $ \Q $ is of the form $ \eta|\cdot|_{\A_K}^s $ for some $ s \in \C $, where $ \eta $ is a Hecke character of finite order.
+\item In general, a Hecke character $ \chi : C_K \to \C^\times $ is uniquely determined by local multiplicative characters $ \chi|_{K_v^\times} : K_v^\times \to \C^\times $, which are unramified, so $ \chi|_{K_v^\times}(\OO_v^\times) = 1 $, for almost all $ v \in V_K $.
+\end{itemize}
+\end{examples}
+
+\end{frame}
+
+\begin{frame}{Global theory --- Hecke characters}
+
+A \textbf{Hecke character} is a character of the id\`ele class group, that is a continuous homomorphism $ C_K \to \C^\times $ with the discrete topology on $ \C^\times $.
+
+\bigskip A \textbf{Hecke L-function} of $ \chi $ is
+$$ L(\chi) := \prod_{v \in V_K^f} L_{K_v}(\chi|_{K_v^\times}), $$
+where $ L_{K_v} $ are the local $ L $-factors
+$$ L_{K_v}(\chi) =
+\begin{cases}
+(1 - \chi(\pi_v))^{-1} & \text{if} \ \chi \ \text{is unramified}, \\
+1 & \text{if} \ \chi \ \text{is not unramified}.
+\end{cases}
+$$
+
+\begin{examples}
+\begin{itemize}
+\item If $ \chi = |\cdot|_{\A_K}^s $, then $ L(\chi) $ is the Dedekind $ \zeta $-function $ \zeta_K(s) $.
+\item If $ K = \Q $ and $ \chi $ has finite order, then $ L(\chi) $ is the Dirichlet $ L $-function of a primitive Dirichlet character.
+\end{itemize}
+\end{examples}
+
+\end{frame}
+
+\begin{frame}{Global theory --- Fourier analysis}
+
+The three components for the global Fourier transform are simply defined as the product of their local counterparts with the unramified condition.
+\begin{itemize}
+\item The global Schwartz--Bruhat functions on $ \A_K $ are linear combinations of products of local Schwartz--Bruhat functions $ f_v : K_v \to \C $ such that $ f_v = \I_{\OO_v} $ for almost all $ v \in V_K $.
+\item The global Haar measure on $ \A_K $ is such that
+$$ \int_{\A_K} f(x)\d_{\A_K}x := \prod_{v \in V_K} \int_{K_v} f|_{K_v}(x)\d_{K_v}x. $$
+\item The global additive character on $ \A_K $ is such that
+$$ \psi_{\A_K}((x_v)_{v \in V_K}) := \prod_{v \in V_K} \psi_{K_v}(x_v). $$
+\end{itemize}
+By construction, since the Fourier inversion formula holds in all completions of $ K $, the Poisson summation formula holds in $ \A_K $.
+
+\end{frame}
+
+\begin{frame}{Global theory --- $ \zeta $-integrals}
+
+Let $ f : \A_K \to \C $ be a Schwartz--Bruhat function, and let $ \chi : C_K \to \C^\times $ be a Hecke character. The \textbf{global $ \zeta $-integral} is defined to be
+$$ \zeta(f, \chi) := \prod_{v \in V_K} \zeta_{K_v}(f|_{K_v^\times}, \chi|_{K_v^\times}), $$
+which is an infinite product.
+
+\begin{theorem}[Functional equation for the global $ \zeta $-integral]
+$ \zeta $ has a meromorphic continuation to $ \C $ and satisfies a functional equation
+$$ \zeta(f, \chi) = \zeta(\widehat{f}, \chi^{-1}|\cdot|_{\A_K}). $$
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+The Poisson summation formula $ \A_K $ relates $ f $ and $ \widehat{f} $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Global theory --- $ \zeta $-integrals}
+
+\begin{theorem}[Tate (1950)]
+$ L(\chi) $ has a meromorphic continuation to $ \C $ and satisfies a functional equation $ \Lambda(\chi) = \epsilon(\chi)\Lambda(\chi^{-1}|\cdot|_{\A_K}) $ where
+$$ \Lambda(\chi) := L_\R(s)^{r_1} \cdot L_\C(s)^{r_2} \cdot L(\chi), \qquad \epsilon(\chi) := \prod_{v \in V_K} \epsilon_{K_v}(\chi). $$
+\end{theorem}
+
+Here $ \epsilon(\chi) $ is the \textbf{global $ \epsilon $-factor}, and similarly the \textbf{global root number} is defined to be $ w(\chi) := \prod_{v \in V_K} w_{K_v}(\chi) \in U(1) $.
+
+\begin{proof}
+The product of the functional equations for the local $ \zeta $-integrals is
+$$ \dfrac{\zeta(\widehat{f}, \chi^{-1}|\cdot|_{\A_K})}{\Lambda(\chi^{-1}|\cdot|_{\A_K})} = \epsilon(\chi)\dfrac{\zeta(f, \chi)}{\Lambda(\chi)}. $$
+Divide this by the functional equation for the global $ \zeta $-integral.
+\end{proof}
+
+\end{frame}
+
+\end{document}

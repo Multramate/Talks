@@ -1,0 +1,192 @@
+\ifx\type\undefined
+  \documentclass[10pt, t]{beamer}
+  \setbeamertemplate{footline}[page number]
+\else
+  \documentclass[10pt]{article}
+  \usepackage[margin=1in]{geometry}
+\fi
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bbm}
+\usepackage{cancel}
+\usepackage{listings}
+\usepackage{mathrsfs}
+\usepackage{multirow}
+\usepackage{soul}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{wrapfig}
+
+\newtheorem*{algorithm}{Algorithm}
+\newtheorem*{assumptions}{Assumptions}
+\newtheorem*{conjecture}{Conjecture}
+\newtheorem*{consequences}{Consequences}
+\newtheorem*{exercise}{Exercise}
+\newtheorem*{formalisation}{Formalisation}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{question}{Question}
+\newtheorem*{remark}{Remark}
+
+\ifx\type\undefined\else
+  \newtheorem*{definition}{Definition}
+  \newtheorem*{example}{Example}
+  \newtheorem*{lemma}{Lemma}
+  \newtheorem*{theorem}{Theorem}
+\fi
+
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}
+\definecolor{tacticcolor}{rgb}{0.0, 0.1, 0.6}
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}
+\definecolor{attributecolor}{rgb}{0.7, 0.1, 0.1}
+\def\lstlanguagefiles{lstlean.tex}
+\lstset{language=lean}
+
+\newcommand\A{\mathbb{A}}
+\newcommand\C{\mathbb{C}}
+\newcommand\F{\mathbb{F}}
+\newcommand\G{\mathbb{G}}
+\renewcommand\H{\mathbb{H}}
+\newcommand\I{\mathbb{I}}
+\newcommand\N{\mathbb{N}}
+\renewcommand\P{\mathbb{P}}
+\newcommand\Q{\mathbb{Q}}
+\newcommand\R{\mathbb{R}}
+\newcommand\Z{\mathbb{Z}}
+
+\renewcommand\AA{\mathcal{A}}
+\newcommand\BB{\mathcal{B}}
+\newcommand\CC{\mathcal{C}}
+\newcommand\DD{\mathcal{D}}
+\newcommand\EE{\mathcal{E}}
+\newcommand\FF{\mathcal{F}}
+\newcommand\GG{\mathcal{G}}
+\newcommand\HH{\mathcal{H}}
+\newcommand\II{\mathcal{I}}
+\newcommand\LL{\mathcal{L}}
+\newcommand\MM{\mathcal{M}}
+\newcommand\NN{\mathcal{N}}
+\newcommand\OO{\mathcal{O}}
+\newcommand\PP{\mathcal{P}}
+\newcommand\RR{\mathcal{R}}
+\renewcommand\SS{\mathcal{S}}
+\newcommand\TT{\mathcal{T}}
+\newcommand\XX{\mathcal{X}}
+
+\renewcommand\aa{\mathfrak{a}}
+\newcommand\cc{\mathfrak{c}}
+\newcommand\dd{\mathfrak{d}}
+\newcommand\ff{\mathfrak{f}}
+\renewcommand\gg{\mathfrak{g}}
+\newcommand\mm{\mathfrak{m}}
+\newcommand\pp{\mathfrak{p}}
+\newcommand\qq{\mathfrak{q}}
+\renewcommand\ss{\mathfrak{s}}
+
+\newcommand\LLL{\mathscr{L}}
+
+\newcommand\ab{\mathrm{ab}}
+\newcommand\Ab{\mathbf{Ab}}
+\newcommand\Alg{\mathbf{Alg}}
+\newcommand\Aff{\mathbf{Aff}}
+\newcommand\Aut{\operatorname{Aut}}
+\newcommand\Az{\mathrm{Az}}
+\newcommand\Br{\operatorname{Br}}
+\newcommand\BSD{\operatorname{BSD}}
+\newcommand\ch{\operatorname{char}}
+\newcommand\Cl{\operatorname{Cl}}
+\newcommand\coker{\operatorname{coker}}
+\newcommand\cris{\mathrm{cris}}
+\renewcommand\d{\mathrm{d}}
+\newcommand\Div{\operatorname{Div}}
+\newcommand\dR{\mathrm{dR}}
+\newcommand\EN{\operatorname{EN}}
+\newcommand\End{\operatorname{End}}
+\newcommand\ES{\operatorname{ES}}
+\newcommand\et{\mathrm{\acute{e}t}}
+\newcommand\Et{\mathbf{\acute{E}t}}
+\newcommand\Ext{\operatorname{Ext}}
+\newcommand\Fr{\operatorname{Fr}}
+\newcommand\Frac{\operatorname{Frac}}
+\newcommand\Gal{\operatorname{Gal}}
+\newcommand\GL{\operatorname{GL}}
+\newcommand\Gr{\mathrm{Gr}}
+\newcommand\Hom{\operatorname{Hom}}
+\newcommand\HT{\mathrm{HT}}
+\newcommand\id{\operatorname{id}}
+\newcommand\im{\operatorname{im}}
+\newcommand\Ind{\operatorname{Ind}}
+\renewcommand\inf{\operatorname{inf}}
+\newcommand\inv{\operatorname{inv}}
+\newcommand\Irr{\operatorname{Irr}}
+\newcommand\Jac{\operatorname{Jac}}
+\newcommand\lcm{\operatorname{lcm}}
+\newcommand\Mat{\operatorname{Mat}}
+\newcommand\Mod{\mathbf{Mod}}
+\newcommand\Nm{\operatorname{Nm}}
+\newcommand\nr{\mathrm{nr}}
+\newcommand\NS{\operatorname{NS}}
+\newcommand\Ob{\operatorname{Ob}}
+\newcommand\ord{\operatorname{ord}}
+\newcommand\op{\mathrm{op}}
+\newcommand\PGL{\operatorname{PGL}}
+\newcommand\Pic{\operatorname{Pic}}
+\newcommand\Prob{\operatorname{Prob}}
+\newcommand\Proj{\operatorname{Proj}}
+\newcommand\PSh{\mathbf{PSh}}
+\newcommand\Reg{\operatorname{Reg}}
+\newcommand\res{\operatorname{res}}
+\newcommand\rk{\operatorname{rk}}
+\newcommand\Sch{\mathbf{Sch}}
+\newcommand\Sel{\operatorname{Sel}}
+\newcommand\Set{\mathbf{Set}}
+\newcommand\sgn{\operatorname{sgn}}
+\newcommand\Sh{\mathbf{Sh}}
+\newcommand\SL{\operatorname{SL}}
+\newcommand\Spec{\operatorname{Spec}}
+\newcommand\supp{\operatorname{supp}}
+\newcommand\Tam{\operatorname{Tam}}
+\newcommand\Top{\mathbf{Top}}
+\newcommand\tor{\operatorname{tor}}
+\newcommand\tr{\operatorname{tr}}
+\newcommand\tra{\operatorname{tra}}
+\newcommand\WC{\operatorname{WC}}
+
+\DeclareFontFamily{U}{wncyr}{}
+\DeclareFontShape{U}{wncyr}{m}{n}{<->wncyr10}{}
+\DeclareSymbolFont{cyr}{U}{wncyr}{m}{n}
+\DeclareMathSymbol{\Sha}{\mathord}{cyr}{"58}
+
+\newcommand{\function}[5][]{
+  \if &#1&
+    \begin{array}{rcl}
+      #2 & \longrightarrow & #3 \\
+      #4 & \longmapsto     & #5
+    \end{array}
+  \else
+    \begin{array}{rcrcl}
+      #1 & : & #2 & \longrightarrow & #3 \\
+         &   & #4 & \longmapsto     & #5
+    \end{array}
+  \fi
+}
+
+\newcommand{\functions}[7][]{
+  \if &#1&
+    \begin{array}{rcl}
+      #2 & \longrightarrow & #3 \\
+      #4 & \longmapsto     & #5 \\
+      #6 & \longmapsto     & #7 \\
+    \end{array}
+  \else
+    \begin{array}{rcrcl}
+      #1 & : & #2 & \longrightarrow & #3 \\
+         &   & #4 & \longmapsto     & #5 \\
+         &   & #6 & \longmapsto     & #7
+    \end{array}
+  \fi
+}

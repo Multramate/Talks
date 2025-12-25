@@ -1,0 +1,94 @@
+\def\type{}
+\input{header}
+\title{$ \Cl(K) \cong \Sha(K) $}
+\author{David Kurniadi Angdinata}
+\date{Wednesday, 11 March 2020}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This article gives a short proof of the natural isomorphism between the ideal class group of a number field and a notion of a Tate--Shafarevich group defined from it, primarily adapting the arguments from Sameer Kailasa's 2016 article \emph{on the Tate--Shafarevich group of a number field} while consulting Kevin Buzzard's 2005 article \emph{why is an ideal class group a Tate--Shafarevich group?}.
+\end{abstract}
+
+\bigskip Let $ K $ be a field of characteristic zero. Denote its non-zero elements by $ K^\times $, its ring of integers by $ \OO_K $, its unit group by $ \OO_K^\times $, its algebraic closure by $ \overline{K} $, and its absolute Galois group by $ G_K $. If $ M $ is a Galois module of $ K $, denote its $ n $-th Galois cohomology groups by $ H^n(K, M) $.
+
+If $ K $ is a number field, denote its places by $ V(K) $, its non-archimedean places by $ V_0(K) $, its ideal group by $ I(K) $, its principal ideal group by $ P(K) $, and its ideal class group by $ \Cl(K) $. If $ \pp $ is a place of $ K $, denote its discrete valuation by $ v_\pp $, and its completion by $ K_\pp $.
+
+If $ E $ is an elliptic curve with $ K $-rational points $ E(K) $, its Tate--Shafarevich group is defined as
+$$ \Sha(E / K) = \ker\left(H^1(K, E(\overline{K})) \to \prod_{\pp \in V(K)} H^1(K_\pp, E(\overline{K_\pp}))\right). $$
+In a similar fashion, if $ K $ is a number field, its Tate--Shafarevich group can be defined as
+$$ \Sha(K) = \ker\left(H^1(K, \OO_{\overline{K}}^\times) \to \prod_{\pp \in V_0(K)} H^1(K_\pp, \OO_{\overline{K_\pp}}^\times)\right). $$
+This is a prime example of the folklore heuristic correspondence between rational points of elliptic curves and unit groups of number fields. The following theorem shows its relationship with the ideal class group.
+
+\begin{theorem}
+Let $ K $ be a number field. Then there is a natural isomorphism $ \Cl(K) \xrightarrow{\sim} \Sha(K) $.
+\end{theorem}
+
+\begin{proof}
+There is a fundamental exact sequence in algebraic number theory given by
+$$ 1 \to \OO_K^\times \xrightarrow{i} K^\times \xrightarrow{\bullet\OO_K} I(K) \xrightarrow{q} \Cl(K) \to 1. $$
+Extracting a short exact sequence from the first two terms, considering their algebraic closures, and applying the Galois cohomology functor, gives a long exact sequence starting with
+$$
+\begin{tikzcd}[column sep=small, row sep=small]
+1 \arrow{r} & H^0(K, \OO_{\overline{K}}^\times) \arrow{r}{i} \arrow{d}{\sim} & H^0(K, \overline{K}^\times) \arrow{r}{\bullet\OO_{\overline{K}}} \arrow{d}{\sim} & H^0(K, P(\overline{K})) \arrow{r}{\delta} \arrow{d}{\sim} & H^1(K, \OO_{\overline{K}}^\times) \arrow{r} & H^1(K, \overline{K}^\times) \arrow{r} \arrow{d}{\sim} & \dots \\
+& \OO_K^\times & K^\times & A(\overline{K}) & & 1, &
+\end{tikzcd}
+$$
+by Hilbert 90, denoting the Galois-invariant principal fractional ideals in $ \overline{K} $, or \emph{ambiguous ideals}, by $ A(\overline{K}) $. Applying the same argument to $ K_\pp $ and taking products over all $ \pp \in V_0(K) $ gives an exact sequence
+$$ 1 \to \prod_{\pp \in V_0(K)} \OO_{K_\pp}^\times \xrightarrow{i} \prod_{\pp \in V_0(K)} K_\pp^\times \xrightarrow{\bullet\OO_{\overline{K}}} \prod_{\pp \in V_0(K)} A(\overline{K_\pp}) \xrightarrow{\prod_\pp \delta_\pp} \prod_{\pp \in V_0(K)} H^1(K_\pp, \OO_{\overline{K_\pp}}^\times) \to 1, $$
+where the $ \pp $-components of the connecting homomomorphisms $ \delta_\pp $ are surjections sending ambiguous ideals $ x_\pp\OO_{\overline{K_\pp}} \in A(\overline{K_\pp}) $ to $ 1 $-cocycles, which in turn send automorphisms $ \sigma \in G_K $ to units $ \sigma(x_\pp) / x_\pp \in \OO_{\overline{K_\pp}}^\times $.
+
+\pagebreak
+
+Combining the three exact sequences gives a diagram with exact rows
+$$
+\begin{tikzcd}[column sep=small]
+1 \arrow{r} & \OO_K^\times \arrow{r}{i} \arrow{d}{\sim} & K^\times \arrow{r}{\bullet\OO_K} \arrow{d}{\sim} & I(K) \arrow{r}{q} \arrow{d}{\alpha} & \Cl(K) \arrow{r} \arrow{d}{\beta} & 1 \\
+1 \arrow{r} & \OO_K^\times \arrow{r}{i} \arrow[hookrightarrow]{d}{\Delta} & K^\times \arrow{r}{\bullet\OO_{\overline{K}}} \arrow[hookrightarrow]{d}{\Delta} & A(\overline{K}) \arrow{r}{\delta} \arrow[hookrightarrow]{d}{\Delta_\alpha} & H^1(K, \OO_{\overline{K}}^\times) \arrow{r} \arrow[hookrightarrow]{d}{\Delta_\beta} & 1 \\
+1 \arrow{r} & \displaystyle\prod_{\pp \in V_0(K)} \OO_{K_\pp}^\times \arrow{r}{i} & \displaystyle\prod_{\pp \in V_0(K)} K_\pp^\times \arrow{r}{\bullet\OO_{\overline{K}}} & \displaystyle\prod_{\pp \in V_0(K)} A(\overline{K_\pp}) \arrow{r}{\prod_\pp \delta_\pp} & \displaystyle\prod_{\pp \in V_0(K)} H^1(K_\pp, \OO_{\overline{K_\pp}}^\times) \arrow{r} & 1.
+\end{tikzcd}
+$$
+To make this diagram commute, it is necessary to define the relevant vertical maps.
+\begin{itemize}
+\item The maps $ \sim $ are identity maps, and the maps $ \Delta $ are diagonal embeddings.
+\item The map $ \alpha : I(K) \to A(\overline{K}) $ is an injection sending a fractional ideal $ I \in I(K) $ to the ambiguous ideal above $ I_{\OO_{\overline{K}}} \in A(\overline{K}) $. This is principal since $ \overline{K} $ contains the Hilbert class field of $ K $, and Galois-invariant since $ I $ and $ \OO_{\overline{K}} $ are Galois-invariant.
+\item The map $ \beta : \Cl(K) \to H^1(K, \OO_{\overline{K}}^\times) $ is an injection sending an ideal class $ [I] \in \Cl(K) $ to the composition $ \delta(\alpha(I)) \in H^1(K, \OO_{\overline{K}}^\times) $, which is independent of the representative fractional ideal $ I \in I(K) $. This by definition gives $ \Sha(K) = \ker\Delta_\beta $.
+\end{itemize}
+To prove the isomorphism $ \Cl(K) \xrightarrow{\sim} \Sha(K) $, it is sufficient to prove $ \im\beta = \ker\Delta_\beta $.
+\begin{itemize}
+\item[$ \subseteq $] Let $ f \in \im\beta $ be a $ 1 $-cocycle. By surjectivity, there is an ideal class $ [I] \in \Cl(K) $ such that $ f = \beta([I]) $. Now let $ \pp \in V_0(K) $ be a place. By the Chinese remainder theorem, there is a fractional ideal $ J \in [I] $ such that $ J + \pp = \OO_K $, so $ v_\pp(J_{\OO_{\overline{K}}}) = 0 $. By principality, there is an ambiguous ideal $ x_\pp\OO_{\overline{K}} \in A(\overline{K}) $ such that $ J_{\OO_{\overline{K}}} = x_\pp\OO_{\overline{K}} $, so $ v_\pp(x_\pp\OO_{\overline{K}}) = 0 $, or $ x_\pp \in \OO_{\overline{K_\pp}}^\times $. Considering $ \Delta_\beta $ over all places $ \pp \in V_0(K) $,
+\begin{align*}
+\Delta_\beta(f)
+& = \Delta_\beta(\beta([I]))
+= \Delta_\beta(\beta([J]))
+= \Delta_\beta(\delta(\alpha(J)))
+= \Delta_\beta(\delta(J_{\OO_{\overline{K}}})) \\
+& = \Delta_\beta(\delta(x_\pp\OO_{\overline{K}}))
+= \Delta_\beta(\sigma \mapsto \sigma(x_\pp) / x_\pp)
+= 1.
+\end{align*}
+Hence $ f \in \ker\Delta_\beta $.
+\item[$ \supseteq $] Let $ f \in \ker\Delta_\beta $ be a $ 1 $-cocycle. By diagram chasing at $ f $, there is an element $ (x_\pp)_\pp \in \prod_\pp K_\pp^\times $ in the commutative diagram
+$$
+\begin{tikzcd}
+& x\OO_{\overline{K}} \arrow{r}{\delta} \arrow{d}{\Delta_\alpha} & f \arrow{d}{\Delta_\beta} \\
+(x_\pp)_\pp \arrow{r}{\bullet \OO_{\overline{K}}} & (x\OO_{\overline{K_\pp}})_\pp \arrow{r}{\prod_\pp \delta_\pp} & 1,
+\end{tikzcd}
+$$
+such that $ x_\pp\OO_{\overline{K_\pp}} = x\OO_{\overline{K_\pp}} $ for all places $ \pp \in V_0(K) $, or $ v_\pp(x_\pp) = v_\pp(x) $. By taking limits, it suffices to consider a finite extension $ K \subseteq L $. By the unique factorisation of prime ideals and transitivity of the Galois group $ G_K / G_L $,
+\begin{align*}
+\delta(x\OO_L)
+& = \delta\left(\prod_{\pp \in V_0(K)} \left(\prod_{\qq \in V_0(L), \ \qq \mid \pp} \qq\right)^{v_\pp(x)}\right)
+= \delta\left(\prod_{\pp \in V_0(K)} \left(\prod_{\qq \in V_0(L), \ \qq \mid \pp} \qq\right)^{v_\pp(x_\pp)}\right) \\
+& = \delta\left(\prod_{\pp \in V_0(K)} \pp_{\OO_L}^{\tfrac{v_\pp(x_\pp)}{e_\pp}}\right)
+= \delta\left(\alpha\left(\prod_{\pp \in V_0(K)} \pp^{\tfrac{v_\pp(x_\pp)}{e_\pp}}\right)\right)
+= \beta\left(q\left(\prod_{\pp \in V_0(K)} \pp^{\tfrac{v_\pp(x_\pp)}{e_\pp}}\right)\right),
+\end{align*}
+where $ e_\pp $ are the respective local ramification indices of $ K_\pp \subseteq L_\qq $. Hence $ f \in \im\beta $.
+\end{itemize}
+Hence $ \im\beta = \ker\Delta_\beta $ and thus $ \Cl(K) \cong \Sha(K) $.
+\end{proof}
+
+\end{document}

@@ -1,0 +1,306 @@
+\input{header}
+\title{An unusual cubic representation problem}
+\subtitle{Undergraduate mathematics colloquium}
+\author{David Kurniadi Angdinata}
+\institute{Imperial College London}
+\date{Wednesday, 16 January 2019}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{An unusual cubic representation problem}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{img/positivewholevalues.png}
+\end{center}
+
+\vspace{-0.5cm}
+\begin{align*}
+\textsc{apple} & = {\scriptscriptstyle 154476802108746166441951315019919837485664325669565431700026634898253202035277999} \\
+\textsc{banana} & = {\scriptscriptstyle 36875131794129999827197811565225474825492979968971970996283137471637224634055579} \\
+\textsc{pineapple} & = {\scriptscriptstyle 4373612677928697257861252602371390152816537558161613618621437993378423467772036}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{A trivial cubic representation problem}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{img/values.png}
+\end{center}
+
+\begin{align*}
+\C, \R & : (a, b, c) = (2 + \sqrt{3}, 1, 0) \\
+\Q, \Z & : (a, b, c) = (11, 4, -1), (-11, -4, 1), (1, -4, -11), \dots
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{A less unusual cubic representation problem}
+
+\framebox[\linewidth]{$ \dfrac{a}{b + c} + \dfrac{b}{a + c} + \dfrac{c}{a + b} = 4, \qquad a, b, c \in \Z. $}
+
+\bigskip
+
+\begin{itemize}
+\item Require $ a, b, c > 0 $.
+\end{itemize}
+
+\bigskip Clear denominators:
+$$ a^3 + b^3 + c^3 - 5abc - 3(a^2b + ab^2 + a^2c + ac^2 + b^2c + bc^2) = 0. $$
+\textbf{Trivial} solutions:
+$$ (a, b, c) = (11, 4, -1), (-11, -4, 1), (1, -4, -11), \dots $$
+\textbf{Invalid} solutions:
+$$ (a, b, c) = (1, -1, 0), (-1, 1, 0), (-1, 1, -1), \dots $$
+\vspace{-0.5cm}
+\begin{itemize}
+\item Require $ a + b, a + c, b + c > 0 $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Dimensionality of solution space}
+
+\framebox[\linewidth]{$ a^3 + b^3 + c^3 - 5abc - 3(a^2b + ab^2 + a^2c + ac^2 + b^2c + bc^2) = 0 $}
+
+\begin{definition}
+A polynomial is \textbf{homogeneous} if its monomials have the same degree.
+\end{definition}
+
+\bigskip If $ (a_0, b_0, c_0) $ is a solution in $ \Z $, then $ (\lambda a_0, \lambda b_0, \lambda c_0) $ is a solution in $ \Q $ for any $ \lambda \in \Q^* $. Define the equivalence relation $ \sim $ by
+$$ (a_0, b_0, c_0) \sim (a_0', b_0', c_0') \iff (a_0, b_0, c_0) = (\lambda a_0', \lambda b_0', \lambda c_0'), \qquad \lambda \in \Q^*. $$
+Write the equivalence class as $ [a_0, b_0, c_0] $.
+\begin{itemize}
+\item Modulo $ \sim $, the space of solutions is only two-dimensional.
+\end{itemize}
+
+\bigskip If $ c \ne 0 $, the equation is equivalent to
+$$ a^3 + b^3 + 1 - 5ab - 3(a^2b + ab^2 + a^2 + a + b^2 + b) = 0, \qquad a, b \in \Q. $$
+\vspace{-0.5cm}
+\begin{itemize}
+\item Modulo $ \sim $, the equation is cubic of two variables.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Elliptic curves: informally}
+
+\begin{center}
+\includegraphics[width=0.2\textwidth]{img/ellipticcurve.png}
+\end{center}
+
+An \emph{elliptic curve} is the space of solutions to a cubic equation
+$$ y^2 = x^3 + Ax + B, $$
+where $ A $ and $ B $ are in some field such that $ 4A^3 + 27B^2 \ne 0 $.
+\begin{itemize}
+\item Simplest non-trivial structures in algebraic geometry.
+\item Topic of the \emph{Birch and Swinnerton-Dyer conjecture}.
+\item Tool in Wiles' proof of \emph{Fermat's last theorem}.
+\item Methods for primality testing and integer factorisation.
+\item Applications in \emph{elliptic curve cryptography}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Elliptic curves: formally}
+
+\begin{definition}
+An \textbf{elliptic curve} over a field $ K $ is a \emph{smooth projective plane algebraic curve} $ E $ of \emph{genus one} with a \emph{$ K $-rational base point} $ \OO_E $.
+\begin{itemize}
+\item \emph{algebraic curve}: space of solutions to equation
+\item \emph{plane}: two variables
+\item \emph{projective}: consider equivalence classes of solutions
+\item \emph{smooth}: no kinks
+\item \emph{genus one}: degree three
+\item \emph{$ K $-rational base point}: coordinates in $ K $
+\end{itemize}
+\end{definition}
+
+\begin{theorem}
+An elliptic curve over $ \Q $ is of the form
+$$ E = \{(x, y) \in \Q^2 : y^2 = x^3 + Ax + B\} \cup \{\OO\}, $$
+for some $ A, B \in \Q $ such that $ 4A^3 + 27B^2 \ne 0 $, where $ \OO = [0, 1, 0] $.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Weierstrass representations}
+
+\framebox[\linewidth]{$ a^3 + b^3 + c^3 - 5abc - 3(a^2b + ab^2 + a^2c + ac^2 + b^2c + bc^2) = 0 $}
+
+\begin{proposition}
+The curve given by the equation is isomorphic to the following curves.
+\begin{itemize}
+\item $ \{(x, y) \in \Q^2 : 6y^2 + 6xy + 6y = -91x^3 + 141x^2 + 15x - 1\} \cup \{\OO\} $.
+\item $ \{(x, y) \in \Q^2 : y^2 + xy - \tfrac{91}{6}y = x^3 + \tfrac{47}{2}x^2 - \tfrac{455}{12}x - \tfrac{8281}{216}\} \cup \{\OO\} $.
+\item $ \{(x, y) \in \Q^2 : y^2 + xy + y = x^3 - 234x + 1352\} \cup \{\OO\} $.
+\item $ \{(x, y) \in \Q^2 : y^2 = x^3 + \tfrac{1}{4}x^2 - \tfrac{467}{2}x + \tfrac{5409}{4}\} \cup \{\OO\} $.
+\item $ \{(x, y) \in \Q^2 : y^2 = x^3 - \tfrac{11209}{48}x + \tfrac{1185157}{864}\} \cup \{\OO\} $.
+\item $ \{(x, y) \in \Q^2 : y^2 = x^3 - 302643x + 63998478\} \cup \{\OO\} $.
+\end{itemize}
+\end{proposition}
+
+Let $ A = -302643 $ and $ B = 63998478 $. Overall invertible transformations:
+$$
+\begin{cases}
+a = \tfrac{1}{72}x + \tfrac{1}{216}y - \tfrac{277}{24} \\
+b = \tfrac{1}{72}x - \tfrac{1}{216}y - \tfrac{277}{24} \\
+c = \tfrac{1}{6}x - \tfrac{95}{2}
+\end{cases}
+\qquad
+\begin{cases}
+x = \tfrac{1710a + 1710b - 831c}{6a + 6b - c} \\
+y = \tfrac{-9828a + 9828b}{6a + 6b - c}
+\end{cases}
+$$
+
+\end{frame}
+
+\begin{frame}{A group law}
+
+\framebox[\linewidth]{$ E = \{(x, y) \in \Q^2 : y^2 = x^3 + Ax + B\} \cup \{\OO\} $}
+
+\begin{theorem}
+$ E $ is an abelian group $ (E, +) $.
+\begin{itemize}
+\item The identity point is $ \OO \in E $.
+\item The inverse of a point is obtained by reflecting the point vertically.
+\item The sum of two points is obtained by inverting the third point of intersection between the curve and the line joining the two points:
+$$ P + Q =
+\begin{cases}
+S & \text{if} \ P = (x, y), \ Q = (x', y'), \ x \ne x', \\
+R & \text{if} \ P = Q = (x, y), \ y \ne 0, \\
+P & \text{if} \ Q = \OO, \\
+\OO & \text{if} \ P = Q = (x, 0),
+\end{cases}
+$$
+{\scriptsize $$ S = \left(\tfrac{(A + xx')(x + x') + 2(B - yy')}{(x - x')^2}, \tfrac{(Ay' - x'^2y)(3x + x') + (x^2y' - Ay)(x + 3x') - 4B(y - y')}{(x - x')^3}\right), $$}
+{\scriptsize $$ R = \left(\tfrac{x^4 - 2Ax^2 - 8Bx + A^2}{4y^2}, \tfrac{x^6 + 5Ax^4 + 20Bx^3 - 5A^2x^2 - 4ABx - A^3 - 8B^2}{8y^3}\right). $$}
+\end{itemize}
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Proof of the group law}
+
+\framebox[\linewidth]{$ E = \{(x, y) \in \Q^2 : y^2 = x^3 + Ax + B\} \cup \{\OO\} $}
+
+\begin{lemma}[B\'ezout's theorem]
+Let $ C $ and $ D $ be projective algebraic curves over an algebraically closed field $ \overline{K} $. Then $ C $ and $ D $ intersect at exactly $ \deg C\deg D $ points counted with intersection multiplicity.
+\end{lemma}
+
+\begin{lemma}[Cayley--Bacharach theorem]
+Let $ C, D, E $ be projective algebraic cubic curves over an algebraically closed field $ \overline{K} $ such that
+$$ C \cap E = \{P_1, \dots, P_8, Q\}, \qquad D \cap E = \{P_1, \dots, P_8, R\}, $$
+counted with intersection multiplicity. Then $ Q = R $.
+\end{lemma}
+
+\begin{itemize}
+\item Well-definition of addition in $ K $ holds by explicit equations.
+\item Commutativity of addition holds by symmetry.
+\item Associativity of addition holds by intimidation.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Procedure}
+
+\begin{algorithm}
+Generate new solutions from old solutions.
+\begin{itemize}
+\item Choose an initial solution $ (a, b, c) $.
+\item Apply the change of variables:
+$$
+\begin{cases}
+x = \tfrac{1710a + 1710b - 831c}{6a + 6b - c} \\
+y = \tfrac{-9828a + 9828b}{6a + 6b - c}
+\end{cases}
+$$
+\item Compute multiples of the point $ (x, y) $.
+\item Apply the change of variables:
+$$
+\begin{cases}
+a = \tfrac{1}{72}x + \tfrac{1}{216}y - \tfrac{277}{24} \\
+b = \tfrac{1}{72}x - \tfrac{1}{216}y - \tfrac{277}{24} \\
+c = \tfrac{1}{6}x - \tfrac{95}{2}
+\end{cases}
+$$
+\item Terminate or repeat.
+\end{itemize}
+\end{algorithm}
+
+\end{frame}
+
+\begin{frame}{Computation: failure}
+
+Choose an invalid solution:
+$$ (a, b, c) = (-1, 1, -1). $$
+Apply the change of variables:
+$$ (x, y) = (831, 19656). $$
+Compute multiples of point:
+\begin{itemize}
+\item $ 2(x, y) = (363, 1404) $.
+\item $ 3(x, y) = (327, 0) $.
+\item $ 4(x, y) = (363, -1404) $.
+\item $ 5(x, y) = (831, -19656) $.
+\item $ 6(x, y) = \OO $.
+\end{itemize}
+This is a cyclic subgroup of order six.
+
+\end{frame}
+
+\begin{frame}{Computation: success}
+
+Choose a trivial solution:
+$$ (a, b, c) = (11, 4, -1). $$
+Apply the change of variables:
+$$ (x, y) = (291, -756). $$
+Compute multiples of point:
+\begin{itemize}
+\item $ 2(x, y) = (\tfrac{22107}{49}, -\tfrac{1506492}{343}) $. Apply the change of variables:
+$$ (a, b, c) = (-8784, 5165, 9499). $$
+\item $ 3(x, y) = (-\tfrac{2694138}{11881}, -\tfrac{14243306490}{1295029}) $. Apply the change of variables:
+$$ (a, b, c) = (679733219, -375326521, 883659076). $$
+\item $ 9(x, y) = (\tfrac{3823387580080160076063605209061052603963389916327719142}{13514400292716288512070907945002943352692578000406921}, \dots) $. Apply the change of variables:
+$$ (a, b, c) = (\textsc{apple}, \textsc{banana}, \textsc{pineapple}). $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Further facts}
+
+The general equation is
+$$ \dfrac{a}{b + c} + \dfrac{b}{a + c} + \dfrac{c}{a + b} = N, \qquad a, b, c \in \N^*, \qquad N \in \Z. $$
+\begin{itemize}
+\item The elliptic curve is
+$$ E \cong \Z^r \oplus
+\begin{cases}
+\Z / 2\Z \oplus \Z / 6\Z & \text{if} \ N = 2, \\
+\Z / 6\Z & \text{otherwise},
+\end{cases}
+\qquad r \in \N^*. $$
+\item The smallest solution for $ N = 4 $ is $ (a, b, c) = (\textsc{apple}, \textsc{banana}, \textsc{pineapple}) $.
+\item The smallest solution for $ N = 178 $ has four hundred million digits.
+\item There are no solutions for $ N $ is odd.
+\item There may also be no solutions if $ N $ is even.
+\item There are infinitely many even $ N $ with solutions.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[c]{Further references}
+
+\begin{itemize}
+\item A Amit's 2017 Quora answer on \emph{How do you find the positive integer solutions to}
+$$ \dfrac{x}{y + z} + \dfrac{y}{z + x} + \dfrac{z}{x + y} = 4? $$
+\item A Bremner and A Macleod's 2014 paper on \emph{An unusual cubic representation problem}
+\item J Silverman's 1986 book on \emph{The arithmetic of elliptic curves}
+\item R Hartshorne's 1977 book on \emph{Algebraic geometry}
+\item N Duif's 2011 implementation on \emph{Transforming a general cubic elliptic curve equation to Weierstrass form}
+\item M Laska's 1982 paper on \emph{An algorithm for finding a minimal weierstrass equation for an elliptic curve}
+\end{itemize}
+
+\end{frame}
+
+\end{document}

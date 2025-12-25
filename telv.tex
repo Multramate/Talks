@@ -1,0 +1,470 @@
+\input{header}
+\usetheme{hannover}
+\title{Twisted elliptic L-values}
+\subtitle{Early Number Theory Researchers Workshop 2023}
+\author[David Ang]{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Friday, 25 August 2023}
+
+\begin{document}
+
+\frame\maketitle
+
+\section{Introduction}
+
+\begin{frame}{A tale of two ranks}
+
+Let $ E $ be an elliptic curve over $ \Q $, and let $ K $ be a number field.
+
+\bigskip
+
+\begin{theorem}[Mordell--Weil]
+The set of $ K $-points $ E(K) $ is a finitely generated abelian group.
+\end{theorem}
+
+In particular, $ E(K) \cong \tor_{E / K} \times \Z^{\rk_{E / K}} $, where
+\begin{itemize}
+\item $ \tor_{E / K} $ is the \emph{torsion subgroup}, and
+\item $ \rk_{E / K} $ is the \emph{(algebraic) rank}.
+\end{itemize}
+While $ \tor_{E / K} $ is classified, $ \rk_{E / K} $ remains mysterious.
+
+\bigskip
+
+\begin{conjecture}[Birch--Swinnerton-Dyer, weak form]
+The order of vanishing of $ L_{E / K}(s) $ at $ s = 1 $ is equal to $ \rk_{E / K} $.
+\end{conjecture}
+
+This is called the \emph{analytic rank}.
+
+\end{frame}
+
+\begin{frame}{L-functions}
+
+For any $ G_K $-representation $ \rho $, its \textbf{local Euler factor} is given by
+$$ L_\pp(\rho, T) := \det(1 - T \cdot \phi_\pp \mid \rho^{I_\pp}), $$
+where $ \phi_\pp \in G_K $ is a Frobenius and $ I_\pp \le G_K $ is the inertia subgroup. The \textbf{(Hasse--Weil) L-function of $ E / K $} is given by
+$$ L_{E / K}(s) := \prod_\pp \dfrac{1}{L_\pp(\rho_{E, \ell}, \Nm(\pp)^{-s})}, $$
+where $ \rho_{E, \ell} $ is the rational $ \ell $-adic Tate module as a $ G_K $-representation.
+
+\begin{example}[$ K = \Q $]
+Let $ a_p := 1 + p - \#E(\F_p) $. Then
+$$ L_p(\rho_{E, \ell}, p^{-s}) =
+\begin{cases}
+1 - a_pp^{-s} + p^{1 - 2s} & \text{if} \ p \nmid \Delta(E), \\
+1 - a_pp^{-s} & \text{if} \ p \mid \Delta(E).
+\end{cases}
+$$
+\end{example}
+
+\end{frame}
+
+\begin{frame}{The BSD conjecture}
+
+\begin{conjecture}[Birch--Swinnerton-Dyer, strong form]
+The leading term of $ L_{E / K}(s) $ at $ s = 1 $ satisfies
+$$ \lim_{s \to 1} \dfrac{L_{E / K}(s)}{(s - 1)^{\rk_{E / K}}} \cdot \dfrac{\sqrt{|\Delta_K|}}{\Omega_{E / K}} = \dfrac{C_{E / K} \cdot R_{E / K} \cdot \#\Sha_{E / K}}{\#\tor_{E / K}^2}. $$
+\vspace{-0.5cm}
+\end{conjecture}
+
+Here,
+\begin{itemize}
+\item $ \Omega_{E / K}$ is the \emph{global period},
+\item $ C_{E / K} $ is the \emph{Tamagawa product},
+\item $ R_{E / K} $ is the \emph{regulator}, where $ R_{E / K} = 1 $ if $ \rk_{E / K} = 0 $, and
+\item $ \Sha_{E / K} $ is the \emph{Tate--Shafarevich group}, conjecturally finite.
+\end{itemize}
+If $ \rk_{E / K} = 0 $, the LHS is called the \textbf{algebraic L-value}, given by
+$$ \LLL_{E / K} := L_{E / K}(1) \cdot \dfrac{\sqrt{\Delta_K}}{\Omega_{E / K}}. $$
+
+\end{frame}
+
+\section{Dirichlet twists}
+
+\begin{frame}{Twisted L-functions}
+
+Let $ K = \Q(\zeta_m) $, and let $ \chi : (\Z / m\Z)^\times \to \C^\times $ be a Dirichlet character.
+
+\bigskip The \textbf{(Hasse--Weil) L-function of $ E $ twisted by $ \chi $} is given by
+$$ L_{E, \chi}(s) := \prod_p \dfrac{1}{L_p(\rho_{E, \ell} \otimes \chi, p^{-s})}. $$
+Note that
+$$ L_E(s) = \sum_{n \in \N} \dfrac{a_n}{n^s} \quad \overset{\chi}{\rightsquigarrow} \quad L_{E, \chi}(s) = \sum_{n \in \N} \dfrac{a_n\chi(n)}{n^s}. $$
+By representation theory, there is a factorisation
+$$ L_{E / K}(s) = \prod_\chi L_{E, \chi}(s), $$
+where $ \chi : (\Z / m\Z)^\times \to \C^\times $ runs over primitive Dirichlet characters.
+
+\end{frame}
+
+\begin{frame}{A twisted BSD conjecture}
+
+\begin{conjecture}[Deligne--Gross]
+The order of vanishing of $ L_{E, \chi}(s) $ at $ s = 1 $ is equal to $ \langle\chi, E(K)_\C\rangle $.
+\end{conjecture}
+
+\bigskip Unfortunately, a twisted version of strong BSD seems difficult.
+
+\begin{example}[Dokchitser--Evans--Wiersema]
+Let $ E_1 $ and $ E_2 $ be elliptic curves given by Cremona labels 307a1 and 307c1, and let $ \chi : (\Z / 11\Z)^\times \to \C^\times $ be the primitive Dirichlet character of order $ 5 $ and conductor $ 11 $ given by $ \chi(2) = \zeta_5 $. Then
+$$ C_{E_i / K} = R_{E_i / K} = \Sha_{E_i / K} = \tor_{E_i / K} = 1, $$
+for $ K \subseteq \Q(\zeta_{11})^+ $, but
+$$ \LLL_{E_1, \chi} = 1, \qquad \LLL_{E_2, \chi} = \zeta_5(1 + \zeta_5^4)^2. $$
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Algebraic twisted L-values}
+
+If $ \rk_E = 0 $, the \textbf{algebraic twisted L-value} is given by
+$$ \LLL_{E, \chi} := L_{E, \chi}(1) \cdot \dfrac{\tau(\overline{\chi})}{\Omega_E}, $$
+where $ \tau(\overline{\chi}) $ is the \textbf{Gauss sum}
+$$ \tau(\overline{\chi}) := \sum_{n \in (\Z / m\Z)^\times} \overline{\chi}(n)\zeta_m^n. $$
+In general $ \LLL_{E, \chi} \in \overline{\Q} $, but some integrality statements are known.
+
+\bigskip
+
+\begin{theorem}[Wiersema--Wuthrich]
+If $ E $ is semistable optimal of conductor $ N_E $, and if $ \chi $ is primitive of order $ k $ and conductor coprime to $ N_E $, then $ \LLL_{E, \chi} \in \Z[\zeta_k] $.
+\end{theorem}
+
+There are stronger statements under the \emph{Manin constant conjecture}.
+
+\end{frame}
+
+\section{Real values}
+
+\begin{frame}{Real algebraic twisted L-values}
+
+Assume that $ \rk_E = 0 $, and that $ \chi $ is primitive of order $ k > 2 $.
+
+\bigskip
+
+\begin{lemma}[Kisilevsky--Nam]
+Let $ \omega_E $ be the ``root number'' of $ E $. Then $ \lambda_\chi \cdot \LLL_{E, \chi} \in \Z[\zeta_k]^+ $, where
+$$ \lambda_\chi :=
+\begin{cases}
+1 & \text{if} \ \omega_E \cdot \chi(-N_E) = 1, \\
+\chi(m) - \overline{\chi(m)} & \text{if} \ \omega_E \cdot \chi(-N_E) = -1, \\
+1 + \omega_E \cdot \overline{\chi(-N_E)} & \text{if} \ \omega_E \cdot \chi(-N_E) \ne \pm 1,
+\end{cases}
+\qquad m \in \Z. $$
+\end{lemma}
+
+This is called the \textbf{real algebraic twisted L-value} $ \LLL_{E, \chi}^+ $.
+
+\begin{example}[$ k = 3 $]
+$$ \Z \ni \LLL_{E, \chi}^+ =
+\begin{cases}
+\Re(\LLL_{E, \chi}) & \text{if} \ \omega_E \cdot \chi(N_E) = 1, \\
+2\Re(\LLL_{E, \chi}) & \text{if} \ \omega_E \cdot \chi(N_E) \ne 1.
+\end{cases}
+$$
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Some observations}
+
+Let $ \chi : (\Z / p\Z)^\times \to \C^\times $ run over primes $ p \equiv 1 \mod 3 $.
+
+\begin{example}[Kisilevsky--Nam]
+Let $ E $ be the elliptic curve given by the Cremona label 11a1.
+{\scriptsize $$
+\begin{array}{r|rrrrrrrrrrr}
+p & 7 & 13 & 19 & 31 & 37 & 43 & 61 & 67 & 73 & 79 & 97 \\
+\hline
+\LLL_{E, \chi}^+ & 5 & -10 & -10 & 5 & 20 & 5 & -10 & 15 & 5 & 15 & -30 \\
+\overline{\LLL}_{E, \chi}^+ & 1 & -2 & -2 & 1 & 4 & 1 & -2 & 3 & 1 & 3 & -6 \\
+{[\overline{\LLL}_{E, \chi}^+]_3} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 \\
+{[\#E(\F_p)]_3} & 1 & 1 & 2 & 1 & 2 & 2 & 2 & 0 & 1 & 0 & 0 \\
+\chi(N_E) & \zeta_3 & \zeta_3 & 1 & \overline{\zeta_3} & 1 & 1 & 1 & \overline{\zeta_3} & \zeta_3 & \overline{\zeta_3} & \overline{\zeta_3}
+\end{array}
+$$
+$$
+\begin{array}{r|rrrrrrrrrr}
+p & 103 & 109 & 127 & 139 & 151 & 157 & 163 & 181 & 193 & 199 \\
+\hline
+\LLL_{E, \chi}^+ & 30 & 5 & 15 & 5 & 0 & 0 & 80 & 50 & -5 & -55 \\
+\overline{\LLL}_{E, \chi}^+ & 6 & 1 & 3 & 1 & 0 & 0 & 16 & 10 & -1 & -11 \\
+{[\overline{\LLL}_{E, \chi}^+]_3} & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 1 & 2 & 1 \\
+{[\#E(\F_p)]_3} & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 & 2 \\
+\chi(N_E) & \zeta_3 & \overline{\zeta_3} & \overline{\zeta_3} & \zeta_3 & \zeta_3 & \zeta_3 & \overline{\zeta_3} & \overline{\zeta_3} & 1 & 1
+\end{array}
+$$}
+Here, $ \overline{\LLL}_{E, \chi}^+ := \LLL_{E, \chi}^+ / \gcd_{\chi'}\{\LLL_{E, \chi'}^+\} $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Some phenomena}
+
+If $ E $ is the elliptic curve given by the Cremona label 11a1,
+$$ \overline{\LLL}_{E, \chi}^+ \equiv_3
+\begin{cases}
+0 & \text{if} \ \#E(\F_p) \equiv 0 \mod 3, \\
+2 & \text{if} \ \#E(\F_p) \equiv 1 \mod 3 \ \text{and} \ \chi(N_E) = 1, \\
+1 & \text{otherwise}.
+\end{cases}
+$$
+KN computed $ \overline{\LLL}_{E, \chi}^+ $ modulo $ 3 $ for six elliptic curves.
+\begin{itemize}
+\item For 14a1, $ \overline{\LLL}_{E, \chi}^+ \equiv 2 \mod 3 $ often occurs.
+\item For 11a1, 15a1, 17a1, $ \overline{\LLL}_{E, \chi}^+ \equiv 2 \mod 3 $ rarely occurs.
+\item For 19a1, 37b1, $ \overline{\LLL}_{E, \chi}^+ \equiv 2 \mod 3 $ never occurs.
+\end{itemize}
+
+\bigskip
+
+\begin{theorem}[A.]
+I can partially explain the DEW and KN phenomena.
+\end{theorem}
+
+\end{frame}
+
+\section{Modular symbols}
+
+\begin{frame}{The modularity theorem}
+
+Let $ E $ be a semistable optimal elliptic curve over $ \Q $ of conductor $ N_E $.
+
+\bigskip
+
+\begin{theorem}[Taylor--Wiles]
+There is an eigenform $ f_E \in S_2(\Gamma_0(N_E)) $ with (Hecke) L-function $ L_{f_E}(s) = L_E(s) $, such that the Hecke operator $ T_p $ has eigenvalue $ a_p $.
+\end{theorem}
+
+\bigskip For any cusp form $ f \in S_k(\Gamma) $, its L-function is a Mellin transform
+$$ L_f(s) := \dfrac{(-2\pi i)^s}{\Gamma(s)}\int_0^\infty z^{s - 1}f(z)\d z. $$
+Set $ s = 1 $:
+$$ L_f(1) = -2\pi i\int_0^\infty f(z)\d z =: -\langle\{0, \infty\}, f\rangle. $$
+This is a \emph{period} of the \emph{modular symbol} $ \{0, \infty\} $.
+
+\end{frame}
+
+\begin{frame}{Classical modular symbols}
+
+Let $ \HH $ be the extended upper half plane, and let $ \phi : \HH \twoheadrightarrow \HH / \Gamma =: X_\Gamma $.
+
+\bigskip A \textbf{modular symbol} is a class $ \{x, y\} \in H_1(X_\Gamma, \R) $ for any $ x, y \in \HH $.
+\begin{itemize}
+\item If $ \Gamma \cdot x = \Gamma \cdot y $, then $ \phi(x \rightsquigarrow y) \in H_1(X_\Gamma, \Z) $, and conversely any $ \gamma \in H_1(X_\Gamma, \Z) $ arises from $ x, y \in \HH $ in the same $ \Gamma $-orbit. Define
+$$ \{x, y\} := \phi(x \rightsquigarrow y). $$
+\item The map $ H_1(X_\Gamma, \Z) \to \Hom_\C(S_2(\Gamma), \C) $ given by $ \gamma \mapsto \langle\gamma, \cdot\rangle $ extends to $ \psi : H_1(X_\Gamma, \R) \xrightarrow{\sim} \Hom_\C(S_2(\Gamma), \C) $. Define
+$$ \{x, y\} := \psi^{-1}\langle\phi(x \rightsquigarrow y), \phi^*(\cdot)\rangle. $$
+\end{itemize}
+Note that
+$$ \{x, x\} = 0, \quad \{x, y\} = -\{y, x\}, \quad \{x, y\} + \{y, z\} = \{x, z\}, $$
+$$ \langle\{x, y\}, M \cdot f\rangle = \langle\{M \cdot x, M \cdot y\}, f\rangle, \qquad M \in \Gamma. $$
+
+\end{frame}
+
+\begin{frame}{L-values as periods}
+
+Let $ p \nmid N_E $. The Hecke operator $ T_p $ acts on $ H_1(X_\Gamma, \Q) $ by
+$$ T_p \cdot \{x, y\} = \{px, py\} + \sum_{n = 0}^{p - 1} \{\tfrac{x + n}{p}, \tfrac{y + n}{p}\}. $$
+
+\begin{lemma}[Manin]
+\vspace{-0.5cm}
+$$ -\#E(\F_p) \cdot \LLL_E = \dfrac{1}{\Omega_E}\sum_{n = 1}^{p - 1} \langle\{0, \tfrac{n}{p}\}, f_E\rangle. $$
+\vspace{-0.5cm}
+\end{lemma}
+
+\begin{proof}
+Set $ \{x, y\} = \{0, \infty\} $ in the Hecke action and apply the pairing $ \langle\cdot, f_E\rangle $:
+$$ \underbrace{(1 + p - a_p)}_{\#E(\F_p)} \cdot \underbrace{\langle\{0, \infty\}, f_E\rangle}_{-L_E(1)} = \sum_{n = 1}^{p - 1} \underbrace{\langle\{0, \tfrac{n}{p}\}, f_E\rangle}_{???}. $$
+Multiply by $ \tfrac{1}{\Omega_E} $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Twisted L-values as periods}
+
+\begin{lemma}[Manin]
+\vspace{-0.5cm}
+$$ \LLL_{E, \chi} = \dfrac{1}{\Omega_E}\sum_{n = 1}^{p - 1} \overline{\chi}(n)\langle\{0, \tfrac{n}{p}\}, f_E\rangle. $$
+\vspace{-0.5cm}
+\end{lemma}
+
+\begin{proof}
+For any $ m \in (\Z / p\Z)^\times $, the discrete Fourier transform of $ \chi(m) $ is
+$$ \chi(m) = \dfrac{1}{\tau(\overline{\chi})}\sum_{n = 1}^{p - 1} \overline{\chi}(n)\zeta_p^{mn}. $$
+Substitute into $ \sum_m a_m\chi(m)q^m $ and apply the Mellin transform:
+$$ L_{E, \chi}(1) = \dfrac{1}{\tau(\overline{\chi})}\sum_{n = 1}^{p - 1} \overline{\chi}(n)\underbrace{\langle\{0, \infty\}, M \cdot f_E\rangle}_{\text{apply properties}}, \qquad M := \begin{pmatrix} p & k \\ 0 & p \end{pmatrix}. $$
+Multiply by $ \tfrac{\tau(\overline{\chi})}{\Omega_E} $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{A congruence for L-values}
+
+Let $ E $ be a semistable optimal elliptic curve over $ \Q $ of conductor $ N_E $, let $ p \nmid N_E $, and let $ \chi : (\Z / p\Z)^\times \to \C^\times $ be a Dirichlet character. Then
+\begin{align*}
+-\#E(\F_p) \cdot \LLL_E & = \dfrac{1}{\Omega_E}\sum_{n = 1}^{p - 1} \langle\{0, \tfrac{n}{p}\}, f_E\rangle, \\
+\LLL_{E, \chi} & = \dfrac{1}{\Omega_E}\sum_{n = 1}^{p - 1} \overline{\chi}(n)\langle\{0, \tfrac{n}{p}\}, f_E\rangle.
+\end{align*}
+
+\begin{corollary}[A]
+If $ \chi $ has prime order $ k $, then
+$$ -\#E(\F_p) \cdot \LLL_E \equiv \LLL_{E, \chi} \mod (1 - \zeta_k). $$
+\vspace{-0.5cm}
+\end{corollary}
+
+\begin{proof}
+By integrality, the lemmata, and $ \overline{\chi} \equiv 1 \mod (1 - \zeta_k) $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{A congruence for cubic twists}
+
+Let $ \chi : (\Z / p\Z)^\times \to \C^\times $ be a cubic primitive Dirichlet character.
+
+\begin{corollary}[B]
+\vspace{-0.5cm}
+$$ \LLL_{E, \chi}^+ \equiv_3 \#E(\F_p) \cdot \LLL_E \cdot
+\begin{cases}
+2 & \text{if} \ \omega_E \cdot \chi(N_E) = 1, \\
+1 & \text{if} \ \omega_E \cdot \chi(N_E) \ne 1.
+\end{cases}
+$$
+\vspace{-0.5cm}
+\end{corollary}
+
+\begin{proof}
+By cases of corollary (A).
+\end{proof}
+
+\bigskip
+
+\begin{corollary}[C]
+\vspace{-0.5cm}
+$$ \overline{\LLL}_{E, \chi}^+ \equiv_3 \#E(\F_p) \cdot \LLL_E \cdot \gcd_{\chi'}\{\LLL_{E, \chi'}^+\} \cdot
+\begin{cases}
+2 & \text{if} \ \omega_E \cdot \chi(N_E) = 1, \\
+1 & \text{if} \ \omega_E \cdot \chi(N_E) \ne 1.
+\end{cases}
+$$
+\vspace{-0.5cm}
+\end{corollary}
+
+\begin{proof}
+By cases of corollary (B).
+\end{proof}
+
+\end{frame}
+
+\section{Explanations}
+
+\begin{frame}{DEW phenomena}
+
+Recall that if $ E_1 $ and $ E_2 $ are elliptic curves given by Cremona labels 307a1 and 307c1, and $ \chi : (\Z / 11\Z)^\times \to \C^\times $ is the primitive Dirichlet character of order $ 5 $ and conductor $ 11 $ given by $ \chi(2) = \zeta_5 $, then
+$$ C_{E_i / K} = R_{E_i / K} = \Sha_{E_i / K} = \tor_{E_i / K} = 1, $$
+for $ K \subseteq \Q(\zeta_{11})^+ $, but
+$$ \LLL_{E_1, \chi} = 1, \qquad \LLL_{E_2, \chi} = \zeta_5(1 + \zeta_5^4)^2. $$
+Note that $ \LLL_{E_i} = 1 $, and
+$$ \#E_1(\F_{11}) = 9, \qquad \#E_2(\F_{11}) = 16, $$
+so corollary (A) says $ \LLL_{E_1, \chi} \not\equiv \LLL_{E_2, \chi} \mod (1 - \zeta_5) $.
+
+\bigskip In fact, corollary (A) partially explains all examples in DEW where $ \chi $ is quintic, and fully explains all examples in DEW where $ \chi $ is cubic.
+
+\end{frame}
+
+\begin{frame}{Insufficiency of congruence}
+
+Unfortunately, there are elliptic curves $ E_1 $ and $ E_2 $ over $ \Q $, where $ \LLL_{E_1, \chi} \equiv \LLL_{E_2, \chi} \mod (1 - \zeta_5) $, but $ \LLL_{E_1, \chi} \ne \LLL_{E_2, \chi} $.
+
+\bigskip
+
+\begin{example}[A.]
+Let $ E_1 $ and $ E_2 $ be elliptic curves given by Cremona labels 130b3 and 312c3, and let $ \chi : (\Z / 11\Z)^\times \to \C^\times $ be the primitive Dirichlet character of order $ 5 $ and conductor $ 11 $ given by $ \chi(2) = \zeta_5 $. Then
+$$ C_{E_i / K} = 2, \qquad R_{E_i / K} = 1, \qquad \Sha_{E_i / K} \cong \tor_{E_i / K} \cong (\Z / 2\Z)^2, $$
+for $ K \subseteq \Q(\zeta_{11})^+ $, and furthermore $ \#E_i(\F_{11}) = 12 $ and $ \LLL_{E_i} = \tfrac{1}{2} $, but
+$$ \LLL_{E_1, \chi} = -4\zeta_5^3, \qquad \LLL_{E_2, \chi} = -4\zeta_5, $$
+which are not equal but congruent modulo $ (1 - \zeta_5) $.
+\end{example}
+
+\bigskip Heuristically, the norm of $ \overline{\LLL}_{E, \chi}^+ $ is the $ \chi $-component of $ \Sha_E $.
+
+\end{frame}
+
+\begin{frame}{KN phenomena}
+
+Recall that if $ E $ is the elliptic curve given by the Cremona label 11a1,
+$$ \overline{\LLL}_{E, \chi}^+ \equiv_3
+\begin{cases}
+0 & \text{if} \ \#E(\F_p) \equiv 0 \mod 3, \\
+2 & \text{if} \ \#E(\F_p) \equiv 1 \mod 3 \ \text{and} \ \chi(N_E) = 1, \\
+1 & \text{otherwise}.
+\end{cases}
+$$
+Note that $ \LLL_E \cdot \gcd_{\chi'}\{\LLL_{E, \chi'}^+\} = 1 $ and $ \omega_E = 1 $, so corollary (C) says
+$$ \overline{\LLL}_{E, \chi}^+ \equiv_3
+\begin{cases}
+2\#E(\F_p) & \text{if} \ \chi(N_E) = 1, \\
+\#E(\F_p) & \text{if} \ \chi(N_E) \ne 1.
+\end{cases}
+$$
+This fully explains the three cases, except for when $ \#E(\F_p) \equiv 1 \mod 3 $ or $ \chi(N_E) = 1 $. In fact, corollary (C) fully explains $ \overline{\LLL}_{E, \chi}^+ $ modulo $ 3 $ for any elliptic curve $ E $ over $ \Q $ where
+\begin{itemize}
+\item $ E $ does not have rational $ 3 $-isogenies, and
+\item the $ 3 $-division field $ \Q(x(E[3])) $ of $ E $ contains $ \sqrt[3]{N_E} $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{The missing piece}
+
+\begin{theorem}[A.--Dokchitser]
+Assume that
+\begin{itemize}
+\item $ E $ does not have rational $ 3 $-isogenies, and
+\item the $ 3 $-division field $ \Q(x(E[3])) $ of $ E $ contains $ \sqrt[3]{N_E} $.
+\end{itemize}
+If $ \#E(\F_p) \equiv 2 \mod 3 $, then $ \chi(N_E) = 1 $.
+\end{theorem}
+
+\begin{proof}
+The assumptions imply that
+$$ \Gal(\Q(x(E[3])) / \Q) \cong \PGL_2(\F_3) \cong S_4. $$
+This has a quotient
+$$ \Gal(\Q(\sqrt[3]{N_E}, \zeta_3) / \Q) \cong S_4 / K_4 \cong S_3. $$
+If $ \#E(\F_p) \equiv 2 \mod 3 $, then $ a_p \equiv 0 \mod 3 $, so $ \phi_p^2 = 1 $ in $ S_4 $. By group theory, $ \phi_p = 1 $ in $ S_3 $, but it acts as $ \chi(N_E) $ on $ \Q(\sqrt[3]{N_E}, \zeta_3) $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Other KN phenomena}
+
+Key idea: understand how $ \phi_p $ acts on $ \Q(x(E[3])) $ and $ \Q(\sqrt[3]{N_E}, \zeta_3) $.
+
+\bigskip In general, $ \phi_p \ne 1 $ in $ \Gal(\Q(x(E[3])) / \Q) \le \PGL_2(\F_3) $.
+\begin{itemize}
+\item If $ E $ has rational $ 3 $-isogenies, then $ \overline{\LLL}_{E, \chi}^+ $ modulo $ 3 $ is partially explained by how $ \phi_p $ acts on the $ 9 $-division field $ \Q(x(E[9])) $.
+\item If $ \Q(x(E[3])) $ does not contain $ \sqrt[3]{N_E} $, then $ \overline{\LLL}_{E, \chi}^+ $ modulo $ 3 $ is fully explained by how $ \phi_p $ acts on $ \Q(x(E[3]), \sqrt[3]{N_E}) $.
+\end{itemize}
+The elliptic curves given by Cremona labels 11a1, 15a1, 17a1 are generic, but those given by 14a1, 19a1, 37b1 are special.
+
+\bigskip
+
+\begin{theorem}[A.]
+I understand how $ \phi_p $ acts on $ \Q(x(E[9]), \sqrt[3]{N_E}) $.
+\end{theorem}
+
+This crucially uses the classification of $ 3 $-adic images of Galois for elliptic curves over $ \Q $ by Rouse--Sutherland--Zureick-Brown.
+
+\end{frame}
+
+\section{}
+
+\begin{frame}[c]{Future work}
+
+Here are some potential extensions, listed in increasing difficulty:
+\begin{itemize}
+\item replace $ \Q $ with a global field
+\item replace $ \chi $ with an Artin representation
+\item replace $ E $ with the Jacobian of a higher genus curve
+\item remove the $ \rk_E = 0 $ assumption
+\end{itemize}
+
+\end{frame}
+
+\end{document}

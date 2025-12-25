@@ -1,0 +1,176 @@
+\def\type{}
+\input{header}
+\title{The Brauer--Manin obstruction}
+\author{David Kurniadi Angdinata}
+\date{Tuesday, 5 December 2023}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+A Diophantine equation with a rational solution always has a real solution and a $ p $-adic solution for every prime number $ p $, but the converse is not always true --- why?
+\end{abstract}
+
+\section{Diophantine equations}
+
+Number theorists have been fascinated with solving Diophantine equations for millennia. To this end, Hilbert asked if there is a deterministic algorithm that decides whether any Diophantine equation has an integral solution, and this was answered in the negative by Matiyasevich--Robinson--Davis--Putnam. The analogous problem is trivial over an archimedean local field or a finite field, and is well-understood over a non-archimedean local field via Hensel's lemma, but is completely open for a number field.
+
+A natural first step is to search for rational solutions with small height in a bounded box. If the Diophantine equation does have a solution, this procedure will eventually terminate, albeit possibly taking longer than the heat death of the universe. If it does not have solutions in the first place, this procedure will never terminate, so a more systematic approach is necessary. One approach is to understand the local solutions of the Diophantine equation, and apply a local-global principle to get a global rational solution.
+
+\section{The Hasse principle}
+
+Throughout, let $ K $ be a number field, and let $ \A_K $ denote its ring of ad\`eles. For any place $ v \in \Omega_K $, let $ K_v $ denote its completion at $ v $, let $ K_v^\nr $ denote its maximal unramified extension, let $ \OO_v $ denote its valuation ring, and let $ \F_v $ denote its residue field. Furthermore, let $ X $ be a smooth projective geometrically integral variety over $ K $, and let $ X_L $ and $ X(L) $ be its base change and rational points over an extension $ L $ of $ K $ respectively.
+
+For any place $ v \in \Omega_K $, the embedding $ K \hookrightarrow K_v $ induces an inclusion $ \iota_{K_v} : X(K) \hookrightarrow X(K_v) $, so clearly $ X(K_v) = \emptyset $ implies that $ X(K) = \emptyset $. In fancier terminology, this says that there is a \textbf{local obstruction} to existence of rational points on $ X $. In fact, checking that $ X(\F_v) = \emptyset $ is often enough by Hensel's lemma.
+
+\begin{example}
+Let $ X $ be given by $ x^2 + y^2 - 3z^2 = 0 $. Then $ (\tfrac{-1}{3}) = -1 $, so $ X(\F_3) = X(\Q_3) = X(\Q) = \emptyset $.
+\end{example}
+
+By considering all places simultaneously, the diagonal embedding $ K \hookrightarrow \A_K $ induces an inclusion $ \iota_{\A_K} : X(K) \hookrightarrow X(\A_K) $, which by the valuative criterion for properness is equal to $ \prod_{v \in \Omega_K} X(K_v) $ since $ X $ is projective. Although this is an infinite product, checking for local obstructions is a finite process.
+
+\begin{proposition}
+There is an effectively computable finite set of places $ v \in \Omega_K $ such that $ X(K_v) = \emptyset $.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+Let $ C $ be a smooth geometrically integral curve on $ X $, which has finitely many places of bad reduction. For any place $ v \in \Omega_K $ of good reduction, there is some smooth point in $ C(\F_v) $ for sufficiently large $ \#\F_v $ by the Hasse--Weil bound, so Hensel's lemma lifts this to some smooth point in $ C(\Q_v) $.
+\end{proof}
+
+If one's luck depletes, it may be the case that $ X(\A_K) \ne \emptyset $ but $ X(K) = \emptyset $ in a box with bounded height. It begs the question of whether $ X(\A_K) \ne \emptyset $ is sufficient for $ X(K) \ne \emptyset $, but this is not true in general.
+
+\pagebreak
+
+\begin{example}[Lind--Reichardt]
+Let $ X $ be given by the genus one curve $ 2y^2 = x^4 - 17z^4 $, which has bad reduction at $ 2 $ and $ 17 $. Clearly $ (\sqrt{2} : \sqrt{2} : 0) \in X(\R) $. For any prime $ p $ of good reduction, the Hasse--Weil bound gives $ \#X(\F_p) \ge p + 1 - 2\sqrt{p} > 0 $, which lifts by Hensel's lemma to give $ X(\Q_p) \ne \emptyset $. Furthermore, $ (\sqrt{2} : \sqrt{2} : 0) \in X(\Q_{17}) $ since $ 2 \equiv 6^2 \mod 17 $ and $ (\sqrt[4]{17} : 0 : 1) \in X(\Q_2) $ since $ 17 \equiv 3^4 \mod 64 $. On the other hand, if $ (x : y : z) \in X(\Q) $, then without loss of generality $ x, y, z \in \Z $ such that $ \gcd(x, z) = 1 $ and $ y > 0 $. For any odd prime $ p \mid y $, reducing modulo $ p $ gives $ x^4 \equiv 17z^4 \mod p $, so quadratic reciprocity says that $ p $ is a square modulo $ 17 $. Since $ \pm2 $ are also squares modulo $ 17 $, in fact $ y $ is itself a square modulo $ 17 $, so let $ y = y'^2 $ for some $ y' \in \Z $. Then $ 2y'^4 \equiv x^4 \mod 17 $, but $ 2 $ is not a fourth power modulo $ 17 $.
+\end{example}
+
+In fact, this represents an element of the Tate--Shafarevich group of the elliptic curve $ y^2 = x^3 + 17x $. In a strange stroke of luck, if the converse were to hold for $ X $, say that \textbf{the Hasse principle} holds for $ X $.
+
+\begin{example}
+The Hasse principle is known to hold for many families of varieties:
+\begin{itemize}
+\item (Hasse--Minkowski) quadric hypersurfaces
+\item Severi--Brauer varieties
+\item del Pezzo surfaces of degree at least five
+\end{itemize}
+On the other hand, there are many individual varieties where the Hasse principle fails:
+\begin{itemize}
+\item (Selmer) a cubic curve given by $ 3x^3 + 4y^3 + 5z^3 = 0 $
+\item (Cassels--Guy) a cubic surface given by $ 5x^3 + 12y^3 + 9z^3 + 10t^3 = 0 $
+\item (Birch--Swinnerton-Dyer) a del Pezzo surface given by $ uv = x^2 - 5y^2 $ and $ (u + v)(u + 2v) = x^2 - 5z^2 $
+\end{itemize}
+Counter-examples to the Hasse principle have also been constructed for a few families of varieties:
+\begin{itemize}
+\item curves of arbitrary genus at least one
+\item del Pezzo surfaces of degree between two and four, such as cubic surfaces
+\item K3 surfaces, such as quartics
+\end{itemize}
+\end{example}
+
+In the examples where the Hasse principle fails, there is no local obstruction, so a more refined obstruction is necessary to explain these counter-examples. The idea is to construct an obstruction set $ S $ sandwiched in
+$$ X(K) \subseteq S \subseteq X(\A_K), $$
+such that $ X(\A_K) \ne \emptyset $ but $ S = \emptyset $, and this will be defined in terms of the Brauer group of $ X $.
+
+\section{Brauer groups}
+
+Let $ X $ be the spectrum $ \Spec(F) $ of a field $ F $. A \textbf{central simple algebra} over $ F $ is a finite-dimensional algebra over $ F $ with centre $ F $ and with no non-trivial two-sided ideals. For instance, any matrix algebra $ \Mat_n(F) $ over $ F $ is a central simple algebra over $ F $, and the tensor product $ A \otimes_F B $ of two central simple algebras $ A $ and $ B $ over $ F $ is also central simple algebra over $ F $. Two central simple algebras over $ F $ are \textbf{Brauer equivalent} if there are $ m, n \in \N $ such that $ A \otimes_F \Mat_m(F) \cong B \otimes_F \Mat_n(F) $ as algebras over $ F $.
+
+\begin{proposition}
+The Brauer equivalence classes of central simple algebras over $ F $ forms a torsion abelian group under $ \otimes_F $ with identity $ \Mat_n(F) $, and is isomorphic to the Galois cohomology group $ H^2(\Gal(\overline{F} / F), \overline{F}^\times) $.
+\end{proposition}
+
+\begin{proof}[Sketch of proof]
+The inverse of a central simple algebra is its opposite algebra, and the group axioms can be checked individually. The final statement follows from the parameterisation of central simple algebras over $ F $ of degree $ n $ by $ H^1(F, \PGL_n) $ and considering the long exact sequence of $ 1 \to \G_m \to \GL_n \to \PGL_n \to 1 $.
+\end{proof}
+
+This group is called the \textbf{Brauer group} $ \Br(F) $ of $ F $.
+
+\pagebreak
+
+\begin{example}
+Here are some examples of Brauer groups of fields.
+\begin{itemize}
+\item $ \Br(\F_p) = \Br(\C) = \Br(\C(X)) = 0 $.
+\item There are two central simple algebras over $ \R $ given by itself and $ \H $, so $ \Br(\R) \cong \tfrac{1}{2}\Z / \Z $.
+\item For any finite place $ v \in \Omega_K $, there is a map $ \inv_v : \Br(K_v) \to \Q / \Z $, given by the composition
+$$ \Br(K_v) \hookleftarrow H^2(\Gal(K_v^\nr / K_v), K_v^{\nr\times}) \xleftarrow{\phi_p^v \mapsfrom v} H^2(\widehat{\Z}, \Z) \xleftarrow{\delta} H^1(\widehat{\Z}, \Q / \Z) \xrightarrow{\phi \mapsto \phi(1)} \Q / \Z, $$
+which is an isomorphism by the proof of local class field theory.
+\end{itemize}
+\end{example}
+
+\begin{theorem}[Albert--Brauer--Hasse--Noether]
+There is a short exact sequence
+$$ 0 \to \Br(K) \to \bigoplus_{v \in \Omega_K} \Br(K_v) \xrightarrow{\sum_v \inv_v} \Q / \Z \to 0. $$
+\end{theorem}
+
+\begin{proof}[Sketch of proof]
+The maps are induced covariant functorially, and injectivity follows from the vanishing of the first Galois cohomology of the id\'ele class group associated to $ K $ in the proof of global class field theory.
+\end{proof}
+
+In general, the Brauer group of a scheme $ X $ generalises that of $ F $ in two different ways. One way is to replace central simple algebras with \textbf{Azumaya algebras}, which are locally free $ \OO_X $-algebras such that every scheme-theoretic fibre $ X \otimes \kappa(x) $ is a central simple algebra over the residue field $ \kappa(x) $, and the resulting quotient group is the \textbf{Brauer--Azumaya group} $ \Br'(X) $. This interpretation is amenable to realising explicit elements in $ \Br'(X)[2] $ called quaternion algebras to get explicit obstructions.
+
+Another way is to replace Galois cohomology with \'etale cohomology to get the \textbf{Brauer--Grothendieck group} $ \Br(X) := H_\et^2(X, \G_m) $. For a general scheme $ X $, there is merely an injection $ \Br'(X) \hookrightarrow \Br(X) $, but in the relevant case of a quasi-projective variety over an affine scheme, this is an isomorphism of torsion abelian groups. This interpretation is amenable to abstractly computing $ \Br(X) $ via the \textbf{Leray spectral sequence}
+$$ H^p(\Gal(\overline{K} / K), H_\et^q(X_{\overline{K}}, \G_m)) \implies H_\et^{p + q}(X, \G_m), $$
+whose first few terms form an exact sequence
+$$ 0 \to \Pic(X) \to \Pic(X_{\overline{K}})^{\Gal(\overline{K} / K)} \to \Br(K) \to \ker(\Br(X) \to \Br(X_{\overline{K}})) \to H^1(\Gal(\overline{K} / K), \Pic(X_{\overline{K}})) \to 0. $$
+The kernel $ \Br_1(X) := \ker(\Br(X) \to \Br(X_{\overline{K}})) $ is called the \textbf{algebraic Brauer group}, whose quotient $ \Br(X) / \Br_1(X) $ is called the \textbf{transcendental Brauer group}. The latter is still rather mysterious, but can be computed by an exact sequence arising from higher terms in the Leray spectral sequence, given by
+$$ 0 \to \Br(X) / \Br_1(X) \to \Br(X_{\overline{K}}) \to H^2(\Gal(\overline{K} / K), \Pic(X_{\overline{K}})). $$
+
+\begin{example}
+Here are some examples of Brauer groups of schemes.
+\begin{itemize}
+\item If $ X $ is the spectrum of a field $ F $, then $ \Br(X) = \Br(\Spec(F)) $.
+\item If $ X $ is the projective line, then $ \Br(X) \cong \Br(K) $.
+\item If $ X $ is an elliptic curve, then $ \Br(X) \cong \Br(K) \oplus H^1(\Gal(\overline{K} / K), X) $.
+\end{itemize}
+\end{example}
+
+\section{The Brauer--Manin obstruction}
+
+In general, Brauer groups are difficult to compute, but their cohomological description proves to be useful in explaining the failure of the Hasse principle. The point is that $ \Br $ defines a contravariant functor, in the sense that a morphism $ f : X \to Y $ of smooth projective geometrically integral varieties induces a homomorphism $ f^* : \Br(Y) \to \Br(X) $ of torsion abelian groups. In particular, a point $ x \in X(L) $ over an extension $ L $ of $ K $ is just a map $ x : \Spec(L) \to X $, which induces a map $ x^* : \Br(X) \to \Br(L) $, and hence a pairing
+$$ \function[\langle-, -\rangle_L]{\Br(X) \times X(L)}{\Br(L)}{(A, x)}{x^*A}. $$
+
+\pagebreak
+
+When $ L = \A_K $, this is called the \textbf{Brauer--Manin pairing}. Turning this around, an Azumaya algebra $ A \in \Br(X) $ induces maps $ \langle A, -\rangle_K : X(K) \to \Br(K) $ and $ \langle A, -\rangle_{K_v} : X(K_v) \to \Br(K_v) $ for each place $ v \in \Omega_K $, and it turns out that the local maps are trivial for all but finitely many places $ v \in \Omega_K $, giving a map $ \langle A, -\rangle_{\A_K} : X(\A_K) \to \bigoplus_{v \in \Omega_K} \Br(K_v) $. Combining this with the short exact sequence yields a diagram
+$$
+\begin{tikzcd}
+& X(K) \arrow{r}{\iota_{\A_K}} \arrow{d} & X(\A_K) \arrow{d}{\langle A, -\rangle_{\A_K}} & & \\
+0 \arrow{r} & \Br(K) \arrow{r} & \displaystyle\bigoplus_{v \in \Omega_K} \Br(K_v) \arrow{r}[swap]{\sum_v \inv_v} & \Q / \Z \arrow{r} & 0.
+\end{tikzcd}
+$$
+Since the bottom row is exact, for any $ A \in \Br(X) $, the map
+$$ \function[\langle A, -\rangle_K]{X(K)}{\Q / \Z}{x}{\sum_{v \in \Omega_K} \inv_v\langle A, \iota_{K_v}(x)\rangle_{K_v}} $$
+is trivial, so $ X(K) $ lies in the subset of $ X(\A_K) $ orthogonal to $ A $ with respect to $ \langle A, -\rangle_K $, namely
+$$ X(\A_K)^A := \{x \in X(\A_K) : \langle A, x\rangle_K = 0\}. $$
+The \textbf{Brauer--Manin set} is then defined to be the intersection of $ X(\A_K)^A $ for all $ A \in \Br(X) $, namely
+$$ X(\A_K)^{\Br} := \bigcap_{A \in \Br(X)} X(\A_K)^A. $$
+This is a set sandwiched between $ X(K) $ and $ X(\A_K) $, and it turns out to be precisely the obstruction set that explains the failure of the Hasse principle for the examples from before. In other words, if $ X(\A_K) \ne \emptyset $ but $ X(\A_K)^{\Br} = \emptyset $, say that there is a \textbf{Brauer--Manin obstruction to the Hasse principle} for $ X $.
+
+Note that if $ X(K) \ne \emptyset $, but $ X(K) \hookrightarrow X(\A_K) $ is not dense in the ad\`elic topology, the Brauer--Manin set may be able to explain the obstruction to strong approximation. The map $ \langle A, -\rangle_K $ is continuous for any $ A \in \Br(X) $, so $ X(\A_K)^{\Br} $ is closed, and hence contains the closure of $ X(K) $. In other words,
+$$ X(K) \subseteq \overline{X(K)} \subseteq X(\A_K)^{\Br} \subseteq X(\A_K), $$
+so say that there is a \textbf{Brauer--Manin obstruction to strong approximation} for $ X $ if $ X(\A_K)^{\Br} \ne X(\A_K) $.
+
+\begin{example}
+There is a Brauer--Manin obstruction for the following varieties:
+\begin{itemize}
+\item all the individual varieties from before
+\item torsors of abelian varieties
+\item conjecturally all rationally connected varieties
+\end{itemize}
+\end{example}
+
+Unfortunately, Skorobogatov gave an example of a Kummer variety where the Brauer--Manin obstruction cannot explain the failure of the Hasse principle. Furthermore, Poonen gave an example of a quadric bundle over a curve where no cohomological obstructions can explain the failure of the Hasse principle, so it remains an open problem to obtain an even finer obstruction to the Hasse principle.
+
+\section*{References}
+
+\begin{itemize}
+\item[CTS21] J-L Colliot-Th\'el`ene and A Skorobogatov (2021) \emph{The Brauer--Grothendieck group}
+\item[Poo17] B Poonen (2017) \emph{Rational points on varieties}
+\item[Sko01] A Skorobogatov (2001) \emph{Torsors and rational points}
+\item[Vir23] B Viray (2023) \emph{Rational points on varieties and the Brauer--Manin obstruction}
+\end{itemize}
+
+\end{document}

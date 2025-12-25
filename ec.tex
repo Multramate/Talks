@@ -1,0 +1,157 @@
+\def\type{}
+\input{header}
+\title{\'Etale cohomology}
+\author{David Kurniadi Angdinata}
+\date{Friday, 5 August 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Sheaf cohomology}
+
+Let $ \AA $ be an abelian category. Recall that an object $ I $ of $ \AA $ is \textbf{injective} if the hom functor $ \Hom_\AA(-, I) : \AA \to \Ab $ is exact, and that $ \AA $ has \textbf{enough injectives} if every object of $ \AA $ embeds into an injective object. When $ \AA $ has enough injectives, it has essentially unique injective resolutions
+$$  0 \to A \to I^0 \xrightarrow{d^0} I^1 \xrightarrow{d^1} \dots. $$
+For a functor $ F $ on $ \AA $, this gives rise to a family of covariant \textbf{right derived functors} $ R^nF $ on $ \AA $ for all $ n \in \N $ defined as the cohomology of an injective resolution, that is
+$$ R^nF(A) := \ker(d^n : F(I^n) \to F(I^{n + 1})) / \im(d^{n - 1} : F(I^{n - 1}) \to F(I^n)). $$
+These satisfy standard properties, such as $ R^0F = F $ and functoriality with respect to short exact sequences. Recall also that the category of modules over a commutative ring $ R $ has enough injectives.
+
+\begin{lemma}
+The category $ \Mod_R $ of $ R $-modules has enough injectives.
+\end{lemma}
+
+\begin{proof}
+Commutative algebra. The idea is that for any $ R $-module $ M $, there is an embedding
+$$ M \hookrightarrow \prod_{m \in M} \Hom_\Z(R, \Q / \Z), $$
+and $ \Q / \Z $ is injective as an abelian group.
+\end{proof}
+
+The right derived functors of the hom functor $ \Hom_R(-, M) : \Mod_R \to \Ab $ for a fixed $ R $-module $ M $ are by definition the ext functors $ \Ext_R^n(-, M) $. Now recall the construction of the usual cohomology of sheaves of a scheme $ X $ over a category with enough injectives such as $ \Mod_R $.
+
+\begin{proposition}
+The category $ \Sh(X) $ of sheaves on the small Zariski site has enough injectives.
+\end{proposition}
+
+\begin{proof}
+Let $ \FF \in \Sh(X) $. For any point $ \iota_x : \{x\} \hookrightarrow X $, there is an embedding $ f : \FF_x \hookrightarrow I_x $ into an injective object $ I_x $. Define
+$$ \II := \prod_{x \in X} \iota_{x*}I_x, $$
+where $ \iota_{x*} $ is the usual direct image of the constant sheaf $ I_x $ defined for all open subsets $ U \subseteq X $ by
+$$ \iota_{x*}I_x(U) := I_x(\iota_x^{-1}(U)) =
+\begin{cases}
+I_x & \text{if} \ x \in U, \\
+0 & \text{if} \ x \notin U.
+\end{cases}
+$$
+Then $ \II $ is injective since $ I_x $ is injective for all $ x \in X $ and $ \II(U) = \prod_{x \in U} I_x $ for any open subset $ U \subseteq X $. Finally, there is an embedding $ \FF \hookrightarrow \II $ induced by the stalkwise embedding $ f : \FF_x \hookrightarrow I_x = \II_x $.
+\end{proof}
+
+The right derived functors of the global section functor $ \Gamma(X, -) : \Sh(X) \to \Ab $ are by definition the usual sheaf cohomology functors $ H^n(X, -) $. The construction of \'etale sheaf cohomology is similar.
+
+\pagebreak
+
+\section{\'Etale cohomology}
+
+Consider the small \'etale sites $ X_\et $ and $ Y_\et $ of schemes $ X $ and $ Y $. The \textbf{direct image presheaf} of a presheaf $ \GG $ on $ Y_\et $ along a morphism $ f : Y \to X $ is defined for any \'etale morphism $ U \to X $ by
+$$ f_*\GG(U) := \GG(U \times_X Y). $$
+The \textbf{direct image sheaf} of a sheaf is simply its direct image presheaf justified by the following lemma.
+
+\begin{lemma}
+If $ \GG $ is a sheaf, then so is $ f_*\GG $.
+\end{lemma}
+
+\begin{proof}
+EC Proposition II.2.7 or LEC Lemma I.8.1.
+\end{proof}
+
+\begin{example}
+If $ U \to X $ is an etale neighbourhood of a geometric point $ \iota_x : \{\overline{x}\} \to X $, then $ \iota_{x*}\GG(U) = \GG(\{\overline{x}\}) $.
+\end{example}
+
+Likewise, the \textbf{inverse image presheaf} of a presheaf $ \FF $ on $ X_\et $ along a morphism $ f : Y \to X $ is defined for any \'etale morphism $ \iota : V \to Y $ by
+$$ f^*\FF(V) := \varinjlim_U \FF(U), $$
+where the direct limit runs over all commutative diagrams
+$$
+\begin{tikzcd}
+V \arrow{r} \arrow{d}[swap]{\iota} & U \arrow{d} \\
+Y \arrow{r}[swap]{f} & X,
+\end{tikzcd}
+$$
+where $ U \to X $ is an \'etale morphism. The inverse image presheaf of a sheaf is not a sheaf in general, so the \textbf{inverse image sheaf} is simply defined as its sheafification.
+
+\begin{example}
+If $ \iota_x : \{\overline{x}\} \to X $ is a geometric point, then $ \iota_x^*\FF(\{\overline{x}\}) = \FF_{\overline{x}} $.
+\end{example}
+
+Note that the inverse image and the direct image are adjoint functors on the categories of sheaves, and further that the inverse image is an exact functor, leading to the following lemma.
+
+\begin{lemma}
+The direct image preserves injective \'etale sheaves.
+\end{lemma}
+
+\begin{proof}
+EC Lemma III.1.2 or LEC Remark I.8.9.
+\end{proof}
+
+The proof that the category of \'etale sheaves has enough injectives proceeds similarly, with geometric points playing the role of points when checking embeddings stalkwise.
+
+\begin{proposition}
+The category $ \Sh(X_\et) $ of sheaves on the small \'etale site has enough injectives.
+\end{proposition}
+
+\begin{proof}
+Let $ \FF \in \Sh(X_\et) $. For any choice of geometric point $ \iota_x : \{\overline{x}\} \to X $ of a point $ x \in X $, there is an embedding $ \FF_{\overline{x}} \hookrightarrow I_x $ into an injective object $ I_x $. Define
+$$ \FF^* := \prod_{x \in X} \iota_{x*}\iota_x^*\FF, \qquad \II := \prod_{x \in X} \iota_{x*}I_x. $$
+Then there are canonical maps $ f : \FF \to \FF^* $ and $ g : \FF^* \to \II $, and $ \II $ is injective since $ I_x $ is injective and $ \iota_{x*} $ preserves injectives for all $ x \in X $. It suffices to check that $ f $ and $ g $ are stalkwise embeddings, and
+$$ g_{\overline{x}} : \FF_{\overline{x}}^* = \prod_{x \in X} \FF_{\overline{x}} \hookrightarrow \prod_{x \in X} I_x = \II_{\overline{x}}. $$
+Now let $ U \to X $ be an \'etale neighbourhood of $ \overline{x} $, and let $ s \in \FF(U) $ such that $ f_{\overline{x}}(s) = 0 $ for all $ x \in X $. Then in $ \iota_{x*}\iota_x^*\FF(U) = \FF_{\overline{x}} $, there is an \'etale morphism $ V \to U $ such that $ s\mid_V = 0 $. Choosing such an \'etale morphism for each $ u \in U $ forms an \'etale covering of $ U $, so $ s = 0 $ by the uniqueness axiom for sheaves.
+\end{proof}
+
+The right derived functors of the global section functor $ \Gamma(X, -) : \Sh(X_\et) \to \Ab $ are then defined to be the \textbf{\'etale cohomology} functors $ H_\et^n(X, -) $, which again satisfy standard functoriality properties.
+
+\pagebreak
+
+\section{Galois cohomology}
+
+When $ X = \Spec(K) $ for a field $ K $, \'etale morphisms are precisely of the form $ \Spec(R) \to X $ for some \'etale $ K $-algebra $ R $, so the small \'etale site $ X_\et $ is the category opposite to the category $ \Et / K $ of \'etale $ K $-algebras. Here a geometric point $ \{\overline{x}\} \to X $ corresponds to the choice of a separable closure $ \overline{K} $ of $ K $, and the Galois group $ \Gal_K := \Gal(\overline{K} / K) $ is essentially the \'etale fundamental group of $ X $ with basepoint $ \overline{x} $.
+
+On the other hand, for a profinite group $ G $ such as $ G = \Gal_K $, let $ \Set_G $ be the site of finite discrete $ G $-sets equipped with a covering of a surjective family of $ G $-equivariant maps, and let $ \Mod_G $ be the category of discrete $ G $-modules. The latter category has enough injectives, and the derived functors of the $ G $-invariant functor $ (-)^G : \Mod_G \to \Ab $ are essentially profinite group cohomology functors $ H^n(G, -) $.
+
+\begin{proposition}
+There is an equivalence of categories $ X_\et \xrightarrow{\sim} \Set_{\Gal_K} $ given by the functor
+$$ \FF_{\overline{K}} : U \mapsto \Hom_X(\overline{x}, U). $$
+\end{proposition}
+
+\begin{proof}
+EC Remark II.1.11 or LEC Section I.3 \emph{The spectrum of a field}.
+\end{proof}
+
+Now a presheaf $ \FF $ on $ X $ is essentially a covariant functor on $ \Et / K $, and the sheaf axioms reduce to
+$$ \FF\left(\prod_{i \in I} K_i\right) = \bigoplus_{i \in I} \FF(K_i), $$
+for \'etale $ K $-algebras $ (K_i)_{i \in I} $, and
+$$ \FF(L) = \FF(F)^{\Gal(F / L)}, $$
+for finite Galois extensions $ F / L / K $.
+
+\begin{proposition}
+There is an equivalence of categories $ \Sh(X_\et) \xrightarrow{\sim} \Mod_{\Gal_K} $ given by the functor
+$$ \FF \mapsto M_\FF := \varinjlim_L \FF(L), $$
+where the direct limit runs over all finite Galois extensions $ L / K $ in $ \overline{K} $, whose inverse is given by the functor
+$$ M \mapsto \Hom_{\Gal_K}(\FF_{\overline{K}}(-), M), $$
+where $ \FF_{\overline{K}} : X_\et \to \Set_{\Gal_K} $ is as defined previously.
+\end{proposition}
+
+\begin{proof}
+EC Theorem II.1.9 or LEC Section I.6 \emph{The sheaves on $ \Spec(k) $}.
+\end{proof}
+
+In fact, if $ \FF \in \Sh(X_\et) $, then $ \FF_{\overline{x}} = M_\FF $ as abelian groups. Now the $ \Gal_K $-invariants $ M_\FF^{\Gal_K} $ are precisely the global sections $ \Gamma(X, \FF) $, so there are isomorphisms between the \'etale and Galois cohomology groups
+$$ H_\et^n(X, \FF) \cong H^n(\Gal_K, M_\FF). $$
+Finally, note that every profinite group arises as the Galois group of some field extension, so the theory of modules over profinite groups is essentially equivalent to the theory of \'etale sheaves over fields.
+
+\section*{References}
+
+\begin{itemize}
+\item[EC] J S Milne's \emph{\'Etale Cohomology} Section II.1 to Section III.1
+\item[LEC] J S Milne's \emph{Lectures on \'Etale Cohomology} Section I.6 to Section I.9
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,276 @@
+\input{header}
+\title{Schinzel's hypothesis H}
+\subtitle{Open problems in number theory}
+\author{David Kurniadi Angdinata}
+\institute{University College London}
+\date{Thursday, 31 October 2024}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}[c]{Some fun quotes}
+
+\begin{center}
+Skorobogatov--Morgan (2024):
+
+\bigskip \emph{A notoriously difficult conjecture on prime values of polynomials, deemed to be inaccessible in the current state of analytic number theory}.
+\end{center}
+
+\bigskip
+
+\begin{center}
+Bunyakovsky (1857):
+
+\bigskip \emph{Il est \`a pr\'esumer que la d\'emonstration rigoureuse du th\'eor\`eme \'enonc\'e sur les progressions arithm\'etiques des ordres sup\'erieurs conduirait, dans l'\'etat actuel de la th\'eorie des nombres, \`a des difficult\'es insurmontables; n\'eanmoins, sa r\'ealit\'e ne peut pas \^etre r\'evoqu\'ee en doute.}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Primes in arithmetic progressions}
+
+\begin{theorem}[Dirichlet, 1837]
+Let $ a, b \in \Z $. Assume no primes $ p $ satisfy $ p \mid a $ and $ p \mid b $. Then there are infinitely many $ n $ such that $ an + b $ is prime.
+\end{theorem}
+
+\bigskip
+
+\begin{example}[$ 4X + 3 $]
+\vspace{-0.5cm}
+$$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+n & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+\hline
+4n + 3 & 3 & 7 & 11 & 15 & 19 & 23 & 27 & 31 & 35 & 39 & 43 & 47 & 51 \\
+\hline
+\text{prime} & $ \checkmark $ & \checkmark & \checkmark & & \checkmark & \checkmark & & \checkmark & & & \checkmark & \checkmark & \\
+\hline
+\end{array}
+$$
+If there were a finite set $ S := \{p \ \text{prime} : p \equiv 3 \mod 4\} $, then
+$$ N := 2 + \prod_{p \in S} p^2 \equiv 3 \mod 4, $$
+so $ N $ has a prime factor $ q \equiv 3 \mod 4 $ not in $ S $, which is a contradiction.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Primes in polynomial sequences}
+
+\begin{conjecture}[Bunyakovsky, 1857]
+Let $ f \in \Z[X] $ be irreducible. Assume no primes $ p $ satisfy ``$ p \mid f(n) $ for all $ n $''. Then there are infinitely many $ n $ such that $ f(n) $ is prime.
+\end{conjecture}
+
+\bigskip This is Dirichlet's theorem when $ f(X) = aX + b $.
+
+\bigskip
+
+\begin{example}[$ X^2 + 1 $]
+\vspace{-0.5cm}
+$$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+n & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+\hline
+n^2 + 1 & 1 & 2 & 5 & 10 & 17 & 26 & 37 & 50 & 65 & 82 & 101 & 122 & 145 \\
+\hline
+\text{prime} & & \checkmark & \checkmark & & \checkmark & & \checkmark & & & & \checkmark & & \\
+\hline
+\end{array}
+$$
+This is one of the four Landau's problems, amongst Goldbach's conjecture, the twin prime conjecture, and Legendre's conjecture.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Simultaneous primes in arithmetic progressions}
+
+\begin{conjecture}[Dickson, 1904]
+Let $ a_1, \dots, a_k, b_1, \dots, b_k \in \Z $. Set $ f(X) := (a_1X + b_1) \cdot \dots \cdot (a_kX + b_k) $. Assume no primes $ p $ satisfy ``$ p \mid f(n) $ for all $ n $''. Then there are infinitely many $ n $ such that $ a_1n + b_1, \dots, a_kn + b_k $ are simultaneously prime.
+\end{conjecture}
+
+\bigskip This is the twin prime conjecture for $ X $ and $ X + 2 $.
+
+\bigskip
+
+\begin{example}[$ X $ and $ 2X + 1 $]
+\vspace{-0.5cm}
+$$
+\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+p & 2 & 3 & 5 & 7 & 11 & 13 & 17 & 19 & 23 & 29 & 31 & 37 & 41 \\
+\hline
+2p + 1 & 5 & 7 & 11 & 15 & 23 & 27 & 35 & 39 & 47 & 59 & 63 & 75 & 83 \\
+\hline
+\text{prime} & \checkmark & \checkmark & \checkmark & & \checkmark & & & & \checkmark & \checkmark & & & \checkmark \\
+\hline
+\end{array}
+$$
+This is the Germain prime conjecture, which implies that there are infinitely many composite Mersenne numbers, since $ 2p + 1 \mid 2^p - 1 $ whenever $ p \equiv 3 \mod 4 $ is a Germain prime.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Density of simultaneous primes}
+
+\begin{conjecture}[Hardy--Littlewood, 1923]
+Let $ a_1, \dots, a_k, b_1, \dots, b_k \in \Z $. Set $ f(X) := (a_1X + b_1) \cdot \dots \cdot (a_kX + b_k) $. Assume no primes $ p $ satisfy ``$ p \mid f(n) $ for all $ n $''. Then
+$$ \#\left\{n \le N : \begin{array}{c} a_1n + b_1, \dots, a_kn + b_k \\ \text{are simultaneously prime} \end{array}\right\} \sim C \cdot \dfrac{N}{\log^k N}. $$
+Here,
+$$ C := \prod_p \left(1 - \dfrac{1}{p}\right)^{-k}\left(1 - \dfrac{\#\{n \in \F_p : f(n) = 0\}}{p}\right). $$
+\end{conjecture}
+
+If $ f_1(X) = X $, then this is the prime number theorem that
+$$ \#\{n \le N : n \ \text{is prime}\} \sim \dfrac{N}{\log N}. $$
+If $ f_1(X) = X $ and $ f_2(X) = X + 2 $, then $ C $ is the twin prime constant.
+
+\end{frame}
+
+\begin{frame}{Simultaneous primes in polynomial sequences}
+
+\begin{conjecture}[Schinzel's hypothesis H, 1958]
+Let $ f_1, \dots, f_k \in \Z[X] $ be irreducible. Set $ f := f_1 \cdot \dots \cdot f_k $. Assume no primes $ p $ satisfy ``$ p \mid f(n) $ for all $ n $''. Then there are infinitely many $ n $ such that $ f_1(n), \dots, f_k(n) $ are simultaneously prime.
+\end{conjecture}
+
+\bigskip
+
+\begin{conjecture}[Bateman--Horn, 1962]
+Let $ f_1, \dots, f_k \in \Z[X] $ be irreducible. Set $ f := f_1 \cdot \dots \cdot f_k $. Assume no primes $ p $ satisfy ``$ p \mid f(n) $ for all $ n $''. Then
+$$ \#\left\{n \le N : \begin{array}{c} f_1(n), \dots, f_k(n) \\ \text{are simultaneously prime} \end{array}\right\} \sim C \cdot \dfrac{N}{\prod_i \deg f_i \cdot \log^k N}. $$
+Here,
+$$ C := \prod_p \left(1 - \dfrac{1}{p}\right)^{-k}\left(1 - \dfrac{\#\{n \in \F_p : f(n) = 0\}}{p}\right). $$
+\end{conjecture}
+
+\end{frame}
+
+\begin{frame}{Multivariate variants}
+
+\begin{theorem}[Friedlander--Iwaniec, 1997]
+There are infinitely many $ (x, y) \in \Z^2 $ such that $ x^2 + y^4 $ is prime.
+\end{theorem}
+
+\begin{theorem}[Green--Tao--Ziegler, 2006]
+Let $ f_1, \dots, f_k \in \Z[X] $ such that $ f_i(0) = 0 $. Then there are infinitely many $ (x, y) \in \Z^2 $ such that $ x + f_1(y), \dots, x + f_k(y) $ are simultaneously prime.
+\end{theorem}
+
+\begin{theorem}[Bodin--D\`ebes--Najib, 2019]
+Let $ R $ be a characteristic zero UFD whose fraction field satisfies the product formula, and let $ f_1, \dots, f_k \in R[X, Y] $. Then there are $ y \in R[X] $ such that $ f_1(X, y(X)), \dots, f_k(X, y(X)) $ are simultaneously irreducible.
+\end{theorem}
+
+\bigskip
+
+\begin{example}[{$ X^8 + t^3 $ over $ \F_2[t] $}]
+$ (t^2 + t + 1)^8 + t^3 = (t + 1)(t^{15} + t^{14} + t^{13} + t^{12} + t^{11} + t^{10} + t^9 + t^8 + t^2 + t + 1) $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Genericity of simultaneous primes}
+
+Let $ P_{d, N} $ be the set of $ a_dX^d + \dots + a_0 \in \Z[X] $ such that $ |a_i| \le N $.
+
+\begin{theorem}[Skorobogatov--Sofos, 2023]
+Let $ S_{d, N} $ be the set of $ f \in P_{d, N} $ such that $ X^p - X \nmid f $ in all $ \F_p[X] $. Then
+$$ \lim_{N \to \infty} \dfrac{\#\left\{(f_1, \dots, f_k) \in S_{d, N}^k : \begin{array}{c} \exists n \in \Z, \ f_1(n), \dots, f_k(n) \\ \text{are simultaneously prime} \end{array}\right\}}{\#S_{d, N}^k} = 1. $$
+\end{theorem}
+
+\begin{theorem}[Skorobogatov--Sofos, 2023]
+Let $ K $ be a cyclic number field with integral basis $ e_1, \dots, e_m $ of $ \OO_K $. Then
+$$ \lim_{N \to \infty} \dfrac{\#\left\{f \in P_{d, N} : \begin{array}{c} \Nm_\Q^K(e_1X_1 + \dots + e_mX_m) = f(X) \\ \text{has a rational point} \end{array}\right\}}{\#P_{d, N}} = 1. $$
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{The Hasse principle}
+
+The Hasse principle holds for a variety $ V $ over a global field $ K $ if it has a point in $ K $ whenever it has points in $ K_v $ for all places $ v $ of $ K $.
+
+\begin{theorem}[Hasse--Minkowski theorem]
+Let $ a_1, \dots, a_m \in \Q $. Then the Hasse principle holds for
+$$ a_1X_1^2 + \dots + a_mX_m^2. $$
+\end{theorem}
+
+The proof for $ m = 4 $ reduces to the proof for $ m = 3 $ by Dirichlet's theorem and the fundamental exact sequence of global class field theory.
+
+\begin{theorem}[Hasse norm theorem]
+Let $ K $ be a cyclic number field. Then there is a short exact sequence
+$$ 1 \to \Q^\times / \Nm_\Q^K(K^\times) \to \bigoplus_{p \le \infty} \Q_p^\times / \Nm_\Q^K((K \otimes_\Q \Q_p)^\times) \to \Gal(K / \Q) \to 1. $$
+\end{theorem}
+
+Thus a local norm everywhere except possibly one place is a global norm.
+
+\end{frame}
+
+\begin{frame}{Application of Dirichlet's theorem}
+
+\begin{example}[$ Y^2 + 3Z^2 = 5X + 7 $]
+Claim that the Hasse principle holds. By the Hasse norm theorem, it suffices to find some $ x \in \Q $ such that $ Y^2 + 3Z^2 = 5x + 7 $ has points in $ \Q_p $ for all places $ p $ of $ \Q $ except possibly one prime. Observe that
+$$ (1)^2 + 3(1)^2 \equiv 5(1) + 7 \mod 2^3, $$
+$$ (3)^2 + 3(1)^2 \equiv 5(1) + 7 \mod 3^3, $$
+so it has points in $ \Q_2 $ and $ \Q_3 $ by Hensel's lemma. It suffices to find some $ x \in \Q $ such that $ x \equiv 1 \mod 2^3 $ and $ x \equiv 1 \mod 3^3 $, so that
+$$ 5x + 7 = 5(2^3 \cdot 3^3 \cdot n + 1) + 7 = 2^2 \cdot 3 \cdot (90n + 1). $$
+By Dirichlet's theorem, there is some $ n $ such that $ 90n + 1 $ is prime. For instance, $ n = 2 $ gives $ Y^2 + 3Z^2 = 2^2 \cdot 3 \cdot 181 $, which has points in $ \Q_2 $, $ \Q_3 $, and $ \R $, but also $ \Q_p $ for all primes $ p $ except $ 181 $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Application of Schinzel's hypothesis H}
+
+Dirichlet's theorem can be replaced by assuming Schinzel's hypothesis H.
+
+\bigskip
+
+\begin{theorem}[Colliot-Th\'el\`ene--Sansuc, 1982]
+Let $ a_1, \dots, a_k \in \Q^\times $, and let $ f_1, \dots, f_k \in \Q[X] $ be irreducible. Assume Schinzel's hypothesis H. Then the Hasse principle holds for
+$$ Y_1^2 + a_1Z_1^2 = f_1(X), \qquad \dots, \qquad Y_k^2 + a_kZ_k^2 = f_k(X). $$
+\end{theorem}
+
+Thus the Hasse principle conditionally holds for conic bundles over $ \P_\Q^1 $.
+
+\bigskip
+
+\begin{example}[Iskovskikh, 1971]
+Let $ V $ be the variety over $ \Q $ given by $ Y^2 + Z^2 = -(X - 2)(X - 3) $. Then $ V $ has points in $ \R $ and $ \Q_p $ for all primes $ p $ but no points in $ \Q $. The failure of the Hasse principle can be detected by $ (3 - X^2, - 1) \in \Br(V)[2] $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{The Brauer--Manin obstruction}
+
+Let $ V $ be a variety over a global field $ K $. There is a commutative diagram
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+\& V(K) \arrow{r} \arrow{d} \& V(\A_K) \arrow{d}[swap]{(-)^*} \& \& \\
+0 \arrow{r} \& \Br(K) \arrow{r} \& \displaystyle\bigoplus_v \Br(K_v) \arrow{r}[swap]{\inv_v} \& \Q / \Z \arrow{r} \& 0.
+\end{tikzcd}
+$$
+For any $ A \in \Br(V) $, the Brauer--Manin set is
+$$ V(\A_K)^A := \left\{(x_v)_v \in V(\A_K) : \sum_v \inv_v(x_v^*A) = 0\right\}. $$
+
+\begin{example}[Iskovskikh, 1971]
+Let $ A := (3 - X^2, -1) \in \Br(V) $. For any $ (x_v)_v \in V(\A_K) $, it can be shown that $ \sum_v \inv_v(x_v^*A) = \tfrac{1}{2} $, so that $ V(K) \subseteq V(\A_K)^A = \emptyset $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Rationally connected varieties}
+
+A rationally connected variety is a smooth projective variety such that any two geometric points are connected by a rational curve.
+
+\bigskip
+
+\begin{conjecture}[Colliot-Th\'el\`ene, 2003]
+Let $ V $ be a rationally connected variety over a number field $ K $. If $ V(K) = \emptyset $, then $ V(\A_K)^A = \emptyset $ for some $ A \in \Br(V) $.
+\end{conjecture}
+
+\bigskip This is known for conic bundles over $ \P_\Q^1 $ with at most five geometric degenerate fibres, due to Colliot-Th\'el\`ene--Sansuc--Swinnerton-Dyer (1987), Colliot-Th\'el\`ene (1990), and Salberger--Skorobogatov (1991).
+
+\bigskip
+
+\begin{theorem}[Colliot-Th\'el\`ene--Swinnerton-Dyer, 1994]
+Assume Schinzel's hypothesis H. Then Colliot-Th\'el\`ene's conjecture holds for Severi--Brauer bundles over $ \P_\Q^1 $.
+\end{theorem}
+
+\end{frame}
+
+\end{document}

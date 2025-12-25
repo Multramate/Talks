@@ -1,0 +1,427 @@
+\input{header}
+\title{The Euler system of Heegner points \footnote{Victor Kolyvagin, 1989. \textbf{Euler Systems}, in \emph{Grothendieck Festschrift}}}
+\subtitle{London Junior Number Theory Seminar}
+\author{David Kurniadi Angdinata}
+\institute{London School of Geometry and Number Theory}
+\date{Tuesday, 10 May 2022}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}[c]{Overview}
+
+\begin{itemize}
+\item Introduction
+\begin{itemize}
+\item From Gross--Zagier to Kolyvagin
+\item Application to BSD
+\item The main result
+\end{itemize}
+\item Generalised Selmer groups
+\begin{itemize}
+\item Selmer structures
+\item Application of Tate duality
+\item Application of Chebotarev density
+\end{itemize}
+\item The Euler system of Heegner points
+\begin{itemize}
+\item Heegner points of higher conductors
+\item Derived Kolyvagin classes
+\item Computing the Selmer group
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{From Gross--Zagier to Kolyvagin}
+
+\begin{assumptions}
+\begin{itemize}
+\item Elliptic curve $ E / \Q $ with modular parameterisation $ \phi : X_0(N) \twoheadrightarrow E $.
+\item Imaginary quadratic field $ K = \Q(\sqrt{-D}) $ with \textbf{Heegner condition}: \footnote{assume $ \End(E) \cong \Z $ and $ D \ne 1, 3 $}
+$$ p \mid N \qquad \implies \qquad p \ \text{is split in} \ K. $$
+\end{itemize}
+\vspace{-0.5cm}
+\end{assumptions}
+
+\begin{consequences}
+\begin{itemize}
+\item An ideal $ \NN_K \trianglelefteq \OO_K $ such that $ \OO_K / \NN_K \cong \Z / N $.
+\item A cyclic $ N $-isogeny $ \C / \OO_K \to \C / \NN_K^{-1} $.
+\item A point $ x_1 \in X_0(N)(K^1) $ by CM theory.
+\item A \textbf{Heegner point} $ P_1 := \phi(x_1) \in E(K^1) $.
+\item A \textbf{basic Heegner point}
+$$ P_K := \sum_{\sigma \in \Gal(K^1 / K)} \sigma(P_1) \in E(K). $$
+\end{itemize}
+\end{consequences}
+
+\end{frame}
+
+\begin{frame}{From Gross--Zagier to Kolyvagin}
+
+Recall the Gross--Zagier formula.
+
+\bigskip
+
+\begin{theorem}[Gross--Zagier, 1986]
+There is some $ c \ne 0 $ such that $ L'(E / K, 1) = c \cdot \widehat{h}(P_K) $.
+\end{theorem}
+
+\begin{corollary}
+If $ L'(E / K, 1) \ne 0 $, then $ \rk_\Z E(K) \ge 1 $.
+\end{corollary}
+
+\bigskip
+
+\begin{theorem}[Kolyvagin, 1989]
+If $ \widehat{h}(P_K) \ne 0 $, then $ E(K)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K $.
+\end{theorem}
+
+\begin{corollary}
+If $ L'(E / K, 1) \ne 0 $, then $ \rk_\Z E(K) = 1 $.
+\end{corollary}
+
+\bigskip This \emph{almost} proves weak BSD for analytic rank $ \le 1 $!
+
+\end{frame}
+
+\begin{frame}{Application to BSD}
+
+\begin{theorem}[Weak BSD for analytic rank $ \le 1 $]
+Assume $ \ord_{s = 1} \ L(E / \Q, s) \le 1 $. Then $ \ord_{s = 1} \ L(E / \Q, s) = \rk_\Z E(\Q) $.
+\end{theorem}
+
+\begin{proof}
+\renewcommand\qedsymbol{}
+Consider the functional equation
+$$ \Lambda(E / \Q, s) = \epsilon \cdot \Lambda(E / \Q, 2 - s). $$
+Differentiating $ k $ times and evaluating at $ s = 1 $ gives
+$$ L^{(k)}(E / \Q, 1) = \epsilon \cdot (-1)^k \cdot L^{(k)}(E / \Q, 1). $$
+Then
+$$ \ord_{s = 1} \ L(E / \Q, s) =
+\begin{cases}
+0 & \text{if} \ \epsilon = +, \\
+1 & \text{if} \ \epsilon = -.
+\end{cases}
+$$
+Consider cases for $ \epsilon $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Application to BSD}
+
+\begin{theorem}[Weak BSD for analytic rank $ \le 1 $]
+Assume $ \ord_{s = 1} \ L(E / \Q, s) \le 1 $. Then $ \ord_{s = 1} \ L(E / \Q, s) = \rk_\Z E(\Q) $.
+\end{theorem}
+
+\begin{proof}[Proof (for $ \epsilon = - $)]
+\underline{Fact}: There is Heegner $ K = \Q(\sqrt{-D}) $ such that $ L(E_D / \Q, 1) \ne 0 $. Then
+$$ \ord_{s = 1} \ L(E / K, s) = \underset{1}{\underbrace{\ord_{s = 1} \ L(E / \Q, s)}} + \underset{0}{\underbrace{\ord_{s = 1} \ L(E_D / \Q, s)}}. $$
+In particular
+$$ L'(E / K, 1) \ne 0 \ \overset{\text{G--Z}}{\implies} \ \widehat{h}(P_K) \ne 0 \ \overset{\text{K}}{\implies} \ E(K)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K. $$
+\underline{Fact}: complex conjugation of $ K $ acts like $ -\epsilon $ on $ E(K)_{/ \tor} $.
+
+\bigskip Thus $ E(\Q)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K $, so $ \rk_\Z E(\Q) = 1 $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{The main result}
+
+\begin{theorem}[Kolyvagin, 1989]
+If $ \widehat{h}(P_K) \ne 0 $, then $ E(K)_{/ \tor} = \Z \cdot \tfrac{1}{n}P_K $.
+\end{theorem}
+
+\begin{theorem}[main result \footnote{Benedict Gross, 1991. \textbf{Kolyvagin's work on modular elliptic curves}}]
+Let $ \ell \in \N $ be an odd prime of good reduction such that
+$$ \Gal(\Q(E[\ell]) / \Q) \cong \GL_2(\F_\ell), \qquad P_K \notin \ell E(K). $$
+Then $ \Sel(K, E[\ell]) = \F_\ell \cdot \delta(P_K) $.
+\end{theorem}
+
+\begin{proof}[Proof (of Kolyvagin)]
+For any $ \ell \in \N $, there is a short exact sequence
+$$ 0 \to E(K) / \ell E(K) \xrightarrow{\delta} \Sel(K, E[\ell]) \to \Sha(K, E)[\ell] \to 0. $$
+Choose any $ \ell \in \N $ such that $ K $ and $ \Q(E[\ell]) $ are linearly disjoint over $ \Q $. Then $ E(K)[\ell] = 0 $, so that $ \dim_{\F_\ell} E(K) / \ell E(K) = \rk_\Z E(K) $.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Selmer structures}
+
+Selmer groups can be defined in general.
+
+\bigskip Let $ M $ be a (non-scalar, simple) self-dual $ \F_\ell[\Gal(L / K)] $-module.
+
+\begin{example}
+Let $ M = E[\ell] $.
+\begin{itemize}
+\item \underline{Fact}: Galois equivariance of $ \ell $-Weil pairing implies $ M $ is non-scalar.
+\item \underline{Fact}: surjective $ \ell $-adic representation implies $ M $ is simple.
+\end{itemize}
+\end{example}
+
+By inflation-restriction, there is a short exact sequence
+$$ 0 \to H^1(G_v^\nr, M^{I_v}) \to H^1(K_v, M) \to H^1(I_v, M)^{G_v^\nr} \to 0. $$
+
+\begin{example}
+Let $ v \nmid \ell $ have good reduction. Then there is a short exact sequence
+$$ 0 \to E(K_v) / \ell E(K_v) \xrightarrow{\delta} H^1(K_v, M) \to H^1(K_v, E)[\ell] \to 0. $$
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Selmer structures}
+
+A \textbf{Selmer structure} on $ M $ is an assignment
+$$ v \longmapsto H_f^1(K_v, M) \subseteq H^1(K_v, M), $$
+such that $ H_f^1(K_v, M) = H^1(G_v^\nr, M^{I_v}) $ for almost all places $ v $ of $ K $.
+
+Its \textbf{singular quotient} $ H_s^1(K_v, M) $ sits in
+$$ 0 \to H_f^1(K_v, M) \to H^1(K_v, M) \xrightarrow{(\cdot)^s} H_s^1(K_v, M) \to 0. $$
+
+\begin{example}
+\begin{itemize}
+\item The \textbf{unramified} Selmer structure has
+$$ H_f^1(K_v, M) := H^1(G_v^\nr, M^{I_v}), \qquad H_s^1(K_v, M) := H^1(I_v, M)^{G_v^\nr}. $$
+\item The \textbf{geometric} Selmer structure has
+$$ H_f^1(K_v, M) := E(K_v) / \ell E(K_v), \qquad H_s^1(K_v, M) := H^1(K_v, E)[\ell]. $$
+\end{itemize}
+\end{example}
+
+\end{frame}
+
+\begin{frame}{Selmer structures}
+
+There is a localisation map
+$$ (\cdot)_v : H^1(K, M) \to H^1(K_v, M). $$
+\begin{itemize}
+\item The \textbf{classical} Selmer group $ \Sel(K, M) $ sits in
+$$ 0 \to \Sel(K, M) \to H^1(K, M) \xrightarrow{\prod_v (\cdot)_v^s} \prod_v H_s^1(K_v, M). $$
+\item The \textbf{relaxed} Selmer group $ \Sel^S(K, M) $ sits in
+$$ 0 \to \Sel(K, M) \to \Sel^S(K, M) \xrightarrow{\prod_{v \in S} (\cdot)_v^s} \bigoplus_{v \in S} H_s^1(K_v, M). $$
+\item The \textbf{restricted} Selmer group $ \Sel_S(K, M) $ sits in
+$$ 0 \to \Sel_S(K, M) \to \Sel(K, M) \xrightarrow{\prod_{v \in S} (\cdot)_v} \bigoplus_{v \in S} H_f^1(K_v, M). $$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Application of Tate duality}
+
+\begin{proposition}
+Let $ S' \subseteq S $ be finite sets of places of $ K $. There is an exact sequence
+$$ 0 \longrightarrow \Sel^{S'} \longrightarrow \Sel^S \longrightarrow \bigoplus_{v \in S \setminus S'} H_s^1(K_v, M) \longrightarrow \Sel_{S'}^\vee \longrightarrow \Sel_S^\vee \longrightarrow 0. $$
+\vspace{-0.5cm}
+\end{proposition}
+
+\begin{proof}
+Local Tate duality gives a perfect pairing
+$$ H_s^1(K_v, M) \times H_f^1(K_v, M) \to \F_\ell. $$
+By the snake lemma, may assume that $ S $ and $ S' $ contain all bad places. The Poitou--Tate exact sequence gives exactness at
+$$ \Sel^S \to \bigoplus_{v \in S} H^1(K_v, M) \to \Sel^{S\vee}. $$
+Diagram chase.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Application of Tate duality}
+
+\begin{proposition}
+Let $ S' \subseteq S $ be finite sets of places of $ K $. There is an exact sequence
+$$ 0 \longrightarrow \Sel^{S'} \longrightarrow \Sel^S \longrightarrow \bigoplus_{v \in S \setminus S'} H_s^1(K_v, M) \longrightarrow \Sel_{S'}^\vee \longrightarrow \Sel_S^\vee \longrightarrow 0. $$
+\end{proposition}
+
+\underline{Fact}: complex conjugation of $ K $ respects the exact sequence. Thus
+$$ 0 \to \Sel^{S'\pm} \to \Sel^{S\pm} \to \bigoplus_{v \in S \setminus S'} H_s^1(K_v, M)^\pm \to \Sel_{S'}^{\vee\pm} \to \Sel_S^{\vee\pm} \to 0. $$
+Specialising to $ S' = \emptyset $ and $ M = E[\ell] $,
+$$ 0 \to \coker\left(\Sel^{S\pm} \to \bigoplus_{v \in S} H_s^1(K_v, E[\ell])^\pm\right) \to \Sel^{\vee\pm} \to \Sel_S^{\vee\pm} \to 0. $$
+\underline{Idea}: choose appropriate $ S $.
+
+\end{frame}
+
+\begin{frame}{Application of Chebotarev density}
+
+Assume $ M $ is non-scalar and simple.
+
+\bigskip Let $ K(E[\ell]) \subseteq L \subseteq L' $ be finite extensions, and fix $ \sigma \in \Gal(L' / L)^- $. Choose a lift of complex conjugation $ \tau \in \Gal(L' / \Q) $.
+
+\begin{lemma}
+There is a finite set $ S $ of inert primes of $ K / \Q $ such that
+\begin{enumerate}
+\item $ \left(\tfrac{p}{L' / \Q}\right) \sim \sigma\tau $ for all $ p \in S $, and
+\item $ \Sel_S^\pm \subseteq H^1(L' / K, E[\ell])^\pm $.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{itemize}
+\item Chebotarev density gives $ S $ satisfying $ 1 $.
+\item \underline{Fact}: non-scalar and simple imply $ 2 $.
+\end{itemize}
+\end{proof}
+
+\underline{Idea}: choose appropriate $ L' / L $ to bound $ \Sel_S^\pm $.
+
+\end{frame}
+
+\begin{frame}{Heegner points of higher conductors}
+
+Both $ \Sel^{S\pm} $ and $ H_s^1(K_v, E[\ell])^\pm $ in
+$$ 0 \to \coker\left(\Sel^{S\pm} \to \bigoplus_{v \in S} H_s^1(K_v, E[\ell])^\pm\right) \to \Sel^{\vee\pm} \to \Sel_S^{\vee\pm} \to 0 $$
+are generated by some $ c(n) \in H^1(K, E[\ell])^\pm $ indexed by $ n \in \N $.
+
+\bigskip Each $ c(n) $ is generated by a \textbf{Heegner point of conductor $ n $}.
+$$
+\renewcommand{\arraystretch}{2}
+\begin{array}{c|c}
+\text{conductor} \ 1 & \text{conductor} \ n \\
+\hline
+\text{ring of integers} \ \OO_K & \text{order} \ \OO_{K, n} \\
+\text{Hilbert class field} \ K^1 & \text{ring class field} \ K^n \\
+\text{Heegner point} \ P_1 \in E(K^1) & \text{Heegner point} \ P_n \in E(K^n)
+\end{array}
+$$
+
+\end{frame}
+
+\begin{frame}{Heegner points of higher conductors}
+
+The Heegner points $ P_n \in E(K^n) $ satisfy ``Euler system'' relations.
+
+\bigskip Consider only the square-free $ n \in \N $ (coprime to $ ND\ell $) such that:
+$$ p \mid n \qquad \implies \qquad p \ \text{is inert in} \ K. $$
+By class field theory,
+$$ \Gal(K^n / K^1) \cong \Cl(\OO_{K, n}) / \Cl(\OO_K) \cong (\OO_K / n)^\times / (\Z / n)^\times. $$
+Since $ n $ is square-free,
+$$ \Gal(K^n / K^1) \cong \prod_{p \mid n} \Gal(K^p / K^1). $$
+Since $ p \mid n $ is inert in $ K $,
+$$ \Gal(K^p / K^1) = \Z / (p + 1) \cdot \sigma_p. $$
+
+\end{frame}
+
+\begin{frame}{Heegner points of higher conductors}
+
+\begin{proposition}[AX3]
+Let $ n = pq $. Then
+\begin{enumerate}
+\item $ \sum_{i = 0}^p \sigma_p^iP_{pq} = a_pP_q $ in $ E(K^q) $, and
+\item $ \overline{P_{pq}} = \overline{\left(\tfrac{\pp_\qq}{K^q / K}\right)P_q} $ in $ \overline{E}(\F_{\pp_\qq}) $.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}[Proof (sketch of 1)]
+If $ H_p : \Div(X_0(N)) \to \Div(X_0(N)) $ is the Hecke correspondence, then
+$$ \sum_{i = 0}^p \sigma_p^ix_{pq} = H_px_q. $$
+By Eichler--Shimura theory, for any $ D \in \Div(X_0(N)) $,
+$$ \phi(H_pD) = a_p\phi(D). $$
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Derived Kolyvagin classes}
+
+Given $ P_n \in E(K^n) $, how to derive $ c(n) \in H^1(K, E[\ell]) $?
+
+\bigskip Define a ``trace''
+$$ T_n := \sum_{\tau \in T} \tau \in \Z[\Gal(K^n / K)], $$
+where $ T $ is a set of coset representatives for $ \Gal(K^n / K^1) \le \Gal(K^n / K) $.
+
+\bigskip Define the \textbf{Kolyvagin derivative}
+$$ D_n := \prod_{p \mid n} D_p \in \Z[\Gal(K^n / K^1)], $$
+where $ D_p $ is any solution in $ \Z[\Gal(K^n / K)] $ to
+$$ (\sigma_p - 1)D_p = p + 1 - T_p. $$
+Define $ \PP_n := [T_nD_nP_n] \in E(K^n) / \ell E(K^n) $.
+
+\end{frame}
+
+\begin{frame}{Derived Kolyvagin classes}
+
+\underline{Fact}: By AX3,
+\begin{itemize}
+\item $ \PP_n $ is fixed by $ G_n := \Gal(K^n / K) $, and
+\item $ \PP_n $ lies in the $ \epsilon_n := -\epsilon \cdot (-1)^{\#\{p \mid n\}} $ eigenspace.
+\end{itemize}
+There is an exact diagram
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=tiny]
+\& \& 0 \arrow{d}{\inf_n} \& \& \\
+0 \arrow{r} \& H_f^1(K, E[\ell])^{\epsilon_n} \arrow{r}{\delta} \arrow{d} \& H^1(K, E[\ell])^{\epsilon_n} \arrow{r} \arrow{d}{\res_n} \& H_s^1(K, E[\ell])^{\epsilon_n} \arrow{r} \arrow{d} \& 0 \\
+0 \arrow{r} \& H_f^1(K^n, E[\ell])^{G_n\epsilon_n} \arrow{r}[swap]{\delta_n} \& H^1(K^n, E[\ell])^{G_n\epsilon_n} \arrow{r} \arrow{d}{\tra_n} \& H_s^1(K^n, E[\ell])^{G_n\epsilon_n} \& \\
+\& \& 0. \& \&
+\end{tikzcd}
+$$
+Define $ c(n) \in H^1(K, E[\ell])^{\epsilon_n} $ by $ \res_n(c(n)) = \delta_n(\PP_n) $.
+
+\end{frame}
+
+\begin{frame}{Derived Kolyvagin classes}
+
+\begin{lemma}
+\begin{enumerate}
+\item If $ v \nmid n $, then $ c(n)_v^s = 0 $ (\emph{i.e.} $ c(n) \in \Sel^{\{p \mid n\}\epsilon_n} $).
+\item If $ v \mid n $, then $ c(n)_v^s = 0 $ if and only if $ \PP_{n / v} \in \ell E(K_v) $.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}[Proof (sketch of 1)]
+Assume $ v \nmid \ell $ has good reduction. Then $ K_v^n / K_v $ is unramified, so
+$$
+\begin{tikzcd}[ampersand replacement=\&]
+0 \arrow{r} \& H_f^1(K_v, E[\ell]) \arrow{r} \arrow{d} \& H^1(K_v, E[\ell]) \arrow{r}{(\cdot)^s} \arrow{d}{\res_n} \& \Hom(I_v, E[\ell]) \arrow{d} \arrow[dash]{d}{\sim} \\
+0 \arrow{r} \& H_f^1(K_v^n, E[\ell]) \arrow{r}[swap]{\delta_n} \& H^1(K_v^n, E[\ell]) \arrow{r}[swap]{(\cdot)^s} \& \Hom(I_v, E[\ell]).
+\end{tikzcd}
+$$
+Thus $ (\res_n(c(n)_v))^s = 0 $ by exactness.
+\end{proof}
+
+\end{frame}
+
+\begin{frame}{Computing the Selmer group}
+
+Compute $ \Sel^\epsilon $ and $ \Sel^{-\epsilon} $ separately.
+
+\bigskip Use the short exact sequence
+$$ 0 \to \coker\left(\Sel^{S\pm} \to \bigoplus_{p \in S} H_s^1(K_p, E[\ell])^\pm\right) \to \Sel^\pm \to \Sel_S^\pm \to 0. $$
+
+\bigskip Restricted:
+\begin{itemize}
+\item Choose $ L' / L $ to get $ S $ such that $ \Sel_S^\pm \subseteq H^1(L' / K, E[\ell])^\pm $.
+\item Compute $ H^1(L' / K, E[\ell])^\pm $.
+\end{itemize}
+
+\bigskip Relaxed:
+\begin{itemize}
+\item \underline{Fact}: each $ H_s^1(K_p, E[\ell])^\pm $ is one-dimensional.
+\item Show $ c(n) \in \Sel^{S\epsilon_n} $ is non-zero in $ H_s^1(K_p, E[\ell]) $ for some $ n $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Computing the Selmer group}
+
+Compute $ \Sel^\epsilon $.
+
+\bigskip Let $ L := K(E[\ell]) $ and $ L' := K(E[\ell], \tfrac{1}{\ell}P_K) $. Get $ S $ such that
+$$ \Sel_S^\epsilon \subseteq H^1(L' / K, E[\ell])^\epsilon \cong \underset{-\epsilon}{\underbrace{\F_\ell \cdot \delta(P_K)}}. $$
+By Frobenius computations,
+$$ \forall p \in S, \qquad c(p) \in \Sel^{S\epsilon}, \qquad c(p)_p^s \ne 0. $$
+Thus
+$$ 0 \to \underset{0}{\underbrace{\coker\left(\Sel^{S\epsilon} \to \bigoplus_{p \in S} H_s^1(K_p, E[\ell])^\epsilon\right)}} \to \Sel^\epsilon \to \underset{0}{\underbrace{\Sel_S^\epsilon}} \to 0. $$
+
+\end{frame}
+
+\begin{frame}{Computing the Selmer group}
+
+Compute $ \Sel^{-\epsilon} $. Fix $ p \in S $.
+
+\bigskip Let $ L := K(E[\ell], \tfrac{1}{\ell}P_K) $ and $ L' := \ker(G_L \xrightarrow{c(p)} E[\ell]) $. Get $ S' $ such that
+$$ \Sel_{S'}^{-\epsilon} \subseteq H^1(L' / K, E[\ell])^{-\epsilon} \cong \underset{-\epsilon}{\underbrace{\F_\ell \cdot \delta(P_K)}} \oplus \underset{\epsilon}{\underbrace{\F_\ell \cdot c(p)}}. $$
+By Frobenius computations,
+$$ \forall q \in S', \qquad c(pq) \in \Sel^{S'-\epsilon}, \qquad c(pq)_q^s \ne 0. $$
+Thus
+$$ 0 \to \underset{0}{\underbrace{\coker\left(\Sel^{S'-\epsilon} \to \bigoplus_{q \in S'} H_s^1(K_q, E[\ell])^{-\epsilon}\right)}} \to \Sel^{-\epsilon} \to \underset{\subseteq \F_\ell \cdot \delta(P_K)}{\underbrace{\Sel_{S'}^{-\epsilon}}} \to 0. $$
+
+\end{frame}
+
+\end{document}

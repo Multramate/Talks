@@ -1,0 +1,273 @@
+\input{header}
+\title{Rank heuristics for elliptic curves \footnote{partially based on the VaNTAGe seminar on `Heuristics for the arithmetic of elliptic curves' by Bjorn Poonen on 1 September 2020}}
+\subtitle{Part III Seminar Series}
+\author{David Kurniadi Angdinata}
+\institute{University of Cambridge}
+\date{Friday, 4 December 2020}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{Elliptic curves}
+
+Let $ E $ be an elliptic curve over a number field $ K $.
+
+\bigskip
+
+\begin{theorem}[Mordell--Weil]
+$ E(K) $ is a finitely generated abelian group of the form
+$$ E(K) \cong \tor(E / K) \oplus \Z^{\rk(E / K)}. $$
+\end{theorem}
+
+\bigskip The \textbf{torsion subgroup} $ \tor(E / K) $ is effectively computable.
+
+\begin{theorem}[Lutz--Nagell]
+If $ (x, y) \in \tor(E / \Q) $, then $ y \in \Z $ and either $ y = 0 $ or $ y^2 \mid \Delta(E / \Q) $.
+\end{theorem}
+
+\begin{theorem}[Mazur, Kamienny, Merel]
+There are finitely many possibilities for $ \tor(E / K) $.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Elliptic curves}
+
+Let $ E $ be an elliptic curve over a number field $ K $.
+
+\bigskip
+
+\begin{theorem}[Mordell--Weil]
+$ E(K) $ is a finitely generated abelian group of the form
+$$ E(K) \cong \tor(E / K) \oplus \Z^{\rk(E / K)}. $$
+\end{theorem}
+
+\bigskip The \textbf{rank} $ \rk(E / K) $ is computationally harder and more mysterious.
+
+\begin{conjecture}[Birch--Swinnerton-Dyer]
+If $ K = \Q $, then $ \ord_{s = 1} L(E, s) = \rk(E / \Q) $.
+\end{conjecture}
+
+\begin{theorem}[Kolyvagin]
+BSD holds for modular elliptic curves with analytic rank zero and one.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Rank distribution conjecture}
+
+How is the rank distributed?
+
+\bigskip Consider the set $ \EE(\Q) $ of unique minimal representatives of isomorphism classes of elliptic curves over $ \Q $, ordered by the height function
+$$ H(E : y^2 = x^3 + Ax + B) = \max(4|A|^3, 27|B|^2). $$
+
+\begin{conjecture}[Rank distribution]
+The average rank of $ \EE(\Q) $ is $ \tfrac{1}{2} $.
+\end{conjecture}
+
+\begin{theorem}[Bhargava--Shankar 2015]
+The average rank of $ \EE(\Q) $ is at most $ \tfrac{7}{6} $.
+\end{theorem}
+
+\bigskip Combining these shows that BSD holds for a positive proportion of $ \EE(\Q) $ (Kolyvagin 1989, Breuil--Conrad--Diamond--Taylor 2001, Nekov\'a\v r 2009, Dokchitser--Dokchitser 2010, Skinner--Urban 2015).
+
+\end{frame}
+
+\begin{frame}{Rank boundedness conjecture}
+
+Is the rank bounded? Probably not...
+
+\bigskip
+
+\begin{conjecture}[Rank boundedness]
+There are $ E \in \EE(\Q) $ of arbitrarily large rank.
+\end{conjecture}
+
+\begin{theorem}[Shafarevich--Tate 1967, Ulmer 2002]
+There are $ E \in \EE(\F_p(T)) $ of arbitrarily large rank.
+\end{theorem}
+
+\begin{theorem}[Elkies 2006]
+There is $ E \in \EE(\Q) $ with rank at least $ 28 $.
+\end{theorem}
+
+\begin{theorem}[Elkies--Klagsbrun 2020]
+There is $ E \in \EE(\Q) $ with rank exactly $ 20 $.
+\end{theorem}
+
+\bigskip Many proponents (Cassels 1966, Tate 1974, Mestre 1982, Silverman 1986, Brumer 1992, Ulmer 2002, Farmer--Gonek--Hughes 2007).
+
+\end{frame}
+
+\begin{frame}{Rank boundedness conjecture}
+
+Is the rank bounded? Probably!
+
+\bigskip
+
+\begin{conjecture}[Poonen et al \footnote{B. Poonen and E. Rains. `Random maximal isotropic subspaces and Selmer groups'. In: J. Amer. Math. Soc 25 (2012)} \footnote{M. Bhargava, D. Kane, H. Lenstra, B. Poonen and E. Rains. `Modelling the distribution of ranks, Selmer groups, and Shafarevich--Tate groups of elliptic curves'. In: Camb. J. Math. 3 (2015)} \footnote{J. Park, B. Poonen, J. Voight and M. Wood. `A heuristic for boundedness of ranks of elliptic curves'. In: J. Eur. Math. Soc (2019)}]
+There are finitely many $ E \in \EE(\Q) $ with rank greater than $ 21 $.
+\end{conjecture}
+
+\begin{itemize}
+\item Model $ p^e $-Selmer groups using intersection of quadratic submodules.
+\item Model Tate--Shafarevich groups using matrices with a fixed rank.
+\item Model the Mordell--Weil rank using matrices without fixing the rank.
+\end{itemize}
+
+\bigskip A few others also predict boundedness (N\'eron 1950, Honda 1960, Rubin--Silverberg 2000, Granville 2006, Watkins 2015).
+
+\end{frame}
+
+\begin{frame}{The Selmer and Tate--Shafarevich groups}
+
+Multiplication by $ n \in \N^+ $ gives
+$$ 0 \to E[n] \to E \xrightarrow{[n]} E \to 0. $$
+Applying $ \Gal(\overline{K} / K) $ cohomology gives
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=tiny]
+0 \arrow{r} \& E(K)[n] \arrow{r} \& E(K) \arrow{r} \& E(K) \arrow[in=180, out=0]{dll}[swap]{\delta} \& \\
+\& H^1(K, E[n]) \arrow{r} \& H^1(K, E) \arrow{r} \& H^1(K, E) \arrow{r} \& \dots.
+\end{tikzcd}
+$$
+Truncating at $ H^1(K, E[n]) $ gives a short exact sequence
+$$ 0 \to E(K) / n \to H^1(K, E[n]) \to H^1(K, E)[n] \to 0. $$
+Similarly, there are short exact sequences
+$$ 0 \to E(K_v) / n \to H^1(K_v, E[n]) \to H^1(K_v, E)[n] \to 0. $$
+
+\end{frame}
+
+\begin{frame}{The Selmer and Tate--Shafarevich groups}
+
+There is a row-exact commutative diagram
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=tiny]
+0 \arrow{r} \& E(K) / n \arrow{r} \arrow{d} \& H^1(K, E[n]) \arrow{r} \arrow{d}[swap]{\lambda} \arrow[dashed]{dr}{\sigma} \& H^1(K, E)[n] \arrow{r} \arrow{d}{\tau[n]} \& 0 \\
+0 \arrow{r} \& \displaystyle\prod_v E(K_v) / n \arrow{r}[swap]{\kappa} \& \displaystyle\prod_v H^1(K_v, E[n]) \arrow{r} \& \displaystyle\prod_v H^1(K_v, E)[n] \arrow{r} \& 0.
+\end{tikzcd}
+$$
+The \textbf{$ n $-Selmer group} is
+$$ \Sel_n(E / K) = \ker(\sigma : H^1(K, E[n]) \to \textstyle\prod_v H^1(K_v, E)[n]). $$
+The \textbf{Tate--Shafarevich group} is
+$$ \Sha(E / K) = \ker(\tau : H^1(K, E) \to \textstyle\prod_v H^1(K_v, E)). $$
+There is an exact sequence
+$$ 0 \to E(K) / n \to \Sel_n(E / K) \to \Sha(E / K)[n] \to 0. $$
+
+\end{frame}
+
+\begin{frame}{Modelling $ p^e $-Selmer groups}
+
+\begin{theorem}
+For almost all $ E \in \EE(K) $, the $ p^e $-Selmer group $ \Sel_{p^e}(E / K) $ is the intersection of two maximal totally isotropic direct summands in a non-degenerate quadratic $ \Z / p^e $-module of infinite rank.
+\end{theorem}
+
+\bigskip Consider $ (\Z / p^e)^{2n} $, equipped with hyperbolic quadratic form
+$$ (x_1, \dots, x_n, y_1, \dots, y_n) \mapsto \sum_{i = 1}^n x_iy_i, $$
+with two MTIDS's $ (\Z / p^e)^n \oplus 0^n $ and $ 0^n \oplus (\Z / p^e)^n $.
+
+\bigskip The result was known for a finite-dimensional vector space over $ \F_2 $ (Colliot-Th\'el\`ene--Skorobogatov--Swinnerton-Dyer 2002).
+
+\end{frame}
+
+\begin{frame}{Modelling $ p^e $-Selmer groups}
+
+By the first isomorphism theorem,
+$$ \Sel_n(E / K) / \ker\lambda \cong \im\kappa \cap \im\lambda. $$
+
+\begin{theorem}
+For almost all $ E \in \EE(K) $, the $ p^e $-Selmer group $ \Sel_{p^e}(E / K) $ is the intersection of two maximal totally isotropic direct summands in a non-degenerate quadratic $ \Z / p^e $-module of infinite rank.
+\end{theorem}
+
+\begin{conjecture}
+The distribution of $ \Sel_{p^e}(E / \Q) $ coincides with the distribution of $ S_1 \cap S_2 $ for two randomly chosen MTIDS's $ S_1, S_2 \subseteq (\Z / p^e)^{2n} $ as $ n \to \infty $.
+\end{conjecture}
+
+\begin{itemize}
+\item Variant for function fields is known (Feng--Landesman--Rains 2020).
+\item Variant for quadratic twist families over $ \Q $ is known for $ p^e = 2 $ (Heath-Brown 1994, Swinnerton-Dyer 2008, Kane 2013).
+\item Average of $ \#(S_1 \cap S_2) $ is $ \sigma_1(p^e) $, and average of $ \#\Sel_{p^e}(E / \Q) $ is $ \sigma_1(p^e) $ for $ p^e \le 5 $ (Bhargava--Shankar 2013-2015).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Modelling short exact sequences}
+
+Recall that
+$$ 0 \to E(K) / n \to \Sel_n(E / K) \to \Sha(E / K)[n] \to 0. $$
+Setting $ n = p^e $ and taking direct limits gives
+$$ 0 \to E(K) \otimes \Q_p / \Z_p \to \varinjlim_e \Sel_{p^e}(E / K) \to \Sha(E / K)[p^\infty] \to 0. $$
+Randomly choosing two MTIDS's $ S_1, S_2 \subseteq (\Z_p)^{2n} $ gives
+$$ 0 \to \RR \to \SS \to \TT \to 0, $$
+where $ \RR = (S_1 \cap S_2) \otimes \Q_p / \Z_p $ and $ \SS = (S_1 \otimes \Q_p / \Z_p) \cap (S_2 \otimes \Q_p / \Z_p) $.
+\begin{itemize}
+\item Both $ \varinjlim_e \Sel_{p^e}(E / K) $ and $ \SS $ are compatible with $ p^e $-parts.
+\item Both $ \Sha(E / K)[p^\infty] $ and $ \TT $ are finite with an alternating pairing.
+\item Both $ E(K) \otimes \Q_p / \Z_p $ and $ \RR $ satisfy the rank distribution conjecture.
+\item Variant for quadratic twist families is known for $ p = 2 $ (Smith 2020).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Modelling Tate--Shafarevich groups}
+
+The rank distribution conjecture gives
+$$ \P(\rk_{\Z_p}(S_1 \cap S_2) = 0) = \P(\rk_{\Z_p}(S_1 \cap S_2) = 1) = \dfrac{1}{2}. $$
+If $ r \ge 2 $, then
+$$ \{S_1, S_2 \subseteq \Z_p^{2n} : \rk_{\Z_p}(S_1 \cap S_2) = r\} $$
+has measure zero as $ n \to \infty $.
+
+\bigskip Instead choose $ M $ randomly from
+$$ \{M \in \Mat_n \Z_p : M^\intercal = -M, \ \rk_{\Z_p}(\ker M) = r\}, \qquad n \equiv r \mod 2, $$
+and let $ n \to \infty $. Use distribution of $ \tor(\coker M) $ to model $ \TT $.
+\begin{itemize}
+\item Coincides with original $ \Z_p^{2n} $ distribution for $ \TT $ for rank zero and one.
+\item Coincides with Delaunay's distribution for $ \Sha(E / \Q)[p^\infty] $ (Delaunay--Jouhet 2000-2014).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Modelling ranks}
+
+How to model an elliptic curve $ E $ over $ \Q $ of height $ h $?
+\begin{itemize}
+\item Choose functions $ X : \N \to \R $ and $ Y : \N \to \R $ such that
+$$ X(x)^{Y(x)} = x^{\tfrac{1}{12} + o(1)}, \qquad x \to \infty. $$
+\item Choose $ n $ randomly from $ \{\lceil Y(h)\rceil, \lceil Y(h)\rceil + 1\} $.
+\item Choose $ M $ randomly from
+$$ \{M \in \Mat_n \Z : M^\intercal = -M, \ M_{ij} \le X(h)\}. $$
+\item Model $ \Sha(E / \Q) $ by $ \tor(\coker M) $ and $ \rk(E / \Q) $ by $ \rk_\Z(\ker M) $.
+\end{itemize}
+Conditions are chosen such that the average size of
+$$ \#\coker_0' M =
+\begin{cases}
+\#\tor(\coker M) & \text{if} \ \rk_\Z(\ker M) = 0, \\
+0 & \text{if} \ \rk_\Z(\ker M) > 0,
+\end{cases}
+$$
+is $ h^{1 / 12 + o(1)} $. The same is predicted for $ \Sha(E / \Q) $ by strong BSD.
+
+\end{frame}
+
+\begin{frame}{Modelling ranks}
+
+Denote the model for $ \rk(E / \Q) $ by $ \rk'(E / \Q) $.
+
+\bigskip
+
+\begin{theorem}[Poonen et al]
+The following hold with probability $ 1 $.
+\begin{align*}
+\#\{E \in \EE(\Q) : H(E) \le h, \ \rk'(E / \Q) = 0\} & = h^{20 / 24 + o(1)} \\
+\#\{E \in \EE(\Q) : H(E) \le h, \ \rk'(E / \Q) = 1\} & = h^{20 / 24 + o(1)} \\
+\#\{E \in \EE(\Q) : H(E) \le h, \ \rk'(E / \Q) \ge 2\} & = h^{19 / 24 + o(1)} \\
+& \vdots \\
+\#\{E \in \EE(\Q) : H(E) \le h, \ \rk'(E / \Q) \ge 20\} & = h^{1 / 24 + o(1)} \\
+\#\{E \in \EE(\Q) : H(E) \le h, \ \rk'(E / \Q) \ge 21\} & \le h^{o(1)} \\
+\#\{E \in \EE(\Q) : \rk'(E / \Q) > 21\} & \ \text{is finite}.
+\end{align*}
+\end{theorem}
+
+\end{frame}
+
+\end{document}
