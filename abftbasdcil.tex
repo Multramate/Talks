@@ -1,0 +1,278 @@
+\input{header}
+\usetheme{singapore}
+\title{A blueprint for the Birch and Swinnerton-Dyer conjecture in Lean}
+\subtitle{Meeting for Key Laboratory of Mathematics Mechanization (Academy of Mathematics and System Sciences, Chinese Academy of Sciences)}
+\author{David Kurniadi Angdinata}
+\institute{University of East Anglia}
+\date{Tuesday, 13 January 2026}
+
+\begin{document}
+
+\frame\maketitle
+
+\section{Algebraic theory}
+
+\begin{frame}{Introduction}
+
+Let $ E_K $ be an elliptic curve over a number field $ K $.
+
+\begin{conjecture}[Birch--Swinnerton-Dyer]
+Assume that $ L(E_K, s) $ has meromophic continuation at $ s = 1 $.
+\begin{enumerate}
+\item The order of vanishing of $ L(E_K, s) $ at $ s = 1 $ is equal to $ \rk(E_K) $.
+\item The group $ \Sha(E_K) $ is finite.
+\item The leading term of $ L(E_K, s) $ at $ s = 1 $ satisfies
+$$ \lim_{s \to 1} \dfrac{L(E_K, s)}{(s - 1)^{\rk(E_K)}} = \dfrac{\Omega(E_K) \cdot \Reg(E_K) \cdot \#\Sha(E_K) \cdot \Tam(E_K)}{\delta_K \cdot \#\tor(E_K)^2}, $$
+where $ \delta_K $ is the absolute discriminant of $ K $.
+\end{enumerate}
+\end{conjecture}
+
+In this talk, I will describe each of these invariants in detail.
+
+\bigskip Note that this generalises to abelian varieties over global fields.
+
+\end{frame}
+
+\begin{frame}{Weierstrass equations}
+
+An \emph{elliptic curve} $ E_F $ over a field $ F $ is a smooth projective curve of genus one over $ F $ with a distinguished point $ \OO $ over $ F $.
+
+\bigskip By the Riemann--Roch theorem, $ E_F $ is isomorphic to a curve of the form
+$$ y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6, $$
+for some $ a_i \in F $ such that $ \Delta \ne 0 $, and $ \OO $ is its unique point at infinity.
+
+\bigskip In \texttt{mathlib}, a \emph{Weierstrass curve} over $ F $ is a tuple $ (a_1, a_2, a_3, a_4, a_6) \in F^5 $, and an elliptic curve is a Weierstrass curve such that $ \Delta \ne 0 $.
+
+\bigskip A \emph{point} over $ F $ is either $ \OO $ or an affine point $ (x, y) \in F^2 $ satisfying
+$$ y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6, $$
+and a nonsingularity condition.
+
+\end{frame}
+
+\begin{frame}{The group law}
+
+With this definition, addition on points is given by explicit rational functions, where associativity is known to be \emph{computationally difficult}: generic associativity is an equality of polynomials with 26,082 terms!
+
+\bigskip
+
+\begin{formalisation}[A.--Xu, 2022]
+The type of nonsingular $ F $-points $ E_F(F) $ is an abelian group.
+\end{formalisation}
+
+\bigskip It suffices to show that the homomorphism $ E_F(F) \to \Cl(F[E_F]) $ mapping $ (x, y) $ to $ [(X - x, Y - y)] $ is injective. If it were not, then there are polynomials $ f, g \in F[X] $ such that $ (X - x, Y - y) = (f + gY) $. Then
+$$ \deg(\Nm(f + gY)) =
+\begin{cases}
+\max(2\deg(f), 2\deg(g) + 3), \\
+\dim_F(F[E_F] / (f + gY)),
+\end{cases}
+$$
+which give a contradiction.
+
+\end{frame}
+
+\begin{frame}{The Tate module}
+
+I attempted to formalise the isomorphism $ E_F(F^s)[n] \cong (\Z / n\Z)^2 $ in 2023.
+
+\bigskip Silverman defines polynomials $ \psi_n, \phi_n, \omega_n \in F^s[X, Y] $ and \emph{claims} that there is a computational proof for the multiplication-by-$ n $ formula
+$$ [n](x, y) = \left(\dfrac{\phi_n(x)}{\psi_n^2(x)}, \dfrac{\omega_n(x, y)}{\psi_n^3(x, y)}\right). $$
+Computing $ \deg(\phi_n) = n^2 $ and $ \deg(\psi_n^2) = n^2 - 1 $, and proving that $ (\phi_n, \psi_n^2) = 1 $, imply that $ \#\ker[n] = n^2 $, and the result follows formally.
+
+\bigskip
+
+\begin{formalisation}[A.--Wu--Xu, 2026?]
+For any $ \ell \ne \ch(F) $, the $ \ell $-adic Tate module $ T_\ell E_{F^s} $ defines a two-dimensional Galois representation $ \rho_{E_F, \ell} : G_F \to \GL(T_\ell E_{F^s}) $.
+\end{formalisation}
+
+\bigskip The proof is much trickier than he claims!
+
+\end{frame}
+
+\begin{frame}{The L-function}
+
+Let $ E_K $ be an elliptic curve over a number field $ K $.
+
+\bigskip The \textbf{Euler factor} of $ E_K $ at a finite place $ v $ of $ K $ is
+$$ L_v(E_K, s) := \det(1 - \rho_{E_K, \ell}^{\vee I_v}(\phi_v) \cdot q_v^{-s}), $$
+where $ \ell \nmid q_v $ is any prime number.
+
+\bigskip The \textbf{L-function} of $ E_K $ is
+$$ L(E_K, s) := \prod_\pp \dfrac{1}{L_v(E_K, s)}, $$
+where the product runs over all finite places $ v $ of $ K $.
+
+\bigskip Assuming an appropriate modularity conjecture for $ E_K $ over $ K $, the L-function has analytic continuation to all of $ \C $.
+
+\end{frame}
+
+\section{Local theory}
+
+\begin{frame}{Non-archimedean local fields}
+
+Let $ E_F $ be an elliptic curve over a non-archimedean local field $ F $ with normalised valuation $ v $, valuation ring $ R $, and residue field $ k $.
+
+\bigskip By the valuative criterion for properness, there is a \emph{reduction map}
+$$ \widetilde{(\cdot)} : E_F \xleftarrow{\sim} E_R \twoheadrightarrow E_k, $$
+which induces a map on points $ E_F(F) \to \widetilde{E_F}(k) $.
+
+\bigskip Note that this generalises to the fraction field $ F $ of a B\'ezout domain $ R $ with $ k := R / m $ for any maximal ideal $ m $ of $ R $.
+
+\bigskip Say that $ E_F $ is \emph{minimal} if $ v(\Delta) \in \N $ is minimal subject to $ a_i \in R $. Any elliptic curve over $ F $ is isomorphic to one that is minimal.
+
+\bigskip If $ E_K $ is an elliptic curve over a number field $ K $ with $ \Cl(K) = 1 $, then $ E_K $ is isomorphic to an elliptic curve that is minimal everywhere.
+
+\end{frame}
+
+\begin{frame}{Reduction types}
+
+Say that $ E_F $ is
+\begin{itemize}
+\item \emph{good} if $ \widetilde{E_F} $ is elliptic,
+\item \emph{split multiplicative} if $ \widetilde{E_F} $ is nodal with tangent over $ k $,
+\item \emph{non-split multiplicative} if $ \widetilde{E_F} $ is nodal with tangent not over $ k $, and
+\item \emph{additive} if $ \widetilde{E_F} $ is cuspidal.
+\end{itemize}
+
+\bigskip Let $ E_K $ be an elliptic curve over a number field $ K $. Then
+$$ L_v(E_K, s) =
+\begin{cases}
+1 - a_vq_v^{-s} + q_v^{1 - 2s} & \text{if} \ E_{K_v} \ \text{is good}, \\
+1 - q_v^{-s} & \text{if} \ E_{K_v} \ \text{is split multiplicative}, \\
+1 + q_v^{-s} & \text{if} \ E_{K_v} \ \text{is non-split multiplicative}, \\
+1 & \text{if} \ E_{K_v} \ \text{is additive},
+\end{cases}
+$$
+where $ a_v := 1 + q_v - \#\widetilde{E_{K_v}}(k_v) $ is the trace of Frobenius of $ E_K $ at $ v $.
+
+\end{frame}
+
+\begin{frame}{Tamagawa numbers}
+
+The \textbf{Tamagawa number} of $ E_F $ is
+$$ \Tam(E_F) := [E_F(F) : E_F^0(F)], $$
+where $ E_F^0(F) $ is the subgroup of $ E_F(F) $ with nonsingular reduction.
+
+\bigskip Let $ E_K $ be an elliptic curve over a number field $ K $, and let
+$$ \omega := \dfrac{\d x}{2y + a_1x + a_3}. $$
+For each place $ v $ of $ K $, let $ \omega_v $ be a non-zero invariant differential of a minimal elliptic curve isomorphic to $ E_{K_v} $. Then its \textbf{Tamagawa number} is
+$$ \Tam(E_K) := \prod_v \Tam(E_{K_v}) \cdot \left|\dfrac{\omega_v}{\omega}\right|_v, $$
+where the product runs over all finite places $ v $ of $ K $.
+
+\end{frame}
+
+\begin{frame}{Complex fields}
+
+Let $ E_\C $ be an elliptic curve over $ \C $ given by $ y^2 = x^3 + Ax + B $.
+
+\bigskip There is a $ \C $-lattice $ \Lambda_{A, B} $ that is unique up to homothety such that
+$$ \function{\C / \Lambda_{A, B}}{E_\C(\C)}{z}{(\wp(z), \tfrac{1}{2}\wp'(z))} $$
+is an isomorphism of complex Lie groups.
+
+\bigskip The \textbf{period} of $ E_\C $ is
+$$ \Omega(E_\C) := \int_{\C / \Lambda_{A, B}} 2\d x\d y = \int_{E_\C(\C)} \omega \wedge \overline{\omega}, $$
+which is just the area of $ \Lambda_{A, B} $.
+
+\bigskip See Silverman's \emph{Advanced Topics in the Arithmetic of Elliptic Curves}.
+
+\end{frame}
+
+\begin{frame}{Real fields}
+
+Let $ E_\R $ be an elliptic curve over $ \R $. Then there is an isomorphism
+$$ E_\R(\R) \cong
+\begin{cases}
+S^1 & \text{if} \ \Delta < 0 \\
+S^1 \oplus C_2 & \text{if} \ \Delta > 0
+\end{cases}
+$$
+of real Lie groups.
+
+\bigskip The \textbf{period} of $ E_\R $ is
+$$ \Omega(E_\R) := \int_{E_\R(\R)} \omega. $$
+If $ E_K $ is an elliptic curve over a number field $ K $, its \textbf{period} is
+$$ \Omega(E_K) := \prod_v \Omega(E_{K_v}), $$
+where the product runs over all infinite places $ v $ of $ K $.
+
+\end{frame}
+
+\section{Global theory}
+
+\begin{frame}{The Mordell--Weil theorem}
+
+Let $ E_K $ be an elliptic curve over a number field $ K $.
+
+\bigskip
+
+\begin{theorem}[Mordell--Weil]
+$ E_K(K) $ is finitely generated.
+\end{theorem}
+
+\bigskip By the structure theorem of finitely generated abelian groups,
+$$ E_K(K) \cong \tor(E_K) \oplus \Z^{\rk(E_K)}. $$
+where $ \tor(E_K) $ is the \textbf{torsion subgroup} and $ \rk(E_K) $ is the \textbf{rank}.
+
+\bigskip The torsion subgroup can be computed via the reduction map.
+
+\bigskip The rank is conjecturally the order of vanishing of $ L(E_K, s) $ at $ s = 1 $.
+
+\end{frame}
+
+\begin{frame}{Na\"ive heights}
+
+The proof that $ E_K(K) $ is finitely generated reduces to a proof of the \emph{weak Mordell--Weil theorem} that $ E_K(K) / n $ is finite and the existence of a \emph{na\"ive height} $ h : E_K(K) \to \R $ satisfying the following.
+\begin{itemize}
+\item For all $ Q \in E_K(K) $, there exists $ C_1 \in \R $ such that for all $ P \in E_K(K) $,
+$$ h(P + Q) \le 2h(P) + C_1. $$
+\item There exists $ C_2 \in \R $ such that for all $ P \in E_K(K) $,
+$$ n^2h(P) \le h(nP) + C_2. $$
+\item For all $ C_3 \in \R $, the set $ \{P \in E_K(K) : h(P) \le C_3\} $ is finite.
+\end{itemize}
+For instance, when $ K = \Q $,
+$$ \functions[h]{E_\Q(\Q)}{\R}{(n / d, y)}{\log\max(|n|, |d|)}{\OO}{0}. $$
+
+\end{frame}
+
+\begin{frame}{Canonical heights}
+
+Any na\"ive height defines the \emph{canonical height} $ \widehat{h} : E_K(K) \to \R $ given by
+$$ \widehat{h}(P) := \lim_{n \to \infty} \dfrac{h([2^n]P)}{4^n}, $$
+which is independent of the choice of na\"ive height.
+
+\bigskip This is a quadratic form on $ E_K(K) $, with associated bilinear pairing
+$$ \langle P, Q\rangle := \tfrac{1}{2}(\widehat{h}(P + Q) - \widehat{h}(P) - \widehat{h}(Q)). $$
+The \textbf{regulator} of $ E_K $ is
+$$ \Reg(E_K) := \left|\det(\langle P_i, P_j\rangle)_{i, j = 0}^{\rk(E_K)}\right|, $$
+where $ \{P_n\}_{n = 0}^{\rk(E_K)} $ is any $ \Z $-basis of $ E_K(K) / \tor(E_K) $.
+
+\end{frame}
+
+\begin{frame}{Galois cohomology}
+
+For any field $ F $, multiplication by $ n \in \Z $ gives
+$$ 0 \to E_F[n] \to E_F \to E_F \to 0, $$
+which induces a long exact sequence that truncates to
+$$ 0 \to E_F(F) / n \to H^1(F, E_F[n]) \to H^1(F, E_F)[n] \to 0. $$
+Applying this to $ F = K $ and to $ F = K_v $ for each place $ v $ of $ K $ gives
+$$
+\begin{tikzcd}[ampersand replacement=\&, column sep=tiny]
+0 \arrow{r} \& E_K(K) / n \arrow{r} \arrow{d} \& H^1(K, E_K[n]) \arrow{r} \arrow{d} \arrow[dashed]{dr}[swap]{\sigma} \& H^1(K, E_K)[n] \arrow{r} \arrow{d}{\tau[n]} \& 0 \\
+0 \arrow{r} \& \displaystyle\prod_v E_K(K_v) / n \arrow{r} \& \displaystyle\prod_v H^1(K_v, E_K[n]) \arrow{r} \& \displaystyle\prod_v H^1(K_v, E_K)[n] \arrow{r} \& 0.
+\end{tikzcd}
+$$
+Note that $ H^1(K, E_K[n]) $ is not finite in general.
+
+\end{frame}
+
+\begin{frame}{The weak Mordell--Weil theorem}
+
+The \emph{$ n $-Selmer group} $ \Sel_n(E_K) := \ker\sigma $ and the \textbf{Tate--Shafarevich group}
+$$ \Sha(E_K) := \ker\left(\tau : H^1(K, E_K) \to \prod_v H^1(K_v, E_K)\right) $$
+fit in a short exact sequence
+$$ 0 \to E_K(K) / n \to \Sel_n(E_K) \to \Sha(E_K)[n] \to 0. $$
+The weak Mordell--Weil theorem then reduces to showing that
+$$ \Sel_n(E_K) \subseteq \Sel_n(K, S) \times \Sel_n(K, S), $$
+where $ \Sel_n(K, S) $ is the $ n $-Selmer group of $ K $ unramified outside an explicit finite set $ S $ of bad places of $ K $, which is finite since
+$$ 0 \to \OO_{K, S}^\times / (\OO_{K, S}^\times)^n \to \Sel_n(K, S) \to \Cl_S(K)[n] \to 0. $$
+
+\end{frame}
+
+\end{document}
