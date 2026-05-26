@@ -1,0 +1,258 @@
+\input{header}
+\title{\texorpdfstring{$ \zeta $}{zeta}-integrals and \texorpdfstring{$ \epsilon $}{epsilon}-functions}
+\subtitle{The Langlands--Deligne local constant}
+\author{David Kurniadi Angdinata}
+\institute{University of East Anglia}
+\date{Tuesday, 26 May 2026}
+
+\begin{document}
+
+\frame\maketitle
+
+\begin{frame}{$ L $-functions}
+
+Let $ F $ be a local field, and let $ \chi : F^\times \to \C^\times $ be a quasi-character of $ F $.
+\begin{itemize}
+\item If $ F = \R $, then $ \chi := \chi_{N, s} := x^{-N}|x|^s $ for some $ N \in \{0, 1\} $, and
+$$ L(\chi) := \Gamma_\R(s) := \dfrac{1}{\pi^{s / 2}}\Gamma\left(\dfrac{s}{2}\right) $$
+\item If $ F = \C $, then $ \chi := \chi_{N, s} := z^{-N}|z|^s $ for some $ N \in \N $, and
+$$ L(\chi) := \Gamma_\C(s) := \dfrac{2}{(2\pi)^s}\Gamma(s). $$
+\item If $ F $ is non-archimedean, then
+$$ L(\chi) :=
+\begin{cases}
+\dfrac{1}{1 - \chi(\varpi)} & \text{if} \ \chi \ \text{is unramified}, \\
+1 & \text{if} \ \chi \ \text{is ramified},
+\end{cases}
+$$
+where $ \varpi $ is a uniformiser of $ F $.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{$ \zeta $-integrals}
+
+These $ L $-functions $ L(\chi) $ turn out to be special values of \textbf{$ \zeta $-integrals}
+$$ \zeta(f, \chi) := \int_{F^\times} f(x)\chi(x)\d^\times x, $$
+where $ f $ is an appropriate Schwarz--Bruhat \textbf{test function} and $ \d^\times x $ is a Haar measure on $ F^\times $. Since $ F $ and $ F^\times $ are both locally compact abelian groups, Haar measures exist and are unique up to non-zero scaling.
+
+\bigskip For simplicity, it suffices to fix convenient choices for each $ F $.
+\begin{itemize}
+\item If $ F = \R $, then let $ \d x $ be Lebesgue, and let $ \d^\times x := \d x / |x| $.
+\item If $ F = \C $, then let $ \d z $ be twice Lebesgue, and let $ \d^\times z := \d z / |z| $.
+\item If $ F $ is non-archimedean, then choose $ \d x $ and $ \d^\times x $ such that
+$$ \int_\OO \d x = \int_{\OO^\times} \d^\times x = 1, $$
+so that $ (1 - q^{-1})\d^\times x = \d x / |x| $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Real $ \zeta $-integrals}
+
+If $ F = \R $, then let $ g_N : x \mapsto x^Ne^{-\pi x^2} $, so $ t = \pi x^2 $ gives
+\begin{align*}
+\zeta(g_N, \chi_{N, s})
+& = \int_{\R^\times} x^Ne^{-\pi x^2}x^{-N}|x|^s\dfrac{\d x}{|x|} \\
+& = 2\int_0^\infty e^{-\pi x^2}x^s\dfrac{\d x}{x} \\
+& = 2\int_0^\infty e^{-t}\left(\dfrac{t}{\pi}\right)^{s / 2}\dfrac{\d t}{2t} \\
+& = \dfrac{1}{\pi^{s / 2}}\Gamma\left(\dfrac{s}{2}\right) \\
+& = L(\chi_{N, s}).
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Complex $ \zeta $-integrals}
+
+If $ F = \C $, then let $ h_N : z \mapsto \pi^{-1}z^Ne^{-2\pi|z|} $, so $ z = re^{i\theta} $ and $ t = 2\pi r^2 $ give
+\begin{align*}
+\zeta(h_N, \chi_{N, s})
+& = \dfrac{1}{\pi}\int_{\C^\times} z^Ne^{-2\pi|z|}z^{-N}|z|^s\dfrac{\d z}{|z|} \\
+& = \dfrac{1}{\pi}\int_0^\infty \int_0^{2\pi} e^{-2\pi r^2}r^{2s}\dfrac{2\d\theta\d r}{r} \\
+& = 4\int_0^\infty e^{-2\pi r^2}r^{2s}\dfrac{\d r}{r} \\
+& = 4\int_0^\infty e^{-t}\left(\dfrac{t}{2\pi}\right)^s\dfrac{\d t}{2t} \\
+& = \dfrac{2}{(2\pi)^s}\Gamma(s) \\
+& = L(\chi_{N, s}).
+\end{align*}
+Similarly, if $ \overline{h_N} : z \mapsto \pi^{-1}\overline{z}^Ne^{-2\pi|z|} $ and $ \overline{\chi_{N, s}} : z \mapsto \overline{z}^{-N}|z|^s $, then
+$$ \zeta(\overline{h_N}, \overline{\chi_{N, s}}) = L(\overline{\chi_{N, s}}). $$
+
+\end{frame}
+
+\begin{frame}{Unramified non-archimedean $ \zeta $-integrals}
+
+If $ F $ is non-archimedean and $ \chi $ is unramified, then $ x = \varpi^nu $ gives
+\begin{align*}
+\zeta(\I_\OO, \chi)
+& = \int_{F^\times} \I_\OO(x)\chi(x)\d^\times x \\
+& = \int_{\OO \setminus \{0\}} \chi(x)\d^\times x \\
+& = \sum_{n = 0}^\infty \int_{\varpi^n\OO^\times} \chi(x)\d^\times x \\
+& = \sum_{n = 0}^\infty \chi(\varpi)^n\int_{\OO^\times} \chi(u)\d^\times u \\
+& = \sum_{n = 0}^\infty \chi(\varpi)^n \\
+& = \dfrac{1}{1 - \chi(\varpi)} \\
+& = L(\chi).
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Ramified non-archimedean $ \zeta $-integrals}
+
+If $ F $ is non-archimedean and $ \chi $ is ramified, then
+\begin{align*}
+\zeta(\I_{1 + \varpi^{a(\chi)}\OO}, \chi)
+& = \int_{F^\times} \I_{1 + \varpi^{a(\chi)}\OO}(x)\chi(x)\d^\times x \\
+& = \int_{1 + \varpi^{a(\chi)}\OO} \chi(x)\d^\times x \\
+& = \dfrac{1}{(\OO^\times : 1 + \varpi^{a(\chi)}\OO)} \\
+& = \dfrac{1}{(q - 1)q^{a(\chi) - 1}} \\
+& = \dfrac{1}{q^{a(\chi)}(1 - q^{-1})},
+\end{align*}
+where $ q $ is the size of the residue field of $ F $.
+
+\end{frame}
+
+\begin{frame}{Fourier transforms}
+
+Let $ f $ be a Schwartz--Bruhat function on $ F $, let $ \psi : F \to \C^\times $ be a non-trivial additive character of $ F $, and let $ \d x $ be a Haar measure on $ F $. Then the Fourier transform of $ f $ with respect to $ \psi $ and $ \d x $ is given by
+$$ \widehat{f}(y) := \int_F f(x)\psi(xy)\d x. $$
+If $ \widetilde{f}(y) $ is the Fourier transform of $ f $ with respect to $ \psi \circ c $ and $ m\d x $, then
+$$ \widetilde{f}(y) = \int_F f(x)\psi(cxy)m\d x = m\widehat{f}(cy). $$
+For simplicity, it suffices to fix convenient choices for each $ F $.
+\begin{itemize}
+\item If $ F = \R $, then let $ \psi(x) := e^{2\pi i x} $.
+\item If $ F = \C $, then let $ \psi(z) := e^{2\pi i(z + \overline{z})} $.
+\item If $ F $ is non-archimedean, then choose $ \psi $ such that $ a(\psi) = 0 $.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Real Fourier transforms}
+
+If $ F = \R $, then
+\begin{align*}
+\widehat{g_N}(y)
+& = \int_\R x^Ne^{-\pi x^2}e^{2\pi ixy}\d x \\
+& = \dfrac{1}{(2\pi i)^N}\dfrac{\d^N}{\d^Ny}\int_\R e^{-\pi x^2}e^{2\pi i xy}\d x \\
+& = \dfrac{1}{(2\pi i)^N}\dfrac{\d^N}{\d^Ny}e^{-\pi y^2} \\
+& = i^Ng_N(y).
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Complex Fourier transforms}
+
+If $ F = \C $, then $ z = x + iy $ and $ w = u + iv $ give
+\begin{align*}
+\widehat{h_N}(w)
+& = \dfrac{1}{\pi}\int_\C z^Ne^{-2\pi|z|}e^{2\pi i(zw + \overline{z}\overline{w})}\d z \\
+& = \dfrac{1}{\pi(2\pi i)^N}\dfrac{\partial^N}{\partial w^N}\int_\C e^{-2\pi|z|}e^{2\pi i(zw + \overline{z}\overline{w})}\d z \\
+& = \dfrac{1}{\pi(2\pi i)^N}\dfrac{\partial^N}{\partial w^N}\int_{\R^2} e^{-2\pi(x^2 + y^2)}e^{4\pi i(xu - yv)}2\d x\d y \\
+& = \dfrac{1}{\pi(2\pi i)^N}\dfrac{\partial^N}{\partial w^N}\int_\R \sqrt{2}e^{-2\pi x^2}e^{4\pi i xu}\d x\int_\R \sqrt{2}e^{-2\pi y^2}e^{4\pi i yv}\d y \\
+& = \dfrac{1}{\pi(2\pi i)^N}\dfrac{\partial^N}{\partial w^N}e^{-2\pi(u^2 + v^2)} \\
+& = \dfrac{i^N}{\pi}\overline{w}^Ne^{-2\pi|w|} \\
+& = i^N\overline{h_N}(w).
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Non-archimedean Fourier transforms}
+
+Assume that $ F $ is non-archimedean. If $ \chi $ is unramified, then
+\begin{align*}
+\widehat{\I_\OO}(y)
+& = \int_F \I_\OO(x)\psi(xy)\d x \\
+& = \int_\OO \psi(xy)\d x \\
+& = \I_\OO(y).
+\end{align*}
+If $ \chi $ is ramified, then $ x = 1 + u $ gives
+\begin{align*}
+\widehat{\I_{1 + \varpi^{a(\chi)}\OO}}(y)
+& = \int_F \I_{1 + \varpi^{a(\chi)}\OO}(x)\psi(xy)\d x \\
+& = \int_{1 + \varpi^{a(\chi)}\OO} \psi(xy)\d x \\
+& = \psi(y)\int_{\varpi^{a(\chi)}\OO} \psi(uy)\d u \\
+& = \dfrac{\psi(y)}{q^{a(\chi)}}\I_{\varpi^{-a(\chi)}\OO}(y).
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Abelian $ \epsilon $-functions}
+
+It turns out that $ \zeta(f, \chi) $ and $ L(\chi) $ satisfy the functional equation
+$$ \dfrac{\zeta(\widehat{f}, \widehat{\chi})}{L(\widehat{\chi})} = \epsilon(\chi, \psi, \d x)\dfrac{\zeta(f, \chi)}{L(\chi)}, $$
+where $ \widehat{\chi} : x \mapsto |x| / \chi(x) $ is the \textbf{twisted dual} of $ \chi $.
+
+\bigskip The \textbf{$ \epsilon $-function} $ \epsilon(\chi, \psi, \d x) $ depends on $ \psi $ and $ \d x $, and
+\begin{align*}
+\epsilon(\chi, \psi \circ c, \d x) & = \chi(c)|c|^{-1}\epsilon(\chi, \psi, \d x), \\
+\epsilon(\chi, \psi, m\d x) & = m\epsilon(\chi, \psi, \d x).
+\end{align*}
+On the other hand, if $ g $ is another Schwarz--Bruhat function on $ F $, then
+$$ \dfrac{\zeta(f, \chi)}{\zeta(g, \chi)} = \dfrac{\zeta(\widehat{f}, \widehat{\chi})}{\zeta(\widehat{g}, \widehat{\chi})}, $$
+by Fubini's theorem, so $ \epsilon(\chi, \psi, \d x) $ is independent of $ f $.
+
+\end{frame}
+
+\begin{frame}{Archimedean and unramified non-archimedean $ \epsilon $-functions}
+
+If $ F = \R $, then $ \zeta(g_N, \chi_{N, s}) = L(\chi_{N, s}) $ and
+$$ \zeta(\widehat{g_N}, \widehat{\chi_{N, s}}) = \zeta(i^Ng_N, x^N|x|^{1 - s}) = i^N\zeta(g_N, \chi_{N, 1 - s + 2N}) = i^NL(\widehat{\chi_{N, s}}), $$
+so that $ \epsilon(\chi_{N, s}, \psi, \d x) = i^N $.
+
+\bigskip If $ F = \C $, then $ \zeta(h_N, \chi_{N, s}) = L(\chi_{N, s}) $ and
+$$ \zeta(\widehat{h_N}, \widehat{\chi_{N, s}}) = \zeta(i^N\overline{h_N}, z^N|z|^{1 - s}) = i^N\zeta(\overline{h_N}, \overline{\chi_{N, 1 - s + N}}) = i^NL(\widehat{\chi_{N, s}}), $$
+so that $ \epsilon(\chi_{N, s}, \psi, \d z) = i^N $.
+
+\bigskip If $ F $ is non-archimedean and $ \chi $ is unramified, then $ \zeta(\I_\OO, \chi) = L(\chi) $ and
+$$ \zeta(\widehat{\I_\OO}, \widehat{\chi}) = \zeta(\I_\OO, \widehat{\chi}) = L(\widehat{\chi}), $$
+so that $ \epsilon(\chi, \psi, \d x) = 1 $.
+
+\end{frame}
+
+\begin{frame}{Ramified non-archimedean $ \epsilon $-functions}
+
+If $ F $ is non-archimedean and $ \chi $ is ramified, then $ L(\chi) = L(\widehat{\chi}) = 1 $ and
+\begin{align*}
+\zeta(\widehat{\I_{1 + \varpi^{a(\chi)}\OO}}, \widehat{\chi})
+& = \int_{F^\times} \widehat{\I_{1 + \varpi^{a(\chi)}\OO}}(y)\widehat{\chi}(y)\d^\times y \\
+& = \dfrac{1}{q^{a(\chi)}}\int_{\varpi^{-a(\chi)}\OO \setminus \{0\}} \dfrac{\psi(y)}{\chi(y)}|y|\d^\times y \\
+& = \zeta(\I_{1 + \varpi^{a(\chi)}\OO}, \chi)\int_{\varpi^{-a(\chi)}\OO \setminus \{0\}} \dfrac{\psi(y)}{\chi(y)}\d y,
+\end{align*}
+so that
+$$ \epsilon(\chi, \psi, \d x) = \int_{\varpi^{-a(\chi)}\OO \setminus \{0\}} \dfrac{\psi(y)}{\chi(y)}\d y. $$
+In fact,
+$$ \epsilon(\chi, \psi, \d x) = \int_{\varpi^{-a(\chi)}\OO^\times} \dfrac{\psi(y)}{\chi(y)}\d y. $$
+
+\end{frame}
+
+\begin{frame}{Nonabelian $ \epsilon $-functions}
+
+\begin{theorem}[Langlands--Deligne]
+Let $ F $ be a local field, let $ V $ be a Weil representation of $ F $, let $ \psi $ be a non-trivial additive character of $ F $, and let $ \d x $ be a Haar measure on $ F $. Then there is a unique constant $ \epsilon(V, \psi, \d x) \in \C^\times $ such that
+\begin{itemize}
+\item if $ E $ is a finite separable extension over $ F $ and $ \d_Ex $ is an additive Haar measure on $ E $, then the map
+$$ V \longmapsto \epsilon(V, \psi \circ \tr_F^E, \d_Ex) $$
+is inductive in degree zero over $ F $, and
+\item if $ V $ corresponds to a quasi-character $ \chi $ of $ F $, then
+$$ \epsilon(V, \psi, \d x) = \epsilon(\chi, \psi, \d x). $$
+\end{itemize}
+\end{theorem}
+
+Uniqueness follows from Brauer's theorem that an inductive function in degree zero is determined by its values on quasi-characters.
+
+\end{frame}
+
+\begin{frame}{Properties of $ \epsilon $-functions}
+
+Assuming existence, the following are easy consequences.
+\begin{itemize}
+\item $ \epsilon(V \oplus W, \psi, \d x) = \epsilon(V, \psi, \d x)\epsilon(W, \psi, \d x) $.
+\item $ \epsilon(V, \psi \circ c, \d x) = (\det V)(c)|c|^{-\dim V}\epsilon(V, \psi, \d x) $.
+\item $ \epsilon(V, \psi, m\d x) = m^{\dim V}\epsilon(V, \psi, \d x) $.
+\item If $ F $ is non-archimedean and $ W $ is unramified, then
+$$ \epsilon(V \otimes W, \psi, \d x) = \epsilon(V, \psi, \d x)^{\dim W}(\det W)(\varpi)^{a(V) + n(\psi)\dim V}. $$
+\item If $ \widehat{V} := |\cdot|V^* $ is the twisted dual of $ V $, then
+$$ \epsilon(V, \psi, \d x)\epsilon(\widehat{V}, \psi \circ -, \d_\psi x) = 1, $$
+where $ \d_\psi x $ is the dual Haar measure with respect to $ \psi $.
+\item If $ E $ is a finite separable extension of $ F $ and $ V_E $ is a degree zero Weil representation of $ E $, then
+$$ \epsilon(\Ind_F^E V_E, \psi, \d x) = \epsilon(V_E, \psi \circ \tr_F^E, \d_Ex). $$
+\end{itemize}
+
+\end{frame}
+
+\end{document}
