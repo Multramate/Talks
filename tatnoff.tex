@@ -1,0 +1,247 @@
+\input{header}
+\usetheme{szeged}
+\title{Torsion and Tamagawa numbers over function fields}
+\subtitle{Modular Curves and Applications of AI to Number Theory}
+\author{David Kurniadi Angdinata (with Mentzelos Melistas)}
+\institute{University of East Anglia}
+\date{Thursday, 17 September 2026}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Number fields}
+
+\begin{frame}{The Birch and Swinnerton-Dyer conjecture}
+
+Let $ E $ be an elliptic curve over a global field $ K $.
+
+\bigskip Tate 1966 conjectured that $ \ord_{s = 1} L(E, s) = \rk(E) $, and that
+$$ L^*(E) = \dfrac{\Omega(E) \cdot \Reg(E) \cdot \#\Sha(E) \cdot c(E)}{\mu(\A_K / K) \cdot \#\tor(E)^2}. $$
+Here, $ \tor(E) $ is the \textbf{torsion subgroup}, and the \textbf{Tamagawa number} is
+$$ c(E) := \prod_v c_v(E) := \prod_v [E(K_v) : E_0(K_v)], $$
+where $ c_v(E) $ counts the $ k_v $-rational components of its N\'eron model at $ v $.
+
+\bigskip Are there any cancellations between $ \#\tor(E)^2 $ and $ c(E) $?
+
+\end{frame}
+
+\begin{frame}{Known divisibilities}
+
+Let $ E $ be an elliptic curve over a number field $ K $.
+
+\begin{theorem}[Lorenzini 2011]
+If $ K = \Q $ and $ \tor(E) \cong T $, then $ c $ divides $ c(E) $.
+\begin{center}
+\begin{tabular}{|c|c|l|}
+\hline
+$ T $ & $ c $ & exceptions \\
+\hline
+$ C_4 $, $ C_2 \oplus C_4 $ & $ 2 $ & $ X_1(15) $, 15a7, 17a4 \\
+\hline
+$ C_6 $, $ C_2 \oplus C_6 $ & $ 6 $ & $ X_1(14) $, 14a6, 20a2 \\
+\hline
+$ C_5 $, $ C_7 $, $ C_8 $, $ C_9 $, & \multirow{2}{*}{$ \#T $} & \multirow{2}{*}{$ X_1(11) $} \\
+$ C_{10} $, $ C_{12} $, $ C_2 \oplus C_8 $ & & \\
+\hline
+\end{tabular}
+\end{center}
+If $ K = \Q(\sqrt{d}) $ and $ E $ has a point of order $ N = 11, 13 $, then $ N $ divides $ c(E) $. In general, if $ E $ has a point of order $ N = 7, 9 $, then $ N $ divides $ c(E) $, up to at most $ 2^{9(\rk\OO_K^\times + 1)} $ exceptions.
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Proof strategy}
+
+Let $ P $ be a point of order $ N \ge 4 $. Then $ E $ has a \textbf{Tate normal form}
+$$ \TT(a, b) : y^2 + (1 - a)xy - by = x^3 - bx^2, \qquad a, b \in K, $$
+with $ P = (0, 0) $, and $ [N](0, 0) = O $ gives an affine model of $ X_1(N) $.
+
+\bigskip If $ v(a), v(b) > 0 $ for some place $ v $ of $ K $, then the reduction of $ E $ at $ v $ is $ y^2 + xy = x^3 $, which is split multiplicative with $ c_v(E) = v(\Delta) $.
+
+\bigskip
+
+\begin{example}[$ K = \Q $ and $ N = 5 $]
+The condition $ 2P = -3P $ forces $ a = b =: f $ with $ \Delta = f^5(f^2 - 11f - 1) $. If $ v(f) \ne 0 $ for some place $ v $ of $ \Q $, then assuming $ v(f) > 0 $ gives $ c_v(E) = 5v(f) $. Otherwise, $ f \in \Z^\times = \{\pm1\} $ forces $ E = X_1(11) $.
+\end{example}
+
+\end{frame}
+
+\section{Global function fields}
+
+\begin{frame}{Known divisibilities}
+
+Let $ K $ be the function field of a nice curve $ C $ of genus $ g $ over $ k = \F_q $, and let $ E $ be a non-isotrivial elliptic curve over $ K $ of height $ h = \deg\omega_E > 0 $.
+
+\bigskip Then $ \#\tor(E) $ divides $ c(E) $ easily, by considering the map
+$$ \tor(E) \hookrightarrow E(K) \hookrightarrow \prod_v E(K_v) \to \prod_v E(K_v) / E_0(K_v), $$
+which is injective by Shioda's height formula
+$$ \langle P, P\rangle = 2h + 2(P \cdot O) - \sum_v \contr_v(P), \qquad P \in E(K). $$
+Ulmer 2014 also proved that $ \#\tor(E)^2 $ divides $ \Reg(E) \cdot D(E) $, where $ D(E) $ is the absolute discriminant of the trivial lattice over $ k $ of the minimal proper regular model of $ E $, which is related to $ c(E) $.
+
+\end{frame}
+
+\begin{frame}{New divisibilities}
+
+\begin{theorem}[A.--Melistas 2026]
+If $ K = k(t) $ with $ \ch(k) \ne 2, 3 $, then $ \#\tor(E)^2 $ divides $ c(E) $, except when $ \#\tor(E) = 2, 3, 4 $.
+\end{theorem}
+
+\bigskip Since $ \Omega(E) = q^{-h} $ and $ \mu(\A_K / K) = q^{-1} $,
+$$ \dfrac{q^h}{\Reg(E)} \cdot L^*(E) \overset{\BSD}{=} \dfrac{q \cdot \#\Sha(E) \cdot c(E)}{\#\tor(E)^2} \in \Z[\tfrac{1}{6}]. $$
+
+\begin{theorem}[A.--Melistas 2026]
+A point of prime order $ 7 \le N \le 101 $ with $ N \nmid q $ forces $ N^2 $ to divide $ c(E) $.
+\end{theorem}
+
+\bigskip This should hold for all primes $ N \ge 5 $, including $ N \mid q $.
+
+\end{frame}
+
+\begin{frame}{Sharp divisibilities}
+
+\begin{center}
+\scriptsize
+\renewcommand{\arraystretch}{0.88}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\cline{1-3}\cline{5-7}
+$ T $ & $ \ch(k) $ & $ c $ & & $ T $ & $ \ch(k) $ & $ c $ \\
+\cline{1-3}\cline{5-7}
+$ C_2 $ & any & $ 2 $ & & $ C_2 \oplus C_2 $ & $ \ne 2 $ & $ 2^3 $ \\
+\cline{1-3}\cline{5-7}
+$ C_3 $ & any & $ 3 $ & & $ C_3 \oplus C_3 $ & $ \ne 3 $ & $ 3^4 $ \\
+\cline{1-3}\cline{5-7}
+\multirow{2}{*}{$ C_4 $} & $ \ne 2 $ & $ 2^3 $ & & $ C_4 \oplus C_2 $ & $ \ne 2 $ & $ 4^2 \cdot 2^2 $ \\
+\cline{2-3}\cline{5-7}
+& $ 2 $ & $ 2^2 $ & & \multirow{2}{*}{$ C_6 \oplus C_2 $} & $ \ne 2, 3 $ & $ 2^3 \cdot 6^3 $ \\
+\cline{1-3}\cline{6-7}
+$ C_5 $ & any & $ 5^2 $ & & & $ 3 $ & $ 6^3 $ \\
+\cline{1-3}\cline{5-7}
+\multirow{3}{*}{$ C_6 $} & $ \ne 2, 3 $ & $ 6^2 $ & & $ C_8 \oplus C_2 $ & $ \ne 2 $ & $ 2^{16} $ \\
+\cline{2-3}\cline{5-7}
+& $ 2 $ & $ 2 \cdot 6 $ & & $ C_4 \oplus C_4 $ & $ \ne 2 $ & $ 4^6 $ \\
+\cline{2-3}\cline{5-7}
+& $ 3 $ & $ 3 \cdot 6 $ & & \multirow{2}{*}{$ C_6 \oplus C_3 $} & $ \ne 2, 3 $ & $ 3^4 \cdot 6^4 $ \\
+\cline{1-3}\cline{6-7}
+$ C_7 $ & any & $ 7^3 $ & & & $ 2 $ & $ 6^4 $ \\
+\cline{1-3}\cline{5-7}
+\multirow{2}{*}{$ C_8 $} & $ \ne 2 $ & $ 8^3 $ & & $ C_5 \oplus C_5 $ & $ \ne 5 $ & $ 5^{12} $ \\
+\cline{2-3}\cline{5-7}
+& $ 2 $ & $ 8^2 $ & & $ C_{11} $ & $ 11 $ & $ 11^5 $ \\
+\cline{1-3}\cline{5-7}
+\multirow{2}{*}{$ C_9 $} & $ \ne 3 $ & $ 3 \cdot 9^3 $ & & \multirow{2}{*}{$ C_{14} $} & $ 2 $ & $ 2 \cdot 14^3 $ \\
+\cline{2-3}\cline{6-7}
+& $ 3 $ & $ 9^3 $ & & & $ 7 $ & $ 7^3 \cdot 14^3 $ \\
+\cline{1-3}\cline{5-7}
+\multirow{3}{*}{$ C_{10} $} & $ \ne 2, 5 $ & $ 5 \cdot 10^3 $ & & \multirow{2}{*}{$ C_{15} $} & $ 3 $ & $ 3 \cdot 15^4 $ \\
+\cline{2-3}\cline{6-7}
+& $ 2 $ & $ 2 \cdot 10^2 $ & & & $ 5 $ & $ 5^2 \cdot 15^4 $ \\
+\cline{2-3}\cline{5-7}
+& $ 5 $ & $ 5^2 \cdot 10^2 $ & & $ C_{18} $ & $ 2 $ & $ 2^2 \cdot 3 \cdot 18^3 $ \\
+\cline{1-3}\cline{5-7}
+\multirow{3}{*}{$ C_{12} $} & $ \ne 2, 3 $ & $ 12^4 $ & & $ C_{10} \oplus C_2 $ & $ 5 $ & $ 10^6 $ \\
+\cline{2-3}\cline{5-7}
+& $ 2 $ & $ 2^2 \cdot 12^2 $ & & $ C_{10} \oplus C_5 $ & $ 2 $ & $ 10^{12} $ \\
+\cline{2-3}\cline{5-7}
+& $ 3 $ & $ 3 \cdot 6 \cdot 12^2 $ & & $ C_{12} \oplus C_2 $ & $ 3 $ & $ 6^2 \cdot 12^4 $ \\
+\cline{1-3}\cline{5-7}
+\end{tabular}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Proof strategy}
+
+If $ P $ is a point of order $ N \ge 4 $, then the Tate normal form gives a morphism $ f : C \to X_1(N) $, which is surjective since $ j \notin k $.
+
+\begin{example}[$ K = k(t) $ and $ \tor(E) \cong C_5 $]
+The morphism $ f : \P_k^1 \to X_1(5) \cong \P_f^1 $ has a zero $ v_1 $ and a pole $ v_2 $, lying over the cusps $ 0 $ and $ \infty $ of $ X_1(5) $, which are distinct places of $ K $.
+
+\bigskip As before, $ c_{v_1}(E) = v_1(\Delta) = 5v_1(f) $ at $ v_1 $.
+
+\bigskip On the other hand, the change of variables $ (x, y) \mapsto (x / f^2, y / f^3) $ gives
+$$ y^2 - (1 - f^{-1})xy - f^{-2}y = x^3 - f^{-1}x^2, \qquad \Delta = f^{-5} - 11f^{-6} - f^{-7}, $$
+whose reduction at $ v_2 $ is $ y^2 - xy = x^3 $, which is also split multiplicative with $ c_{v_2}(E) = -5v_2(f) $.
+\end{example}
+
+\end{frame}
+
+\begin{frame}{McDonald parameterisations}
+
+\begin{theorem}[Cox--Parry 1980, McDonald 2018]
+Let $ E $ be a non-isotrivial elliptic curve over $ k(t) $ with a point of order $ N \ge 4 $. Then $ \tor(E) \cong T $ with an explicit Tate normal form.
+\begin{center}
+\begin{tabular}{|r|l|}
+\hline
+$ \ch(k) $ & $ T $ \\
+\hline
+any & $ C_4 $, $ C_5 $, $ C_6 $, $ C_7 $, $ C_8 $, $ C_9 $, $ C_{10} $, $ C_{12} $ \\
+\hline
+$ \ne 2 $ & $ C_4 \oplus C_2 $, $ C_6 \oplus C_2 $, $ C_8 \oplus C_2 $, $ C_4 \oplus C_4 $ \\
+\hline
+$ \ne 3 $ & $ C_6 \oplus C_3 $ \\
+\hline
+$ \ne 5 $ & $ C_5 \oplus C_5 $ \\
+\hline
+$ 2 $ & $ C_{14} $, $ C_{18} $, $ C_{10} \oplus C_5 $ \\
+\hline
+$ 3 $ & $ C_{15} $, $ C_{12} \oplus C_2 $ \\
+\hline
+$ 5 $ & $ C_{15} $, $ C_{10} \oplus C_2 $ \\
+\hline
+$ 7 $ & $ C_{14} $ \\
+\hline
+$ 11 $ & $ C_{11} $ \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorem}
+
+\end{frame}
+
+\section{Applications of AI}
+
+\begin{frame}{Lean formalisation}
+
+As part of Axiom Math, I manually formalised Tate's algorithm over perfect residue fields, which \emph{defines} the Tamagawa number.
+
+\bigskip This definition works over any commutative ring equipped with a reduction datum and an additive valuation that are compatible, including $ \Z_p $ and $ k[[t]] $, but also $ \Z $ and $ k[t] $ upon choosing a uniformiser.
+
+\bigskip This definition is good for proofs, but also for kernel computation given a strategy to compute $ p $-th roots and roots of cubics when $ \ch(k) = p $.
+
+\bigskip Using GPT-5.6 Sol, I autoformalised the divisibility results and the sharp examples over a few weeks, with refactoring still ongoing with Fable 5.1.
+
+\bigskip The total lines of code is approximately $ 3,000 $ lines for Tate's algorithm, $ 30,000 $ lines for divisibility results, and $ 30,000 $ lines for sharp examples.
+
+\end{frame}
+
+\begin{frame}{Reference errors}
+
+GPT-6 Astra detected minor mistakes in the literature.
+
+\bigskip Ulmer 2019 claims that $ \#\tor(E)^2 $ divides $ \Reg(E) \cdot c(E) $, based on a claimed proof that $ c(E) = D(E) $ by Berger et al 2020. However, the elliptic curve $ E $ over $ \F_3(t) $ given by $ y^2 + xy + (t^3 - t + 1)y = x^3 $ has
+$$ \dfrac{\Reg(E) \cdot c(E)}{\#\tor(E)^2} = \dfrac{1}{3}. $$
+McDonald 2018 claims that $ \tor(E) \cong C_{12} \oplus C_2 $ when $ \ch(k) = 3 $ can only occur when $ \zeta_4 \in k $. However, the elliptic curve $ E $ over $ \F_3(t) $ given by
+$$ y^2 + xy + \dfrac{t^3(t^2 - 1)^3}{(t^2 + 1)^6}y = x^3 + \dfrac{t^3(t^2 - 1)^3}{(t^2 + 1)^6}x^2 $$
+has $ \tor(E) \cong C_{12} \oplus C_2 $, but $ \zeta_4 \notin \F_3 $.
+
+\end{frame}
+
+\begin{frame}{Future work}
+
+Observe that $ 5^2 \mid c(E) $ when $ \tor(E) \cong C_5 $, but also $ 7^3 \mid c(E) $ when $ \tor(E) \cong C_7 $ and $ 11^5 \mid c(E) $ when $ \tor(E) \cong C_{11} $.
+
+\begin{conjecture}
+A point of prime order $ N \ge 5 $ forces $ N^{(N - 1) / 2} \mid c(E) $.
+\end{conjecture}
+
+\begin{conjecture}
+Independently of the Birch and Swinnerton-Dyer conjecture,
+$$ \dfrac{q^{h + g - 1}}{\Reg(E)} \cdot L^*(E) \in \Z[\tfrac{1}{6}], \qquad \dfrac{c(E)}{\#\tor(E)^2} \in \Z[\tfrac{1}{6}]. $$
+\end{conjecture}
+
+GPT-6 Astra claims $ q^{h + g - 1} \cdot L^*(E) \in \Z $ by calculating Newton slopes of $ L(E, T) $ as the characteristic polynomial of Frobenius acting on the crystalline cohomology of the surface associated to $ E $.
+
+\end{frame}
+
+\end{document}
